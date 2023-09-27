@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on My New Blog Site</title>
+    <link>https://github.com/iqnev/ivelinyanev.github.io/tags/</link>
+    <description>Recent content in Tags on My New Blog Site</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 26 Sep 2023 23:04:18 +0300</lastBuildDate><atom:link href="https://github.com/iqnev/ivelinyanev.github.io/tags/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Blogging</title>
+      <link>https://github.com/iqnev/ivelinyanev.github.io/tags/blogging/</link>
+      <pubDate>Tue, 26 Sep 2023 23:04:18 +0300</pubDate>
+      
+      <guid>https://github.com/iqnev/ivelinyanev.github.io/tags/blogging/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Development</title>
+      <link>https://github.com/iqnev/ivelinyanev.github.io/tags/development/</link>
+      <pubDate>Tue, 26 Sep 2023 23:04:18 +0300</pubDate>
+      
+      <guid>https://github.com/iqnev/ivelinyanev.github.io/tags/development/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fast</title>
+      <link>https://github.com/iqnev/ivelinyanev.github.io/tags/fast/</link>
+      <pubDate>Tue, 26 Sep 2023 23:04:18 +0300</pubDate>
+      
+      <guid>https://github.com/iqnev/ivelinyanev.github.io/tags/fast/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Go</title>
+      <link>https://github.com/iqnev/ivelinyanev.github.io/tags/go/</link>
+      <pubDate>Tue, 26 Sep 2023 23:04:18 +0300</pubDate>
+      
+      <guid>https://github.com/iqnev/ivelinyanev.github.io/tags/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>hugo</title>
+      <link>https://github.com/iqnev/ivelinyanev.github.io/tags/hugo/</link>
+      <pubDate>Tue, 15 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://github.com/iqnev/ivelinyanev.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sample</title>
+      <link>https://github.com/iqnev/ivelinyanev.github.io/tags/sample/</link>
+      <pubDate>Tue, 15 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://github.com/iqnev/ivelinyanev.github.io/tags/sample/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
