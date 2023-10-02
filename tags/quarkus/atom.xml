@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>quarkus on Codes are a puzzle</title>
-    <link>https://iqnev.github.io/categories/quarkus/</link>
-    <description>Recent content in quarkus on Codes are a puzzle</description>
+    <title>Quarkus on Codes are a puzzle</title>
+    <link>https://iqnev.github.io/tags/quarkus/</link>
+    <description>Recent content in Quarkus on Codes are a puzzle</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Sep 2023 23:04:18 +0300</lastBuildDate><atom:link href="https://iqnev.github.io/categories/quarkus/atom.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 26 Sep 2023 23:04:18 +0300</lastBuildDate><atom:link href="https://iqnev.github.io/tags/quarkus/atom.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem</title>
       <link>https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/</link>

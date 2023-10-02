@@ -8,12 +8,13 @@
     <language>en-us</language>
     <lastBuildDate>Tue, 26 Sep 2023 23:04:18 +0300</lastBuildDate><atom:link href="https://iqnev.github.io/tags/development/atom.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Example Content 0 1</title>
-      <link>https://iqnev.github.io/posts/example-content-0-1/</link>
+      <title>Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem</title>
+      <link>https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/</link>
       <pubDate>Tue, 26 Sep 2023 23:04:18 +0300</pubDate>
       
-      <guid>https://iqnev.github.io/posts/example-content-0-1/</guid>
-      <description></description>
+      <guid>https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/</guid>
+      <description>Welcome to a comprehensive exploration of two key aspects in Quarkus extension development: Jandex and AdditionalBeanBuildItem. This article aims to elucidate the differences between these approaches, offering insights into their roles, applications, and the intricate interplay between them. By the end, you&amp;rsquo;ll have a clear understanding of how to wield these tools effectively in your Quarkus extensions.
+1. Jandex: Automatic Bean Discovery and Indexing Understanding Jandex and Its Role: In the realm of Quarkus extensions, beans are the building blocks of functionality, and Contexts and Dependency Injection (CDI) is the mechanism that governs their management.</description>
     </item>
     
   </channel>

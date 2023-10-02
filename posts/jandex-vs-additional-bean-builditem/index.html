@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:title" content="Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem" />
+<meta property="og:description" content="Welcome to a comprehensive exploration of two key aspects in Quarkus extension development: Jandex and AdditionalBeanBuildItem. This article aims to elucidate the differences between these approaches, offering insights into their roles, applications, and the intricate interplay between them. By the end, you&rsquo;ll have a clear understanding of how to wield these tools effectively in your Quarkus extensions.
+1. Jandex: Automatic Bean Discovery and Indexing Understanding Jandex and Its Role: In the realm of Quarkus extensions, beans are the building blocks of functionality, and Contexts and Dependency Injection (CDI) is the mechanism that governs their management." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-09-26T23:04:18+03:00" />
+<meta property="article:modified_time" content="2023-09-26T23:04:18+03:00" />
+
+    <meta itemprop="name" content="Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem">
+<meta itemprop="description" content="Welcome to a comprehensive exploration of two key aspects in Quarkus extension development: Jandex and AdditionalBeanBuildItem. This article aims to elucidate the differences between these approaches, offering insights into their roles, applications, and the intricate interplay between them. By the end, you&rsquo;ll have a clear understanding of how to wield these tools effectively in your Quarkus extensions.
+1. Jandex: Automatic Bean Discovery and Indexing Understanding Jandex and Its Role: In the realm of Quarkus extensions, beans are the building blocks of functionality, and Contexts and Dependency Injection (CDI) is the mechanism that governs their management."><meta itemprop="datePublished" content="2023-09-26T23:04:18+03:00" />
+<meta itemprop="dateModified" content="2023-09-26T23:04:18+03:00" />
+<meta itemprop="wordCount" content="796">
+<meta itemprop="keywords" content="Development,Quarkus,CDI,Extension," />
+    
+    <link rel="canonical" href="https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem",
+      "headline": "Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem",
+      "alternativeHeadline": "",
+      "description": "Welcome to a comprehensive exploration of two key aspects in Quarkus extension development: Jandex and AdditionalBeanBuildItem. This article aims to elucidate the differences between these approaches, offering insights into their roles, applications, and the intricate interplay between them. By the end, you\u0026rsquo;ll have a clear understanding of how to wield these tools effectively in your Quarkus extensions.\n1. Jandex: Automatic Bean Discovery and Indexing Understanding Jandex and Its Role: In the realm of Quarkus extensions, beans are the building blocks of functionality, and Contexts and Dependency Injection (CDI) is the mechanism that governs their management.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/jandex-vs-additional-bean-builditem\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2023",
+      "dateCreated": "2023-09-26T23:04:18.00Z",
+      "datePublished": "2023-09-26T23:04:18.00Z",
+      "dateModified": "2023-09-26T23:04:18.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": "https://iqnev.github.io/images/favicon.ico",
+      "url" : "https:\/\/iqnev.github.io\/posts\/jandex-vs-additional-bean-builditem\/",
+      "wordCount" : "796",
+      "genre" : [ "Development" , "Quarkus" , "CDI" , "Extension" ],
+      "keywords" : [ "Development" , "Quarkus" , "CDI" , "Extension" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem</h2>
+      <p>Welcome to a comprehensive exploration of two key aspects in Quarkus extension development: Jandex and AdditionalBeanBuildItem.
+This article aims to elucidate the differences between these approaches, offering insights into their roles, applications, and the
+intricate interplay between them. By the end, you&rsquo;ll have a clear understanding of how to wield these tools effectively in your Quarkus
+extensions.</p>
+<h2 id="1-jandex-automatic-bean-discovery-and-indexing">1. Jandex: Automatic Bean Discovery and Indexing</h2>
+<p><strong>Understanding Jandex and Its Role:</strong>
+In the realm of Quarkus extensions, beans are the building blocks of functionality, and Contexts and Dependency Injection (CDI) is
+the mechanism that governs their management. Jandex, a potent tool in the Quarkus arsenal, facilitates automatic bean discovery and indexing.</p>
+<p><strong>How Jandex Indexing Works:</strong>
+When the Jandex plugin is integrated into your Quarkus extension, it sweeps through all application classes, creating a comprehensive
+index file laden with metadata. This file offers an organized snapshot of class metadata, annotations, inheritance hierarchies, and
+interfaces. It acts as a centralized repository of class information.</p>
+<p><strong>The Role of Jandex in CDI:</strong>
+However, Jandex&rsquo;s role doesn&rsquo;t extend to direct CDI bean discovery. Instead, it supplies information to the CDI container. During the container&rsquo;s initiation, it delves into the Jandex index to identify potential beans and the annotations associated with them. This enables the CDI container to curate the beans available for injection and other CDI functionalities.</p>
+<p><strong>Example: Automatic Bean Discovery with Jandex:</strong>
+Imagine creating a custom Quarkus extension. By annotating a class with CDI-specific annotations like <code>@ApplicationScoped</code>,
+Jandex, via its indexing prowess, effortlessly identifies and makes these classes available for CDI. This harmonious integration
+streamlines the extension process and ensures precise bean identification.</p>
+<h2 id="2-additionalindexedclassesbuilditem-explicit-jandex-indexing">2. AdditionalIndexedClassesBuildItem: Explicit Jandex Indexing</h2>
+<p><strong>Understanding AdditionalIndexedClassesBuildItem:</strong>
+In cases where you seek more control over class indexing, the <code>AdditionalIndexedClassesBuildItem</code> emerges as a valuable tool.
+It empowers you to explicitly augment the Jandex index with classes that might otherwise remain unindexed.</p>
+<p><strong>When to Use AdditionalIndexedClassesBuildItem:</strong>
+This tool is particularly useful when classes outside of typical bean discovery need to be indexed for other purposes.
+These classes might belong to third-party libraries or external tools requiring metadata access.
+By leveraging <code>AdditionalIndexedClassesBuildItem</code>, you guarantee proper indexing and metadata availability.</p>
+<p><strong>Usage of AdditionalIndexedClassesBuildItem:</strong>
+By providing specific class names to AdditionalIndexedClassesBuildItem&rsquo;s constructor, you precisely dictate which classes receive metadata
+indexing. Regardless of annotations or interfaces, you exercise control over the indexing process.</p>
+<p><strong>Example: Explicitly Indexing Custom Configuration Classes:</strong>
+Imagine crafting an extension that requires metadata access to configuration classes from diverse sources.
+These classes may not boast CDI annotations, but their metadata remains vital.
+Through <code>AdditionalIndexedClassesBuildItem</code>, you secure their inclusion in the Jandex index, ensuring accessible metadata for your extension.</p>
+<h2 id="3-additionalbeanbuilditem-explicit-bean-registration">3. AdditionalBeanBuildItem: Explicit Bean Registration</h2>
+<p><strong>Understanding AdditionalBeanBuildItem:</strong>
+While Jandex handles automatic bean discovery, you might require a more involved approach. This is where AdditionalBeanBuildItem steps in,
+empowering you to explicitly register classes as CDI beans.</p>
+<p><strong>When to Use AdditionalBeanBuildItem:</strong>
+Custom utility classes, third-party libraries, or unconventional beans might necessitate inclusion in the CDI context.
+By embracing <code>AdditionalBeanBuildItem</code>, you enforce bean treatment irrespective of annotations or auto-discovery.</p>
+<p><strong>Usage of AdditionalBeanBuildItem:</strong>
+Through <code>AdditionalBeanBuildItem</code>, you specify class names to be registered as beans. This flexibility allows you to
+seamlessly incorporate custom beans essential to your extension&rsquo;s functionality.</p>
+<p><strong>Example: Registering Custom Utility Classes as CDI Beans:</strong>
+Imagine building an extension that furnishes additional error handling utilities. These utilities might lack CDI annotations
+but require injection capabilities. <code>AdditionalBeanBuildItem</code> facilitates explicit registration of these utilities as CDI beans,
+amplifying their accessibility.</p>
+<h2 id="4-combining-approaches-using-both-jandex-and-additionalbeanbuilditem">4. Combining Approaches: Using Both Jandex and AdditionalBeanBuildItem</h2>
+<p><strong>Advantages of Combining Approaches:</strong>
+Harnessing the strengths of both Jandex and <code>AdditionalBeanBuildItem</code> offers strategic leverage. This hybrid approach strikes a
+balance between automated discovery and explicit control, granting you the power to cherry-pick beans while enjoying default discovery
+benefits.</p>
+<p><strong>Potential Issues and Solutions:</strong>
+The synergy between these approaches is powerful, but vigilance is essential to avert duplicate bean registrations.
+Overlapping registrations between automatic Jandex indexing and explicit <code>AdditionalBeanBuildItem</code> inclusion can lead to conflicts.
+Careful coordination ensures seamless coexistence.</p>
+<h2 id="5-native-build-considerations-impact-of-jandex-and-additionalbeanbuilditem">5. Native Build Considerations: Impact of Jandex and AdditionalBeanBuildItem</h2>
+<p><strong>Jandex and Native Build:</strong>
+Understand that GraalVM&rsquo;s native build process doesn&rsquo;t engage directly with the Jandex index. Native build concentrates on compiling
+the Java application into a native binary, leveraging compiled Java classes and dependencies.</p>
+<p><strong>AdditionalBeanBuildItem and Native Build:</strong>
+Similarly, native build isn&rsquo;t heavily impacted by AdditionalBeanBuildItem&rsquo;s presence or absence. Bean registration doesn&rsquo;t significantly
+alter native build outcomes, which center on compiling and optimizing the application into a native binary.</p>
+<p><strong>Conclusion: Navigating Jandex and AdditionalBeanBuildItem</strong></p>
+<p>Through this journey, the nuances of Jandex and <code>AdditionalBeanBuildItem</code> have been unraveled. Jandex&rsquo;s role in metadata provision
+and CDI&rsquo;s execution has been clarified, alongside AdditionalBeanBuildItem&rsquo;s explicit bean registration. Remember, Jandex doesn&rsquo;t
+automatically transform classes into CDI beans; the CDI container is pivotal. Leverage these tools strategically, aligning
+choices with your extension&rsquo;s demands for seamless integration in Quarkus&rsquo; CDI framework.</p>
+
+      
+      <div class="post-date">
+        <span class="g time">September 26, 2023 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/development/">development</a> <a href="https://iqnev.github.io/tags/quarkus/">quarkus</a> <a href="https://iqnev.github.io/tags/cdi/">cdi</a> <a href="https://iqnev.github.io/tags/extension/">extension</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>
