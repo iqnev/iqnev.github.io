@@ -7,11 +7,132 @@
     
     <language>en</language>
     <copyright>Copyright 2023, Calvin Tran</copyright>
-    <lastBuildDate>Tue, 26 Sep 2023 23:04:18 +0300</lastBuildDate>
+    <lastBuildDate>Sun, 08 Oct 2023 21:29:18 +0300</lastBuildDate>
     <generator>Hugo - gohugo.io</generator>
     <docs>http://cyber.harvard.edu/rss/rss.html</docs>
     <atom:link href="https://iqnev.github.io//atom.xml" rel="self" type="application/atom+xml"/>
     
+    
+    <item>
+      <title>Extending Quarkus: When and How to Write Your Own Extensions</title>
+      <link>https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/</link>
+      <description>&lt;p&gt;Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications.
+These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers.
+However, before diving into creating your own Quarkus extension, it&amp;rsquo;s crucial to understand when it&amp;rsquo;s necessary and how to do it effectively.&lt;/p&gt;
+&lt;h2 id=&#34;when-to-create-a-quarkus-extension&#34;&gt;When to Create a Quarkus Extension&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Complex Integrations: If you&amp;rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management.
+Extensions simplify the use of these frameworks in Quarkus applications.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Performance Optimization: Quarkus extensions are designed to align with Quarkus&amp;rsquo; native compilation, resulting in applications that start swiftly and have minimal memory footprints.
+By creating an extension, you can leverage Quarkus&amp;rsquo; build-time optimization abilities to scan dependencies and generate configuration early, thus avoiding startup delays.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Developer Experience Enhancement: Extensions can significantly enhance the developer experience.
+They enable live reloading, CLI extensions, templating, and more, streamlining the development process.
+If you want to provide a seamless and efficient development environment for your team, extensions can help achieve this goal.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;API Hardening: If you&amp;rsquo;re building APIs or libraries intended to be used by other Quarkus developers, extensions provide an excellent way to harden your
+APIs and ensure they work seamlessly within the Quarkus ecosystem.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;However, extensions may not always be the best approach. For simpler needs, such as sharing utility code and glue logic between components, a basic JAR file might
+suffice without the overhead of creating an extension. If your integration is app-specific and unlikely to be reused elsewhere, a basic JAR could be a more straightforward solution. Moreover, if you need full control over dependency versions and don&amp;rsquo;t want to adhere to Quarkus&amp;rsquo; BOM (Bill of Materials) for dependency management, a JAR may be a better choice. Finally, if your code needs to work across multiple JVM frameworks, such as Spring and Micronaut,
+avoiding tight coupling to Quarkus may be preferable.&lt;/p&gt;
+&lt;p&gt;Creating Quarkus extensions can be complex, often requiring in-depth knowledge of Quarkus internal workings. However, for many scenarios, creating a standard JAR can be sufficient. This JAR, when indexed by Jandex, can be seamlessly discovered by Quarkus during build time. While Quarkus extensions provide a range of advantages, including superior performance and developer productivity, they may not always be necessary.&lt;/p&gt;
+&lt;p&gt;Quarkus unique approach to moving work to build time, rather than runtime, is at the core of its fast startup times and low memory footprint. This philosophy extends to Quarkus extensions, which can leverage these build-time optimizations. Even if you&amp;rsquo;re not primarily concerned with fast boot times, the benefits of creating your extensions extend to simplifying configurations, extending the Quarkus CLI, and integrating with Quarkus&amp;rsquo;s Dev Mode.&lt;/p&gt;
+&lt;p&gt;Creating your Quarkus extensions doesn&amp;rsquo;t have to be overly complicated. With the right approach and a clear understanding of your project&amp;rsquo;s needs, you can solve complex problems efficiently. Extensions offer a flexible and powerful way to enhance your Quarkus applications and make them more efficient and developer-friendly.&lt;/p&gt;
+&lt;h2 id=&#34;creating-a-quarkus-extension&#34;&gt;Creating a Quarkus Extension&lt;/h2&gt;
+&lt;p&gt;When you decide that creating a Quarkus extension is the right approach, it&amp;rsquo;s essential to understand the structural components of an extension:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Runtime Section:&lt;/strong&gt; This section contains the core business logic implemented as beans, services, or other components that integrate with Quarkus;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Deployment Section:&lt;/strong&gt; The deployment section handles build-time augmentation and configuration. It ensures that your extension integrates seamlessly with Quarkus&amp;rsquo; optimization processes;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Descriptor:&lt;/strong&gt; A descriptor declares metadata about your extension, including its name, parameters, compatibility information, and more;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Documentation:&lt;/strong&gt; Comprehensive documentation should accompany your extension. It guides users on how to use and configure your extension effectively.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;anatomy-of-the-quarkus-extension&#34;&gt;Anatomy of the Quarkus Extension&lt;/h2&gt;
+&lt;p&gt;Consider a scenario where you want to create a custom caching extension for Quarkus. This extension will allow developers to easily integrate caching functionality into their Quarkus applications.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Runtime Section:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In this section, you would implement the core caching functionality using Java code. This might include methods for caching data, retrieving cached data, and managing cache expiration.&lt;/li&gt;
+&lt;li&gt;For example, you might have a &lt;code&gt;CustomCacheService&lt;/code&gt; class with methods like &lt;code&gt;put(key, value)&lt;/code&gt;, &lt;code&gt;get(key)&lt;/code&gt;, and &lt;code&gt;evict(key)&lt;/code&gt; to handle caching operations.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Deployment Section:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The deployment section is responsible for build-time optimization. Here, you can specify how the caching configuration should be generated during the build process.&lt;/li&gt;
+&lt;li&gt;For our caching extension, this section might include instructions on how to scan for cached objects in the application code and generate cache configuration.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Descriptor:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The descriptor file (&lt;code&gt;custom-cache-extension.yaml&lt;/code&gt;) provides metadata about your extension. It includes information like the extension&amp;rsquo;s name, version, compatibility with Quarkus, and configuration parameters.&lt;/li&gt;
+&lt;li&gt;For instance, your descriptor might specify that the extension is named &amp;ldquo;custom-cache-extension,&amp;rdquo; is compatible with Quarkus 2.0+, and requires a cache timeout configuration parameter.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Documentation:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Comprehensive documentation should accompany your extension. It guides users on how to use the custom caching extension effectively within their Quarkus applications.&lt;/li&gt;
+&lt;li&gt;Documentation should include examples of how to configure the cache, integrate it into Quarkus services, and manage cached data. Additionally, it should provide best practices for cache utilization.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;By following this structure, your custom caching extension becomes a valuable tool for Quarkus developers. They can easily incorporate caching into their applications, improving performance and optimizing resource usage.&lt;/p&gt;
+&lt;p&gt;Runtime module:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00a8c8&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#75af00&#34;&gt;CustomCacheService&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// Core caching functionality using Java code
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#00a8c8&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#75af00&#34;&gt;put&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;key&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;Object&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;value&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;// Cache data implementation
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;Object&lt;/span&gt; &lt;span style=&#34;color:#75af00&#34;&gt;get&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;key&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;// Retrieve cached data implementation
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#00a8c8&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#00a8c8&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#75af00&#34;&gt;evict&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;key&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#75715e&#34;&gt;// Evict cached data implementation
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Deployment module:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#00a8c8&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#75af00&#34;&gt;CustomCacheProcessor&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75af00&#34;&gt;@BuildStep&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#111&#34;&gt;FeatureBuildItem&lt;/span&gt; &lt;span style=&#34;color:#75af00&#34;&gt;feature&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#75715e&#34;&gt;// This declares the custom cache extension as a feature
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#00a8c8&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#00a8c8&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#111&#34;&gt;FeatureBuildItem&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#d88200&#34;&gt;&amp;#34;custom-cache&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Descriptor file: &lt;code&gt;custom-cache-extension.yaml&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;extension&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;custom-cache-extension&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;metadata&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;short-name&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#d88200&#34;&gt;&amp;#34;resteasy-reactive&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;keywords&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#d88200&#34;&gt;&amp;#34;jaxrs&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#d88200&#34;&gt;&amp;#34;web&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#d88200&#34;&gt;&amp;#34;rest&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;categories&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#d88200&#34;&gt;&amp;#34;web&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    - &lt;span style=&#34;color:#d88200&#34;&gt;&amp;#34;reactive&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;status&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#d88200&#34;&gt;&amp;#34;stable&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;guide&lt;/span&gt;&lt;span style=&#34;color:#111&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#d88200&#34;&gt;&amp;#34;https://quarkus.io/guides/resteasy-reactive&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;In conclusion, whether to create a Quarkus extension depends on your project&amp;rsquo;s specific needs and objectives.
+Quarkus extensions are powerful tools for deep integration, performance optimization, and enhancing the developer experience.
+However, it&amp;rsquo;s essential to weigh the trade-offs and consider whether a simpler solution, like a standard JAR library, might better suit your use case.
+By understanding when and how to create Quarkus extensions effectively, you can make informed decisions and leverage the full potential of this innovative framework.&lt;/p&gt;
+</description>
+      <author>Calvin Tran</author>
+      <guid>https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/</guid>
+      <pubDate>Sun, 08 Oct 2023 21:29:18 +0300</pubDate>
+    </item>
     
     <item>
       <title>Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem</title>

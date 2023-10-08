@@ -3,33 +3,36 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://iqnev.github.io/</loc>
-    <lastmod>2023-09-26T23:04:18+03:00</lastmod>
+    <lastmod>2023-10-08T21:29:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/</loc>
-    <lastmod>2023-09-26T23:04:18+03:00</lastmod>
+    <lastmod>2023-10-08T21:29:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/development/</loc>
+    <lastmod>2023-10-08T21:29:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/</loc>
+    <lastmod>2023-10-08T21:29:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/extension/</loc>
+    <lastmod>2023-10-08T21:29:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/</loc>
+    <lastmod>2023-10-08T21:29:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/categories/quarkus/</loc>
+    <lastmod>2023-10-08T21:29:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/quarkus/</loc>
+    <lastmod>2023-10-08T21:29:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/</loc>
+    <lastmod>2023-10-08T21:29:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/cdi/</loc>
     <lastmod>2023-09-26T23:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/</loc>
-    <lastmod>2023-09-26T23:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/development/</loc>
-    <lastmod>2023-09-26T23:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/extension/</loc>
-    <lastmod>2023-09-26T23:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/posts/</loc>
-    <lastmod>2023-09-26T23:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/categories/quarkus/</loc>
-    <lastmod>2023-09-26T23:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/quarkus/</loc>
-    <lastmod>2023-09-26T23:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/</loc>
     <lastmod>2023-09-26T23:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/about/</loc>

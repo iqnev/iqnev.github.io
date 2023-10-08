@@ -6,7 +6,17 @@
     <description>Recent content in quarkus on Codes are a puzzle</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Sep 2023 23:04:18 +0300</lastBuildDate><atom:link href="https://iqnev.github.io/categories/quarkus/atom.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 08 Oct 2023 21:29:18 +0300</lastBuildDate><atom:link href="https://iqnev.github.io/categories/quarkus/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Extending Quarkus: When and How to Write Your Own Extensions</title>
+      <link>https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/</link>
+      <pubDate>Sun, 08 Oct 2023 21:29:18 +0300</pubDate>
+      
+      <guid>https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/</guid>
+      <description>Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&amp;rsquo;s crucial to understand when it&amp;rsquo;s necessary and how to do it effectively.
+When to Create a Quarkus Extension Complex Integrations: If you&amp;rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management.</description>
+    </item>
+    
     <item>
       <title>Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem</title>
       <link>https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/</link>
