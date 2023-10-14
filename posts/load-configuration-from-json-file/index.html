@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Creating Custom Configuration in Quarkus Loaded from JSON File | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:title" content="Creating Custom Configuration in Quarkus Loaded from JSON File" />
+<meta property="og:description" content="Introduction Quarkus, a framework for building lightweight, fast, and efficient Java applications, offers developers the flexibility to create custom configurations loaded from JSON files. These custom configurations can be seamlessly integrated into your Quarkus application, enhancing its configurability and adaptability. To achieve this, Quarkus utilizes Eclipse MicroProfile Config ( MP-Config), with the SmallRye implementation providing the necessary tools. In this article, we&rsquo;ll delve into the process of crafting custom configurations and loading them from JSON files within Quarkus, all while exploring the mechanics of SmallRye&rsquo;s MP-Config implementation." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://iqnev.github.io/posts/load-configuration-from-json-file/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-10-14T21:00:18+03:00" />
+<meta property="article:modified_time" content="2023-10-14T21:00:18+03:00" />
+
+    <meta itemprop="name" content="Creating Custom Configuration in Quarkus Loaded from JSON File">
+<meta itemprop="description" content="Introduction Quarkus, a framework for building lightweight, fast, and efficient Java applications, offers developers the flexibility to create custom configurations loaded from JSON files. These custom configurations can be seamlessly integrated into your Quarkus application, enhancing its configurability and adaptability. To achieve this, Quarkus utilizes Eclipse MicroProfile Config ( MP-Config), with the SmallRye implementation providing the necessary tools. In this article, we&rsquo;ll delve into the process of crafting custom configurations and loading them from JSON files within Quarkus, all while exploring the mechanics of SmallRye&rsquo;s MP-Config implementation."><meta itemprop="datePublished" content="2023-10-14T21:00:18+03:00" />
+<meta itemprop="dateModified" content="2023-10-14T21:00:18+03:00" />
+<meta itemprop="wordCount" content="1002">
+<meta itemprop="keywords" content="Development,Quarkus,MicroProfile,JSON," />
+    
+    <link rel="canonical" href="https://iqnev.github.io/posts/load-configuration-from-json-file/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Creating Custom Configuration in Quarkus Loaded from JSON File",
+      "headline": "Creating Custom Configuration in Quarkus Loaded from JSON File",
+      "alternativeHeadline": "",
+      "description": "Introduction Quarkus, a framework for building lightweight, fast, and efficient Java applications, offers developers the flexibility to create custom configurations loaded from JSON files. These custom configurations can be seamlessly integrated into your Quarkus application, enhancing its configurability and adaptability. To achieve this, Quarkus utilizes Eclipse MicroProfile Config ( MP-Config), with the SmallRye implementation providing the necessary tools. In this article, we\u0026rsquo;ll delve into the process of crafting custom configurations and loading them from JSON files within Quarkus, all while exploring the mechanics of SmallRye\u0026rsquo;s MP-Config implementation.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/load-configuration-from-json-file\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2023",
+      "dateCreated": "2023-10-14T21:00:18.00Z",
+      "datePublished": "2023-10-14T21:00:18.00Z",
+      "dateModified": "2023-10-14T21:00:18.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": "https://iqnev.github.io/images/favicon.ico",
+      "url" : "https:\/\/iqnev.github.io\/posts\/load-configuration-from-json-file\/",
+      "wordCount" : "1002",
+      "genre" : [ "Development" , "Quarkus" , "MicroProfile" , "JSON" ],
+      "keywords" : [ "Development" , "Quarkus" , "MicroProfile" , "JSON" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Creating Custom Configuration in Quarkus Loaded from JSON File</h2>
+      <h3 id="introduction">Introduction</h3>
+<p>Quarkus, a framework for building lightweight, fast, and efficient Java applications, offers
+developers the flexibility to create custom configurations loaded from JSON files. These custom
+configurations can be seamlessly integrated into your Quarkus application, enhancing its
+configurability and adaptability. To achieve this, Quarkus utilizes Eclipse MicroProfile Config (
+MP-Config), with the SmallRye implementation providing the necessary tools. In this article, we&rsquo;ll
+delve into the process of crafting custom configurations and loading them from JSON files within
+Quarkus, all while exploring the mechanics of SmallRye&rsquo;s MP-Config implementation. Additionally,
+we&rsquo;ll showcase the creation and registration of a custom ConfigSource and ConfigSourceFactory, which
+play a pivotal role in this configuration management approach.</p>
+<h3 id="understanding-microprofile-config-in-quarkus">Understanding MicroProfile Config in Quarkus</h3>
+<p>Quarkus internally relies on the SmallRye implementation of MP-Config. This implementation allows
+developers to incorporate Configuration Sources, which provide configuration data from various
+origins. These sources can be files with non-standard formats, or even data retrieved from a central
+repository. MP-Config ensures a deterministic ordering of configuration sources based on their
+ordinal values when multiple sources contain the same configuration key.</p>
+<p>SmallRye&rsquo;s implementation of MP-Config facilitates the creation of new ConfigSources and
+ConfigSourceFactories. The ConfigSourceFactory has knowledge of all previously defined sources,
+enabling developers to read those values and pass them to a newly created ConfigSource. The
+registration of these custom sources and factories is accomplished through the Java ServiceLoader
+interface, with a specific file called <code>io.smallrye.config.ConfigSourceFactory</code> being placed in the
+<code>META-INF/services/</code> directory. This file provides the fully qualified names of the custom sources
+and
+factories.</p>
+<h3 id="implementing-a-custom-json-configuration">Implementing a custom JSON Configuration</h3>
+<p>To demonstrate the creation and registration of a custom <code>ConfigSource</code> and <code>ConfigSourceFactory</code> in
+Quarkus, we&rsquo;ll focus on a practical example - an <code>JsonConfigSource</code> and <code>JsonConfigSourceFactory</code>
+pair.
+This custom configuration source allows you to read external JSON configuration files and integrate
+them into your Quarkus application.</p>
+<p>The <code>JsonConfigSource</code> class is responsible for reading and providing configuration properties from
+a JSON file. It implements the <code>ConfigSource</code> interface and overrides several methods to interact
+with
+the Quarkus configuration system.</p>
+<p>Here is an overview of its key functionalities:</p>
+<ul>
+<li>Reading a JSON file and parsing it into a JsonObject.</li>
+<li>Providing configuration properties, including handling default values.</li>
+<li>Specifying the source&rsquo;s ordinal value.</li>
+<li>Assigning a unique name to the source, which will be used for registration.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75af00">@Slf4j</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">JsonConfigSource</span> <span style="color:#00a8c8">implements</span> <span style="color:#111">ConfigSource</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">private</span> <span style="color:#00a8c8">final</span> <span style="color:#111">Map</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">,</span> <span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;</span> <span style="color:#111">existingValues</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">private</span> <span style="color:#111">JsonObject</span> <span style="color:#111">root</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#75af00">JsonConfigSource</span><span style="color:#f92672">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">Map</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">,</span> <span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;</span> <span style="color:#111">exProp</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">existingValues</span> <span style="color:#f92672">=</span> <span style="color:#111">exProp</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">addJsonConfigurations</span><span style="color:#f92672">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">ConfigValue</span> <span style="color:#111">config</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">File</span> <span style="color:#111">file</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">File</span><span style="color:#f92672">(</span><span style="color:#111">config</span><span style="color:#f92672">.</span><span style="color:#75af00">getValue</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#f92672">(!</span><span style="color:#111">file</span><span style="color:#f92672">.</span><span style="color:#75af00">canRead</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">log</span><span style="color:#f92672">.</span><span style="color:#75af00">warn</span><span style="color:#f92672">(</span><span style="color:#d88200">&#34;Can&#39;t read config from &#34;</span> <span style="color:#f92672">+</span> <span style="color:#111">file</span><span style="color:#f92672">.</span><span style="color:#75af00">getAbsolutePath</span><span style="color:#f92672">()</span> <span style="color:#f92672">+</span> <span style="color:#d88200">&#34;&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#00a8c8">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">try</span> <span style="color:#f92672">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">InputStream</span> <span style="color:#111">fis</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">FileInputStream</span><span style="color:#f92672">(</span><span style="color:#111">file</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#00a8c8">final</span> <span style="color:#111">JsonReader</span> <span style="color:#111">reader</span> <span style="color:#f92672">=</span> <span style="color:#111">Json</span><span style="color:#f92672">.</span><span style="color:#75af00">createReader</span><span style="color:#f92672">(</span><span style="color:#111">fis</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">root</span> <span style="color:#f92672">=</span> <span style="color:#111">reader</span><span style="color:#f92672">.</span><span style="color:#75af00">readObject</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span> <span style="color:#00a8c8">catch</span> <span style="color:#f92672">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">IOException</span> <span style="color:#111">ioe</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">log</span><span style="color:#f92672">.</span><span style="color:#75af00">warn</span><span style="color:#f92672">(</span><span style="color:#d88200">&#34;Reading the config failed: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#111">ioe</span><span style="color:#f92672">.</span><span style="color:#75af00">getMessage</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">Map</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">,</span> <span style="color:#111">String</span><span style="color:#f92672">&gt;</span> <span style="color:#75af00">getProperties</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">Map</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">,</span> <span style="color:#111">String</span><span style="color:#f92672">&gt;</span> <span style="color:#111">props</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">HashMap</span><span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">Set</span><span style="color:#f92672">&lt;</span><span style="color:#111">Map</span><span style="color:#f92672">.</span><span style="color:#75af00">Entry</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">,</span> <span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">entries</span> <span style="color:#f92672">=</span> <span style="color:#111">existingValues</span><span style="color:#f92672">.</span><span style="color:#75af00">entrySet</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#f92672">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">Map</span><span style="color:#f92672">.</span><span style="color:#75af00">Entry</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">,</span> <span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;</span> <span style="color:#111">entry</span> <span style="color:#f92672">:</span> <span style="color:#111">entries</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">String</span> <span style="color:#111">newVal</span> <span style="color:#f92672">=</span> <span style="color:#111">getValue</span><span style="color:#f92672">(</span><span style="color:#111">entry</span><span style="color:#f92672">.</span><span style="color:#75af00">getKey</span><span style="color:#f92672">());</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">newVal</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">newVal</span> <span style="color:#f92672">=</span> <span style="color:#111">entry</span><span style="color:#f92672">.</span><span style="color:#75af00">getValue</span><span style="color:#f92672">().</span><span style="color:#75af00">getValue</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">props</span><span style="color:#f92672">.</span><span style="color:#75af00">put</span><span style="color:#f92672">(</span><span style="color:#111">entry</span><span style="color:#f92672">.</span><span style="color:#75af00">getKey</span><span style="color:#f92672">(),</span> <span style="color:#111">newVal</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">props</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">Set</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">&gt;</span> <span style="color:#75af00">getPropertyNames</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">existingValues</span><span style="color:#f92672">.</span><span style="color:#75af00">keySet</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#00a8c8">int</span> <span style="color:#75af00">getOrdinal</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">270</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">String</span> <span style="color:#75af00">getValue</span><span style="color:#f92672">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">String</span> <span style="color:#111">configKey</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">JsonValue</span> <span style="color:#111">jsonValue</span> <span style="color:#f92672">=</span> <span style="color:#111">root</span><span style="color:#f92672">.</span><span style="color:#75af00">get</span><span style="color:#f92672">(</span><span style="color:#111">configKey</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">jsonValue</span> <span style="color:#f92672">!=</span> <span style="color:#00a8c8">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#111">getStringValue</span><span style="color:#f92672">(</span><span style="color:#111">jsonValue</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">existingValues</span><span style="color:#f92672">.</span><span style="color:#75af00">containsKey</span><span style="color:#f92672">(</span><span style="color:#111">configKey</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#111">existingValues</span><span style="color:#f92672">.</span><span style="color:#75af00">get</span><span style="color:#f92672">(</span><span style="color:#111">configKey</span><span style="color:#f92672">).</span><span style="color:#75af00">getValue</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#00a8c8">else</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">String</span> <span style="color:#75af00">getName</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#d88200">&#34;EXTERNAL_JSON&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">private</span> <span style="color:#111">String</span> <span style="color:#75af00">getStringValue</span><span style="color:#f92672">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">JsonValue</span> <span style="color:#111">jsonValue</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">jsonValue</span> <span style="color:#f92672">!=</span> <span style="color:#00a8c8">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">final</span> <span style="color:#111">JsonValue</span><span style="color:#f92672">.</span><span style="color:#75af00">ValueType</span> <span style="color:#111">valueType</span> <span style="color:#f92672">=</span> <span style="color:#111">jsonValue</span><span style="color:#f92672">.</span><span style="color:#75af00">getValueType</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">valueType</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#f92672">.</span><span style="color:#75af00">ValueType</span><span style="color:#f92672">.</span><span style="color:#75af00">STRING</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#f92672">((</span><span style="color:#111">JsonString</span><span style="color:#f92672">)</span> <span style="color:#111">jsonValue</span><span style="color:#f92672">).</span><span style="color:#75af00">getString</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">valueType</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#f92672">.</span><span style="color:#75af00">ValueType</span><span style="color:#f92672">.</span><span style="color:#75af00">NUMBER</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Handle integer and floating-point numbers
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#00a8c8">return</span> <span style="color:#111">jsonValue</span><span style="color:#f92672">.</span><span style="color:#75af00">toString</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">valueType</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#f92672">.</span><span style="color:#75af00">ValueType</span><span style="color:#f92672">.</span><span style="color:#75af00">TRUE</span> <span style="color:#f92672">||</span> <span style="color:#111">valueType</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#f92672">.</span><span style="color:#75af00">ValueType</span><span style="color:#f92672">.</span><span style="color:#75af00">FALSE</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Handle boolean values
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#00a8c8">return</span> <span style="color:#111">Boolean</span><span style="color:#f92672">.</span><span style="color:#75af00">toString</span><span style="color:#f92672">(</span><span style="color:#111">jsonValue</span><span style="color:#f92672">.</span><span style="color:#75af00">getValueType</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#f92672">.</span><span style="color:#75af00">ValueType</span><span style="color:#f92672">.</span><span style="color:#75af00">TRUE</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">valueType</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#f92672">.</span><span style="color:#75af00">ValueType</span><span style="color:#f92672">.</span><span style="color:#75af00">NULL</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Handle null values
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">null</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>The <code>JsonConfigSourceFactory</code> class is a custom <code>ConfigSourceFactory</code> responsible for creating and
+configuring instances of the <code>JsonConfigSource</code>. It also defines a unique priority for this factory.</p>
+<p>Here is an overview of its key functionalities:</p>
+<ul>
+<li>Retrieving the path of the JSON configuration file from the Quarkus configuration.</li>
+<li>Building an instance of JsonConfigSource.</li>
+<li>Assigning a priority value to the factory.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75af00">@Slf4j</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">JsonConfigSourceFactory</span> <span style="color:#00a8c8">implements</span> <span style="color:#111">ConfigSourceFactory</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#00a8c8">static</span> <span style="color:#00a8c8">final</span> <span style="color:#111">String</span> <span style="color:#111">CONFIG_JSON_FILE</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#34;config.json.file&#34;</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">Iterable</span><span style="color:#f92672">&lt;</span><span style="color:#111">ConfigSource</span><span style="color:#f92672">&gt;</span> <span style="color:#75af00">getConfigSources</span><span style="color:#f92672">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">ConfigSourceContext</span> <span style="color:#111">configSourceContext</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">ConfigValue</span> <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">configSourceContext</span><span style="color:#f92672">.</span><span style="color:#75af00">getValue</span><span style="color:#f92672">(</span><span style="color:#111">CONFIG_JSON_FILE</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">value</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">null</span> <span style="color:#f92672">||</span> <span style="color:#111">value</span><span style="color:#f92672">.</span><span style="color:#75af00">getValue</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#111">Collections</span><span style="color:#f92672">.</span><span style="color:#75af00">emptyList</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">Map</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">,</span> <span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;</span> <span style="color:#111">exProp</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">HashMap</span><span style="color:#f92672">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">Iterator</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">&gt;</span> <span style="color:#111">stringIterator</span> <span style="color:#f92672">=</span> <span style="color:#111">configSourceContext</span><span style="color:#f92672">.</span><span style="color:#75af00">iterateNames</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">while</span> <span style="color:#f92672">(</span><span style="color:#111">stringIterator</span><span style="color:#f92672">.</span><span style="color:#75af00">hasNext</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">final</span> <span style="color:#111">String</span> <span style="color:#111">key</span> <span style="color:#f92672">=</span> <span style="color:#111">stringIterator</span><span style="color:#f92672">.</span><span style="color:#75af00">next</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">final</span> <span style="color:#111">ConfigValue</span> <span style="color:#111">cValue</span> <span style="color:#f92672">=</span> <span style="color:#111">configSourceContext</span><span style="color:#f92672">.</span><span style="color:#75af00">getValue</span><span style="color:#f92672">(</span><span style="color:#111">key</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">exProp</span><span style="color:#f92672">.</span><span style="color:#75af00">put</span><span style="color:#f92672">(</span><span style="color:#111">key</span><span style="color:#f92672">,</span> <span style="color:#111">cValue</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">JsonConfigSource</span> <span style="color:#111">configSource</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">JsonConfigSource</span><span style="color:#f92672">(</span><span style="color:#111">exProp</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">List</span><span style="color:#f92672">&lt;</span><span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;</span> <span style="color:#111">configValueList</span> <span style="color:#f92672">=</span> <span style="color:#111">List</span><span style="color:#f92672">.</span><span style="color:#75af00">of</span><span style="color:#f92672">(</span><span style="color:#111">value</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#f92672">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">ConfigValue</span> <span style="color:#111">config</span> <span style="color:#f92672">:</span> <span style="color:#111">configValueList</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">ConfigExists</span><span style="color:#f92672">(</span><span style="color:#111">config</span><span style="color:#f92672">))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">configSource</span><span style="color:#f92672">.</span><span style="color:#75af00">addJsonConfigurations</span><span style="color:#f92672">(</span><span style="color:#111">config</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">Collections</span><span style="color:#f92672">.</span><span style="color:#75af00">singletonList</span><span style="color:#f92672">(</span><span style="color:#111">configSource</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">OptionalInt</span> <span style="color:#75af00">getPriority</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">OptionalInt</span><span style="color:#f92672">.</span><span style="color:#75af00">of</span><span style="color:#f92672">(</span><span style="color:#ae81ff">270</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">private</span> <span style="color:#00a8c8">boolean</span> <span style="color:#75af00">ConfigExists</span><span style="color:#f92672">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">ConfigValue</span> <span style="color:#111">config</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#f92672">(</span><span style="color:#111">config</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">null</span> <span style="color:#f92672">||</span> <span style="color:#111">config</span><span style="color:#f92672">.</span><span style="color:#75af00">getValue</span><span style="color:#f92672">()</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#111">log</span><span style="color:#f92672">.</span><span style="color:#75af00">warn</span><span style="color:#f92672">(</span><span style="color:#d88200">&#34;The given ConfigValue object is null&#34;</span><span style="color:#f92672">);</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">false</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#f92672">(!(</span><span style="color:#111">Files</span><span style="color:#f92672">.</span><span style="color:#75af00">exists</span><span style="color:#f92672">(</span><span style="color:#111">Path</span><span style="color:#f92672">.</span><span style="color:#75af00">of</span><span style="color:#f92672">(</span><span style="color:#111">config</span><span style="color:#f92672">.</span><span style="color:#75af00">getValue</span><span style="color:#f92672">()))))</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">false</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">true</span><span style="color:#f92672">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h3 id="registration-via-serviceloader">Registration via ServiceLoader</h3>
+<p>Both the <code>JsonConfigSource</code> and <code>JsonConfigSourceFactory</code> are registered with the Quarkus
+application through the Java ServiceLoader mechanism. A file
+named <code>io.smallrye.config.ConfigSourceFactory</code> is placed in the <code>META-INF/services/</code> directory. This
+file contains the fully qualified name of the <code>JsonConfigSourceFactory</code>, enabling Quarkus to
+discover
+and use it.</p>
+<h3 id="the-json-file">The JSON file</h3>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;simple.service&#34;</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;pusher&#34;</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;simple.source&#34;</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;source&#34;</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;simple.destination&#34;</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;destination&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><h3 id="define-your-configuration-interface">Define Your Configuration Interface</h3>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75af00">@ConfigMapping</span><span style="color:#f92672">(</span><span style="color:#111">prefix</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#34;simple&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">interface</span> <span style="color:#75af00">SimpleConfig</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@WithName</span><span style="color:#f92672">(</span><span style="color:#d88200">&#34;source&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">String</span> <span style="color:#75af00">source</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@WithName</span><span style="color:#f92672">(</span><span style="color:#d88200">&#34;service&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">String</span> <span style="color:#75af00">service</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@WithName</span><span style="color:#f92672">(</span><span style="color:#d88200">&#34;destination&#34;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">String</span> <span style="color:#75af00">destination</span><span style="color:#f92672">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>Eclipse MicroProfile Config, in conjunction with the SmallRye implementation, empowers Quarkus
+developers to manage their application&rsquo;s configuration efficiently. The ability to create and
+register custom <code>ConfigSources</code> and <code>ConfigSourceFactories</code>, as demonstrated with
+the <code>JsonConfigSource</code>
+and <code>JsonConfigSourceFactory</code>, extends the flexibility and utility of the framework. By following
+these guidelines, you can seamlessly integrate external configuration data, such as JSON files, into
+your Quarkus application, enhancing its configurability and adaptability.</p>
+<p>By understanding these concepts and leveraging the power of MicroProfile Config, you can further
+optimize your Quarkus application&rsquo;s configuration management and streamline the development process.</p>
+
+      
+      <div class="post-date">
+        <span class="g time">October 14, 2023 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/development/">development</a> <a href="https://iqnev.github.io/tags/quarkus/">quarkus</a> <a href="https://iqnev.github.io/tags/microprofile/">microprofile</a> <a href="https://iqnev.github.io/tags/json/">json</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>
