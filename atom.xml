@@ -247,6 +247,7 @@ these guidelines, you can seamlessly integrate external configuration data, such
 your Quarkus application, enhancing its configurability and adaptability.&lt;/p&gt;
 &lt;p&gt;By understanding these concepts and leveraging the power of MicroProfile Config, you can further
 optimize your Quarkus application&amp;rsquo;s configuration management and streamline the development process.&lt;/p&gt;
+&lt;p&gt;The full source code is available at &lt;a href=&#34;https://github.com/iqnev/quarkus-load-configuration-from-externa-json-file&#34; title=&#34;Title&#34;&gt;Github&lt;/a&gt;&lt;/p&gt;
 </description>
       <author>Calvin Tran</author>
       <guid>https://iqnev.github.io/posts/load-configuration-from-json-file/</guid>
