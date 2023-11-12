@@ -120,73 +120,108 @@
 <hr class="hr-list" style="padding: 0;margin: 0;">
     <section>
       <h2 class="post">Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem</h2>
-      <p>Welcome to a comprehensive exploration of two key aspects in Quarkus extension development: Jandex and AdditionalBeanBuildItem.
-This article aims to elucidate the differences between these approaches, offering insights into their roles, applications, and the
-intricate interplay between them. By the end, you&rsquo;ll have a clear understanding of how to wield these tools effectively in your Quarkus
+      <p>Welcome to a comprehensive exploration of two key aspects in Quarkus extension development: Jandex
+and AdditionalBeanBuildItem.
+This article aims to elucidate the differences between these approaches, offering insights into
+their roles, applications, and the
+intricate interplay between them. By the end, you&rsquo;ll have a clear understanding of how to wield
+these tools effectively in your Quarkus
 extensions.</p>
 <h2 id="1-jandex-automatic-bean-discovery-and-indexing">1. Jandex: Automatic Bean Discovery and Indexing</h2>
 <p><strong>Understanding Jandex and Its Role:</strong>
-In the realm of Quarkus extensions, beans are the building blocks of functionality, and Contexts and Dependency Injection (CDI) is
-the mechanism that governs their management. Jandex, a potent tool in the Quarkus arsenal, facilitates automatic bean discovery and indexing.</p>
+In the realm of Quarkus extensions, beans are the building blocks of functionality, and Contexts and
+Dependency Injection (CDI) is
+the mechanism that governs their management. Jandex, a potent tool in the Quarkus arsenal,
+facilitates automatic bean discovery and indexing.</p>
 <p><strong>How Jandex Indexing Works:</strong>
-When the Jandex plugin is integrated into your Quarkus extension, it sweeps through all application classes, creating a comprehensive
-index file laden with metadata. This file offers an organized snapshot of class metadata, annotations, inheritance hierarchies, and
+When the Jandex plugin is integrated into your Quarkus extension, it sweeps through all application
+classes, creating a comprehensive
+index file laden with metadata. This file offers an organized snapshot of class metadata,
+annotations, inheritance hierarchies, and
 interfaces. It acts as a centralized repository of class information.</p>
 <p><strong>The Role of Jandex in CDI:</strong>
-However, Jandex&rsquo;s role doesn&rsquo;t extend to direct CDI bean discovery. Instead, it supplies information to the CDI container. During the container&rsquo;s initiation, it delves into the Jandex index to identify potential beans and the annotations associated with them. This enables the CDI container to curate the beans available for injection and other CDI functionalities.</p>
+However, Jandex&rsquo;s role doesn&rsquo;t extend to direct CDI bean discovery. Instead, it supplies information
+to the CDI container. During the container&rsquo;s initiation, it delves into the Jandex index to identify
+potential beans and the annotations associated with them. This enables the CDI container to curate
+the beans available for injection and other CDI functionalities.</p>
 <p><strong>Example: Automatic Bean Discovery with Jandex:</strong>
-Imagine creating a custom Quarkus extension. By annotating a class with CDI-specific annotations like <code>@ApplicationScoped</code>,
-Jandex, via its indexing prowess, effortlessly identifies and makes these classes available for CDI. This harmonious integration
+Imagine creating a custom Quarkus extension. By annotating a class with CDI-specific annotations
+like <code>@ApplicationScoped</code>,
+Jandex, via its indexing prowess, effortlessly identifies and makes these classes available for CDI.
+This harmonious integration
 streamlines the extension process and ensures precise bean identification.</p>
 <h2 id="2-additionalindexedclassesbuilditem-explicit-jandex-indexing">2. AdditionalIndexedClassesBuildItem: Explicit Jandex Indexing</h2>
 <p><strong>Understanding AdditionalIndexedClassesBuildItem:</strong>
-In cases where you seek more control over class indexing, the <code>AdditionalIndexedClassesBuildItem</code> emerges as a valuable tool.
-It empowers you to explicitly augment the Jandex index with classes that might otherwise remain unindexed.</p>
+In cases where you seek more control over class indexing, the <code>AdditionalIndexedClassesBuildItem</code>
+emerges as a valuable tool.
+It empowers you to explicitly augment the Jandex index with classes that might otherwise remain
+unindexed.</p>
 <p><strong>When to Use AdditionalIndexedClassesBuildItem:</strong>
-This tool is particularly useful when classes outside of typical bean discovery need to be indexed for other purposes.
+This tool is particularly useful when classes outside of typical bean discovery need to be indexed
+for other purposes.
 These classes might belong to third-party libraries or external tools requiring metadata access.
-By leveraging <code>AdditionalIndexedClassesBuildItem</code>, you guarantee proper indexing and metadata availability.</p>
+By leveraging <code>AdditionalIndexedClassesBuildItem</code>, you guarantee proper indexing and metadata
+availability.</p>
 <p><strong>Usage of AdditionalIndexedClassesBuildItem:</strong>
-By providing specific class names to AdditionalIndexedClassesBuildItem&rsquo;s constructor, you precisely dictate which classes receive metadata
+By providing specific class names to AdditionalIndexedClassesBuildItem&rsquo;s constructor, you precisely
+dictate which classes receive metadata
 indexing. Regardless of annotations or interfaces, you exercise control over the indexing process.</p>
 <p><strong>Example: Explicitly Indexing Custom Configuration Classes:</strong>
-Imagine crafting an extension that requires metadata access to configuration classes from diverse sources.
+Imagine crafting an extension that requires metadata access to configuration classes from diverse
+sources.
 These classes may not boast CDI annotations, but their metadata remains vital.
-Through <code>AdditionalIndexedClassesBuildItem</code>, you secure their inclusion in the Jandex index, ensuring accessible metadata for your extension.</p>
+Through <code>AdditionalIndexedClassesBuildItem</code>, you secure their inclusion in the Jandex index,
+ensuring accessible metadata for your extension.</p>
 <h2 id="3-additionalbeanbuilditem-explicit-bean-registration">3. AdditionalBeanBuildItem: Explicit Bean Registration</h2>
 <p><strong>Understanding AdditionalBeanBuildItem:</strong>
-While Jandex handles automatic bean discovery, you might require a more involved approach. This is where AdditionalBeanBuildItem steps in,
+While Jandex handles automatic bean discovery, you might require a more involved approach. This is
+where AdditionalBeanBuildItem steps in,
 empowering you to explicitly register classes as CDI beans.</p>
 <p><strong>When to Use AdditionalBeanBuildItem:</strong>
-Custom utility classes, third-party libraries, or unconventional beans might necessitate inclusion in the CDI context.
-By embracing <code>AdditionalBeanBuildItem</code>, you enforce bean treatment irrespective of annotations or auto-discovery.</p>
+Custom utility classes, third-party libraries, or unconventional beans might necessitate inclusion
+in the CDI context.
+By embracing <code>AdditionalBeanBuildItem</code>, you enforce bean treatment irrespective of annotations or
+auto-discovery.</p>
 <p><strong>Usage of AdditionalBeanBuildItem:</strong>
-Through <code>AdditionalBeanBuildItem</code>, you specify class names to be registered as beans. This flexibility allows you to
+Through <code>AdditionalBeanBuildItem</code>, you specify class names to be registered as beans. This
+flexibility allows you to
 seamlessly incorporate custom beans essential to your extension&rsquo;s functionality.</p>
 <p><strong>Example: Registering Custom Utility Classes as CDI Beans:</strong>
-Imagine building an extension that furnishes additional error handling utilities. These utilities might lack CDI annotations
-but require injection capabilities. <code>AdditionalBeanBuildItem</code> facilitates explicit registration of these utilities as CDI beans,
+Imagine building an extension that furnishes additional error handling utilities. These utilities
+might lack CDI annotations
+but require injection capabilities. <code>AdditionalBeanBuildItem</code> facilitates explicit registration of
+these utilities as CDI beans,
 amplifying their accessibility.</p>
 <h2 id="4-combining-approaches-using-both-jandex-and-additionalbeanbuilditem">4. Combining Approaches: Using Both Jandex and AdditionalBeanBuildItem</h2>
 <p><strong>Advantages of Combining Approaches:</strong>
-Harnessing the strengths of both Jandex and <code>AdditionalBeanBuildItem</code> offers strategic leverage. This hybrid approach strikes a
-balance between automated discovery and explicit control, granting you the power to cherry-pick beans while enjoying default discovery
+Harnessing the strengths of both Jandex and <code>AdditionalBeanBuildItem</code> offers strategic leverage.
+This hybrid approach strikes a
+balance between automated discovery and explicit control, granting you the power to cherry-pick
+beans while enjoying default discovery
 benefits.</p>
 <p><strong>Potential Issues and Solutions:</strong>
-The synergy between these approaches is powerful, but vigilance is essential to avert duplicate bean registrations.
-Overlapping registrations between automatic Jandex indexing and explicit <code>AdditionalBeanBuildItem</code> inclusion can lead to conflicts.
+The synergy between these approaches is powerful, but vigilance is essential to avert duplicate bean
+registrations.
+Overlapping registrations between automatic Jandex indexing and explicit <code>AdditionalBeanBuildItem</code>
+inclusion can lead to conflicts.
 Careful coordination ensures seamless coexistence.</p>
 <h2 id="5-native-build-considerations-impact-of-jandex-and-additionalbeanbuilditem">5. Native Build Considerations: Impact of Jandex and AdditionalBeanBuildItem</h2>
 <p><strong>Jandex and Native Build:</strong>
-Understand that GraalVM&rsquo;s native build process doesn&rsquo;t engage directly with the Jandex index. Native build concentrates on compiling
+Understand that GraalVM&rsquo;s native build process doesn&rsquo;t engage directly with the Jandex index. Native
+build concentrates on compiling
 the Java application into a native binary, leveraging compiled Java classes and dependencies.</p>
 <p><strong>AdditionalBeanBuildItem and Native Build:</strong>
-Similarly, native build isn&rsquo;t heavily impacted by AdditionalBeanBuildItem&rsquo;s presence or absence. Bean registration doesn&rsquo;t significantly
-alter native build outcomes, which center on compiling and optimizing the application into a native binary.</p>
+Similarly, native build isn&rsquo;t heavily impacted by AdditionalBeanBuildItem&rsquo;s presence or absence.
+Bean registration doesn&rsquo;t significantly
+alter native build outcomes, which center on compiling and optimizing the application into a native
+binary.</p>
 <p><strong>Conclusion: Navigating Jandex and AdditionalBeanBuildItem</strong></p>
-<p>Through this journey, the nuances of Jandex and <code>AdditionalBeanBuildItem</code> have been unraveled. Jandex&rsquo;s role in metadata provision
-and CDI&rsquo;s execution has been clarified, alongside AdditionalBeanBuildItem&rsquo;s explicit bean registration. Remember, Jandex doesn&rsquo;t
-automatically transform classes into CDI beans; the CDI container is pivotal. Leverage these tools strategically, aligning
+<p>Through this journey, the nuances of Jandex and <code>AdditionalBeanBuildItem</code> have been unraveled.
+Jandex&rsquo;s role in metadata provision
+and CDI&rsquo;s execution has been clarified, alongside AdditionalBeanBuildItem&rsquo;s explicit bean
+registration. Remember, Jandex doesn&rsquo;t
+automatically transform classes into CDI beans; the CDI container is pivotal. Leverage these tools
+strategically, aligning
 choices with your extension&rsquo;s demands for seamless integration in Quarkus&rsquo; CDI framework.</p>
 
       

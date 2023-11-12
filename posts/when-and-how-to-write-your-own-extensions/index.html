@@ -8,7 +8,7 @@
     <title>Extending Quarkus: When and How to Write Your Own Extensions | Codes are a puzzle</title>
     <meta name="description" content="A minimal hugo theme focus on content">
     <meta property="og:title" content="Extending Quarkus: When and How to Write Your Own Extensions" />
-<meta property="og:description" content="Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&rsquo;s crucial to understand when it&rsquo;s necessary and how to do it effectively.
+<meta property="og:description" content="Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&rsquo;s crucial to understand when it&#39; s necessary and how to do it effectively.
 When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/" /><meta property="article:section" content="posts" />
@@ -17,10 +17,10 @@ When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working
 
 
     <meta itemprop="name" content="Extending Quarkus: When and How to Write Your Own Extensions">
-<meta itemprop="description" content="Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&rsquo;s crucial to understand when it&rsquo;s necessary and how to do it effectively.
+<meta itemprop="description" content="Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&rsquo;s crucial to understand when it&#39; s necessary and how to do it effectively.
 When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management."><meta itemprop="datePublished" content="2023-10-08T21:29:18+03:00" />
 <meta itemprop="dateModified" content="2023-10-08T21:29:18+03:00" />
-<meta itemprop="wordCount" content="1046">
+<meta itemprop="wordCount" content="1048">
 <meta itemprop="keywords" content="Development,Quarkus,Extension," />
     
     <link rel="canonical" href="https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/">
@@ -45,7 +45,7 @@ When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working
       "name": "Extending Quarkus: When and How to Write Your Own Extensions",
       "headline": "Extending Quarkus: When and How to Write Your Own Extensions",
       "alternativeHeadline": "",
-      "description": "Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it\u0026rsquo;s crucial to understand when it\u0026rsquo;s necessary and how to do it effectively.\nWhen to Create a Quarkus Extension Complex Integrations: If you\u0026rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management.",
+      "description": "Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it\u0026rsquo;s crucial to understand when it\u0027 s necessary and how to do it effectively.\nWhen to Create a Quarkus Extension Complex Integrations: If you\u0026rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management.",
       "inLanguage": "en-us",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -82,7 +82,7 @@ When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working
       },
       "image": "https://iqnev.github.io/images/favicon.ico",
       "url" : "https:\/\/iqnev.github.io\/posts\/when-and-how-to-write-your-own-extensions\/",
-      "wordCount" : "1046",
+      "wordCount" : "1048",
       "genre" : [ "Development" , "Quarkus" , "Extension" ],
       "keywords" : [ "Development" , "Quarkus" , "Extension" ]
   }
@@ -120,76 +120,121 @@ When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working
 <hr class="hr-list" style="padding: 0;margin: 0;">
     <section>
       <h2 class="post">Extending Quarkus: When and How to Write Your Own Extensions</h2>
-      <p>Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications.
-These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers.
-However, before diving into creating your own Quarkus extension, it&rsquo;s crucial to understand when it&rsquo;s necessary and how to do it effectively.</p>
+      <p>Quarkus, with its innovative extension framework, offers developers a powerful way to integrate
+various technologies seamlessly into their applications.
+These extensions simplify configuration, enable dependency injection, and optimize performance,
+making it an attractive option for Java developers.
+However, before diving into creating your own Quarkus extension, it&rsquo;s crucial to understand when it'
+s necessary and how to do it effectively.</p>
 <h2 id="when-to-create-a-quarkus-extension">When to Create a Quarkus Extension</h2>
 <ol>
 <li>
-<p>Complex Integrations: If you&rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management.
+<p>Complex Integrations: If you&rsquo;re working with complex frameworks like ORM mappers, reactive
+clients, or data access libraries, creating an extension can help manage the intricacies of
+configuration and dependency management.
 Extensions simplify the use of these frameworks in Quarkus applications.</p>
 </li>
 <li>
-<p>Performance Optimization: Quarkus extensions are designed to align with Quarkus&rsquo; native compilation, resulting in applications that start swiftly and have minimal memory footprints.
-By creating an extension, you can leverage Quarkus&rsquo; build-time optimization abilities to scan dependencies and generate configuration early, thus avoiding startup delays.</p>
+<p>Performance Optimization: Quarkus extensions are designed to align with Quarkus&rsquo; native
+compilation, resulting in applications that start swiftly and have minimal memory footprints.
+By creating an extension, you can leverage Quarkus&rsquo; build-time optimization abilities to scan
+dependencies and generate configuration early, thus avoiding startup delays.</p>
 </li>
 <li>
 <p>Developer Experience Enhancement: Extensions can significantly enhance the developer experience.
-They enable live reloading, CLI extensions, templating, and more, streamlining the development process.
-If you want to provide a seamless and efficient development environment for your team, extensions can help achieve this goal.</p>
+They enable live reloading, CLI extensions, templating, and more, streamlining the development
+process.
+If you want to provide a seamless and efficient development environment for your team, extensions
+can help achieve this goal.</p>
 </li>
 <li>
-<p>API Hardening: If you&rsquo;re building APIs or libraries intended to be used by other Quarkus developers, extensions provide an excellent way to harden your
+<p>API Hardening: If you&rsquo;re building APIs or libraries intended to be used by other Quarkus
+developers, extensions provide an excellent way to harden your
 APIs and ensure they work seamlessly within the Quarkus ecosystem.</p>
 </li>
 </ol>
-<p>However, extensions may not always be the best approach. For simpler needs, such as sharing utility code and glue logic between components, a basic JAR file might
-suffice without the overhead of creating an extension. If your integration is app-specific and unlikely to be reused elsewhere, a basic JAR could be a more straightforward solution. Moreover, if you need full control over dependency versions and don&rsquo;t want to adhere to Quarkus&rsquo; BOM (Bill of Materials) for dependency management, a JAR may be a better choice. Finally, if your code needs to work across multiple JVM frameworks, such as Spring and Micronaut,
+<p>However, extensions may not always be the best approach. For simpler needs, such as sharing utility
+code and glue logic between components, a basic JAR file might
+suffice without the overhead of creating an extension. If your integration is app-specific and
+unlikely to be reused elsewhere, a basic JAR could be a more straightforward solution. Moreover, if
+you need full control over dependency versions and don&rsquo;t want to adhere to Quarkus&rsquo; BOM (Bill of
+Materials) for dependency management, a JAR may be a better choice. Finally, if your code needs to
+work across multiple JVM frameworks, such as Spring and Micronaut,
 avoiding tight coupling to Quarkus may be preferable.</p>
-<p>Creating Quarkus extensions can be complex, often requiring in-depth knowledge of Quarkus internal workings. However, for many scenarios, creating a standard JAR can be sufficient. This JAR, when indexed by Jandex, can be seamlessly discovered by Quarkus during build time. While Quarkus extensions provide a range of advantages, including superior performance and developer productivity, they may not always be necessary.</p>
-<p>Quarkus unique approach to moving work to build time, rather than runtime, is at the core of its fast startup times and low memory footprint. This philosophy extends to Quarkus extensions, which can leverage these build-time optimizations. Even if you&rsquo;re not primarily concerned with fast boot times, the benefits of creating your extensions extend to simplifying configurations, extending the Quarkus CLI, and integrating with Quarkus&rsquo;s Dev Mode.</p>
-<p>Creating your Quarkus extensions doesn&rsquo;t have to be overly complicated. With the right approach and a clear understanding of your project&rsquo;s needs, you can solve complex problems efficiently. Extensions offer a flexible and powerful way to enhance your Quarkus applications and make them more efficient and developer-friendly.</p>
+<p>Creating Quarkus extensions can be complex, often requiring in-depth knowledge of Quarkus internal
+workings. However, for many scenarios, creating a standard JAR can be sufficient. This JAR, when
+indexed by Jandex, can be seamlessly discovered by Quarkus during build time. While Quarkus
+extensions provide a range of advantages, including superior performance and developer productivity,
+they may not always be necessary.</p>
+<p>Quarkus unique approach to moving work to build time, rather than runtime, is at the core of its
+fast startup times and low memory footprint. This philosophy extends to Quarkus extensions, which
+can leverage these build-time optimizations. Even if you&rsquo;re not primarily concerned with fast boot
+times, the benefits of creating your extensions extend to simplifying configurations, extending the
+Quarkus CLI, and integrating with Quarkus&rsquo;s Dev Mode.</p>
+<p>Creating your Quarkus extensions doesn&rsquo;t have to be overly complicated. With the right approach and
+a clear understanding of your project&rsquo;s needs, you can solve complex problems efficiently.
+Extensions offer a flexible and powerful way to enhance your Quarkus applications and make them more
+efficient and developer-friendly.</p>
 <h2 id="creating-a-quarkus-extension">Creating a Quarkus Extension</h2>
-<p>When you decide that creating a Quarkus extension is the right approach, it&rsquo;s essential to understand the structural components of an extension:</p>
+<p>When you decide that creating a Quarkus extension is the right approach, it&rsquo;s essential to
+understand the structural components of an extension:</p>
 <ul>
-<li><strong>Runtime Section:</strong> This section contains the core business logic implemented as beans, services, or other components that integrate with Quarkus;</li>
-<li><strong>Deployment Section:</strong> The deployment section handles build-time augmentation and configuration. It ensures that your extension integrates seamlessly with Quarkus&rsquo; optimization processes;</li>
-<li><strong>Descriptor:</strong> A descriptor declares metadata about your extension, including its name, parameters, compatibility information, and more;</li>
-<li><strong>Documentation:</strong> Comprehensive documentation should accompany your extension. It guides users on how to use and configure your extension effectively.</li>
+<li><strong>Runtime Section:</strong> This section contains the core business logic implemented as beans, services,
+or other components that integrate with Quarkus;</li>
+<li><strong>Deployment Section:</strong> The deployment section handles build-time augmentation and configuration.
+It ensures that your extension integrates seamlessly with Quarkus&rsquo; optimization processes;</li>
+<li><strong>Descriptor:</strong> A descriptor declares metadata about your extension, including its name,
+parameters, compatibility information, and more;</li>
+<li><strong>Documentation:</strong> Comprehensive documentation should accompany your extension. It guides users on
+how to use and configure your extension effectively.</li>
 </ul>
 <h2 id="anatomy-of-the-quarkus-extension">Anatomy of the Quarkus Extension</h2>
-<p>Consider a scenario where you want to create a custom caching extension for Quarkus. This extension will allow developers to easily integrate caching functionality into their Quarkus applications.</p>
+<p>Consider a scenario where you want to create a custom caching extension for Quarkus. This extension
+will allow developers to easily integrate caching functionality into their Quarkus applications.</p>
 <ol>
 <li>
 <p><strong>Runtime Section:</strong></p>
 <ul>
-<li>In this section, you would implement the core caching functionality using Java code. This might include methods for caching data, retrieving cached data, and managing cache expiration.</li>
-<li>For example, you might have a <code>CustomCacheService</code> class with methods like <code>put(key, value)</code>, <code>get(key)</code>, and <code>evict(key)</code> to handle caching operations.</li>
+<li>In this section, you would implement the core caching functionality using Java code. This
+might include methods for caching data, retrieving cached data, and managing cache expiration.</li>
+<li>For example, you might have a <code>CustomCacheService</code> class with methods
+like <code>put(key, value)</code>, <code>get(key)</code>, and <code>evict(key)</code> to handle caching operations.</li>
 </ul>
 </li>
 <li>
 <p><strong>Deployment Section:</strong></p>
 <ul>
-<li>The deployment section is responsible for build-time optimization. Here, you can specify how the caching configuration should be generated during the build process.</li>
-<li>For our caching extension, this section might include instructions on how to scan for cached objects in the application code and generate cache configuration.</li>
+<li>The deployment section is responsible for build-time optimization. Here, you can specify how
+the caching configuration should be generated during the build process.</li>
+<li>For our caching extension, this section might include instructions on how to scan for cached
+objects in the application code and generate cache configuration.</li>
 </ul>
 </li>
 <li>
 <p><strong>Descriptor:</strong></p>
 <ul>
-<li>The descriptor file (<code>custom-cache-extension.yaml</code>) provides metadata about your extension. It includes information like the extension&rsquo;s name, version, compatibility with Quarkus, and configuration parameters.</li>
-<li>For instance, your descriptor might specify that the extension is named &ldquo;custom-cache-extension,&rdquo; is compatible with Quarkus 2.0+, and requires a cache timeout configuration parameter.</li>
+<li>The descriptor file (<code>custom-cache-extension.yaml</code>) provides metadata about your extension. It
+includes information like the extension&rsquo;s name, version, compatibility with Quarkus, and
+configuration parameters.</li>
+<li>For instance, your descriptor might specify that the extension is named &quot;
+custom-cache-extension,&quot; is compatible with Quarkus 2.0+, and requires a cache timeout
+configuration parameter.</li>
 </ul>
 </li>
 <li>
 <p><strong>Documentation:</strong></p>
 <ul>
-<li>Comprehensive documentation should accompany your extension. It guides users on how to use the custom caching extension effectively within their Quarkus applications.</li>
-<li>Documentation should include examples of how to configure the cache, integrate it into Quarkus services, and manage cached data. Additionally, it should provide best practices for cache utilization.</li>
+<li>Comprehensive documentation should accompany your extension. It guides users on how to use the
+custom caching extension effectively within their Quarkus applications.</li>
+<li>Documentation should include examples of how to configure the cache, integrate it into Quarkus
+services, and manage cached data. Additionally, it should provide best practices for cache
+utilization.</li>
 </ul>
 </li>
 </ol>
-<p>By following this structure, your custom caching extension becomes a valuable tool for Quarkus developers. They can easily incorporate caching into their applications, improving performance and optimizing resource usage.</p>
+<p>By following this structure, your custom caching extension becomes a valuable tool for Quarkus
+developers. They can easily incorporate caching into their applications, improving performance and
+optimizing resource usage.</p>
 <p>Runtime module:</p>
 <div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">CustomCacheService</span> <span style="color:#111">{</span>
 </span></span><span style="display:flex;"><span>  
@@ -228,10 +273,14 @@ avoiding tight coupling to Quarkus may be preferable.</p>
 </span></span><span style="display:flex;"><span>    - <span style="color:#d88200">&#34;reactive&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">status</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;stable&#34;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">guide</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;https://quarkus.io/guides/resteasy-reactive&#34;</span>
-</span></span></code></pre></div><p>In conclusion, whether to create a Quarkus extension depends on your project&rsquo;s specific needs and objectives.
-Quarkus extensions are powerful tools for deep integration, performance optimization, and enhancing the developer experience.
-However, it&rsquo;s essential to weigh the trade-offs and consider whether a simpler solution, like a standard JAR library, might better suit your use case.
-By understanding when and how to create Quarkus extensions effectively, you can make informed decisions and leverage the full potential of this innovative framework.</p>
+</span></span></code></pre></div><p>In conclusion, whether to create a Quarkus extension depends on your project&rsquo;s specific needs and
+objectives.
+Quarkus extensions are powerful tools for deep integration, performance optimization, and enhancing
+the developer experience.
+However, it&rsquo;s essential to weigh the trade-offs and consider whether a simpler solution, like a
+standard JAR library, might better suit your use case.
+By understanding when and how to create Quarkus extensions effectively, you can make informed
+decisions and leverage the full potential of this innovative framework.</p>
 
       
       <div class="post-date">
