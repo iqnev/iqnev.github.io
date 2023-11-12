@@ -6,60 +6,49 @@
     <description>Recent content in Tags on Codes are a puzzle</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Oct 2023 21:00:18 +0300</lastBuildDate><atom:link href="https://iqnev.github.io/tags/atom.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Nov 2023 11:04:18 +0300</lastBuildDate>
+    <atom:link href="https://iqnev.github.io/tags/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CDI</title>
+      <link>https://iqnev.github.io/tags/cdi/</link>
+      <pubDate>Sat, 11 Nov 2023 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/tags/cdi/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Development</title>
       <link>https://iqnev.github.io/tags/development/</link>
-      <pubDate>Sat, 14 Oct 2023 21:00:18 +0300</pubDate>
-      
+      <pubDate>Sat, 11 Nov 2023 11:04:18 +0300</pubDate>
       <guid>https://iqnev.github.io/tags/development/</guid>
       <description></description>
     </item>
-    
+    <item>
+      <title>Extension</title>
+      <link>https://iqnev.github.io/tags/extension/</link>
+      <pubDate>Sat, 11 Nov 2023 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/tags/extension/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Quarkus</title>
+      <link>https://iqnev.github.io/tags/quarkus/</link>
+      <pubDate>Sat, 11 Nov 2023 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/tags/quarkus/</guid>
+      <description></description>
+    </item>
     <item>
       <title>JSON</title>
       <link>https://iqnev.github.io/tags/json/</link>
       <pubDate>Sat, 14 Oct 2023 21:00:18 +0300</pubDate>
-      
       <guid>https://iqnev.github.io/tags/json/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>MicroProfile</title>
       <link>https://iqnev.github.io/tags/microprofile/</link>
       <pubDate>Sat, 14 Oct 2023 21:00:18 +0300</pubDate>
-      
       <guid>https://iqnev.github.io/tags/microprofile/</guid>
       <description></description>
     </item>
-    
-    <item>
-      <title>Quarkus</title>
-      <link>https://iqnev.github.io/tags/quarkus/</link>
-      <pubDate>Sat, 14 Oct 2023 21:00:18 +0300</pubDate>
-      
-      <guid>https://iqnev.github.io/tags/quarkus/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Extension</title>
-      <link>https://iqnev.github.io/tags/extension/</link>
-      <pubDate>Sun, 08 Oct 2023 21:29:18 +0300</pubDate>
-      
-      <guid>https://iqnev.github.io/tags/extension/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>CDI</title>
-      <link>https://iqnev.github.io/tags/cdi/</link>
-      <pubDate>Tue, 26 Sep 2023 23:04:18 +0300</pubDate>
-      
-      <guid>https://iqnev.github.io/tags/cdi/</guid>
-      <description></description>
-    </item>
-    
   </channel>
 </rss>

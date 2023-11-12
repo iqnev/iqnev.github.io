@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Exploring Synthetic Beans in Quarkus: A Powerful Extension Mechanism | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:title" content="Exploring Synthetic Beans in Quarkus: A Powerful Extension Mechanism" />
+<meta property="og:description" content="In the world of Quarkus, the realm of dependency injection is rich and versatile, offering developers a multitude of tools to manage and control beans. One such tool is the concept of synthetic beans. Synthetic beans are a powerful extension mechanism that allows you to register beans whose attributes are not derived from a Java class, method, or field. Instead, all the attributes of a synthetic bean are defined by an extension." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://iqnev.github.io/posts/exploring-synthetic-beans-in-quarkus-a-powerful-extension-mechanism/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-11T11:04:18+03:00" />
+<meta property="article:modified_time" content="2023-11-11T11:04:18+03:00" />
+
+
+    <meta itemprop="name" content="Exploring Synthetic Beans in Quarkus: A Powerful Extension Mechanism">
+<meta itemprop="description" content="In the world of Quarkus, the realm of dependency injection is rich and versatile, offering developers a multitude of tools to manage and control beans. One such tool is the concept of synthetic beans. Synthetic beans are a powerful extension mechanism that allows you to register beans whose attributes are not derived from a Java class, method, or field. Instead, all the attributes of a synthetic bean are defined by an extension."><meta itemprop="datePublished" content="2023-11-11T11:04:18+03:00" />
+<meta itemprop="dateModified" content="2023-11-11T11:04:18+03:00" />
+<meta itemprop="wordCount" content="1475">
+<meta itemprop="keywords" content="Development,Quarkus,CDI,Extension," />
+    
+    <link rel="canonical" href="https://iqnev.github.io/posts/exploring-synthetic-beans-in-quarkus-a-powerful-extension-mechanism/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Exploring Synthetic Beans in Quarkus: A Powerful Extension Mechanism",
+      "headline": "Exploring Synthetic Beans in Quarkus: A Powerful Extension Mechanism",
+      "alternativeHeadline": "",
+      "description": "In the world of Quarkus, the realm of dependency injection is rich and versatile, offering developers a multitude of tools to manage and control beans. One such tool is the concept of synthetic beans. Synthetic beans are a powerful extension mechanism that allows you to register beans whose attributes are not derived from a Java class, method, or field. Instead, all the attributes of a synthetic bean are defined by an extension.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/exploring-synthetic-beans-in-quarkus-a-powerful-extension-mechanism\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2023",
+      "dateCreated": "2023-11-11T11:04:18.00Z",
+      "datePublished": "2023-11-11T11:04:18.00Z",
+      "dateModified": "2023-11-11T11:04:18.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": "https://iqnev.github.io/images/favicon.ico",
+      "url" : "https:\/\/iqnev.github.io\/posts\/exploring-synthetic-beans-in-quarkus-a-powerful-extension-mechanism\/",
+      "wordCount" : "1475",
+      "genre" : [ "Development" , "Quarkus" , "CDI" , "Extension" ],
+      "keywords" : [ "Development" , "Quarkus" , "CDI" , "Extension" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Exploring Synthetic Beans in Quarkus: A Powerful Extension Mechanism</h2>
+      <p>In the world of Quarkus, the realm of dependency injection is rich and versatile, offering
+developers a multitude of tools to manage and control beans. One such tool is the concept of
+synthetic beans. Synthetic beans are a powerful extension mechanism that allows you to register
+beans whose attributes are not derived from a Java class, method, or field. Instead, all the
+attributes of a synthetic bean are defined by an extension.</p>
+<p>In this article, we&rsquo;ll take a deep dive into the world of synthetic beans in Quarkus. We&rsquo;ll explore
+the need for synthetic beans, their practical applications, and how to create and use them in your
+Quarkus applications.</p>
+<h2 id="understanding-synthetic-beans">Understanding Synthetic Beans</h2>
+<p>In Quarkus, beans are the building blocks of your application, managed by the Contexts and
+Dependency Injection (CDI) framework. Typically, CDI beans are Java classes that are annotated with
+various CDI annotations such as <code>@ApplicationScoped</code>, <code>@RequestScoped</code>, or <code>@Inject</code>. These
+annotations
+allow CDI to automatically manage the lifecycle and injection of beans.</p>
+<p>However, there are situations where you may need to register a bean that doesn&rsquo;t neatly fit into the
+traditional CDI model. This is where synthetic beans come into play. Synthetic beans are created by
+extensions and have their attributes entirely defined by these extensions. In the world of regular
+CDI, you would achieve this using the <code>AfterBeanDiscovery.addBean()</code>
+and <code>SyntheticComponents.addBean()</code>
+methods. In Quarkus, this is accomplished using <code>SyntheticBeanBuildItem</code>.</p>
+<h2 id="when-do-you-need-synthetic-beans">When Do You Need Synthetic Beans?</h2>
+<p>So, when might you need to use synthetic beans in Quarkus? Synthetic beans are a powerful tool when:</p>
+<ol>
+<li>
+<p><strong>Integrating Third-Party Libraries:</strong> You&rsquo;re working with a third-party library that doesn&rsquo;t
+have CDI annotations but needs to be integrated into your CDI-based application. Synthetic beans
+allow you to bridge this gap.</p>
+</li>
+<li>
+<p><strong>Dynamic Bean Registration:</strong> You need to register beans dynamically at runtime, depending on
+configuration or other factors. Synthetic beans give you the flexibility to create and register
+beans on-the-fly.</p>
+</li>
+<li>
+<p><strong>Customized Bean Management:</strong> You require fine-grained control over the scope and behavior of a
+bean that can&rsquo;t be achieved with standard CDI annotations.</p>
+</li>
+<li>
+<p><strong>Implementing Specialized Beans:</strong> You want to create specialized beans with unique attributes
+that don&rsquo;t correspond to traditional Java classes or methods.</p>
+</li>
+<li>
+<p><strong>Mocking Dependencies for Testing:</strong> Synthetic beans provide a useful way to mock out
+dependencies and inject mock implementations for testing purposes.</p>
+</li>
+</ol>
+<h2 id="synthesisfinishedbuilditem">SynthesisFinishedBuildItem</h2>
+<p>The <code>SynthesisFinishedBuildItem</code> is used to indicate that the CDI bean discovery and registration
+process has completed.
+This allows extensions to know when it is safe to interact with the beans that have been registered.</p>
+<p>For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75af00">@BuildStep</span>  
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">void</span> <span style="color:#75af00">onSynthesisFinished</span><span style="color:#111">(</span><span style="color:#111">SynthesisFinishedBuildItem</span> <span style="color:#111">synthesisFinished</span><span style="color:#111">){</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// CDI bean registration is complete, can now safely interact with beans</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span></code></pre></div><h2 id="syntheticbeansruntimeinitbuilditem">SyntheticBeansRuntimeInitBuildItem</h2>
+<p>The <code>SyntheticBeansRuntimeInitBuildItem</code> is used to register a callback that will be invoked at
+runtime after all synthetic beans have been initialized.
+This is useful if you need to perform additional initialization logic involving synthetic beans.</p>
+<p>For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75af00">@BuildStep</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">SyntheticBeansRuntimeInitBuildItem</span> <span style="color:#75af00">initSyntheticBeans</span><span style="color:#111">(){</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">new</span> <span style="color:#111">SyntheticBeansRuntimeInitBuildItem</span><span style="color:#111">(</span><span style="color:#111">ids</span><span style="color:#f92672">-&gt;</span><span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Perform logic with initialized synthetic beans</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">});</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span></code></pre></div><p>The callback passed to <code>SyntheticBeansRuntimeInitBuildItem</code> will receive a <code>Set&lt;Integer&gt;</code> containing
+the IDs of all initialized synthetic beans.</p>
+<p>So in summary, <code>SynthesisFinishedBuildItem</code> indicates bean discovery is done,
+while <code>SyntheticBeansRuntimeInitBuildItem</code> allows initializing logic depending on synthetic beans.</p>
+<h2 id="creating-synthetic-beans-with-syntheticbeanbuilditem">Creating Synthetic Beans with SyntheticBeanBuildItem</h2>
+<p>In Quarkus, creating synthetic beans is a straightforward process, thanks to
+the <code>SyntheticBeanBuildItem</code> class.
+Let&rsquo;s walk through the steps to create and use a synthetic bean:</p>
+<ol>
+<li><strong>Create the Synthetic Bean Class:</strong> Start by defining the synthetic bean class. This class will
+be the foundation for your synthetic bean.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#111">com.iqnev</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">MySyntheticBean</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Define the behavior and attributes of your synthetic bean</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">printMessage</span><span style="color:#111">()</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">System</span><span style="color:#111">.</span><span style="color:#75af00">out</span><span style="color:#111">.</span><span style="color:#75af00">println</span><span style="color:#111">(</span><span style="color:#d88200">&#34;Hello from synthetic bean!&#34;</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><ol start="2">
+<li><strong>Create a Quarkus Extension:</strong> You&rsquo;ll need to create a Quarkus extension to register your synthetic
+bean.
+This extension class will use <code>SyntheticBeanBuildItem</code> to configure your bean.</li>
+</ol>
+<h3 id="bytecode-generation-approach">Bytecode Generation Approach</h3>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#111">com.iqnev</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">io.quarkus.arc.deployment.SyntheticBeanBuildItem</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">MySyntheticBeanExtension</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@BuildStep</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">SyntheticBeanBuildItem</span> <span style="color:#75af00">syntheticBean</span><span style="color:#111">()</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">SyntheticBeanBuildItem</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">.</span><span style="color:#75af00">configure</span><span style="color:#111">(</span><span style="color:#111">MySyntheticBean</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">.</span><span style="color:#75af00">scope</span><span style="color:#111">(</span><span style="color:#111">ApplicationScoped</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">.</span><span style="color:#75af00">creator</span><span style="color:#111">(</span><span style="color:#111">mc</span> <span style="color:#f92672">-&gt;</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#111">mc</span><span style="color:#111">.</span><span style="color:#75af00">returnValue</span><span style="color:#111">(</span><span style="color:#00a8c8">new</span> <span style="color:#111">MySyntheticBean</span><span style="color:#111">());</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">})</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">.</span><span style="color:#75af00">done</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>The <code>.creator()</code> method on <code>SyntheticBeanBuildItem</code> is used to generate the bytecode that will
+create instances of the synthetic bean at runtime.</p>
+<p>The argument passed to <code>.creator()</code> is a <code>Consumer&lt;MethodCreator&gt;</code> which allows generating Java
+bytecode inside a method.</p>
+<p>In this example:</p>
+<ol>
+<li><code>mc</code> is the <code>MethodCreator</code> instance</li>
+<li><code>mc.returnValue(new MySyntheticBean())</code> generates the bytecode to create a new instance
+of <code>MySyntheticBean</code> and return it from the method.</li>
+</ol>
+<p>So essentially, we are telling Quarkus to generate a method that looks something like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#111">MySyntheticBean</span> <span style="color:#75af00">createSyntheticBean</span><span style="color:#111">(){</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">new</span> <span style="color:#111">MySyntheticBean</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span></code></pre></div><p>This generated method will then be called to instantiate the <code>MySyntheticBean</code> when it needs to be
+injected or used.</p>
+<p>The reason bytecode generation is used is that synthetic beans do not correspond to real Java
+classes/methods, so we have to explicitly generate a method to instantiate them</p>
+<p>The output of <code>SyntheticBeanBuildItem</code> is bytecode recorded at build time. This limits how instances
+are created at runtime. Common options are:</p>
+<ol>
+<li>Generate bytecode directly via <code>.creator()</code></li>
+<li>Use a <code>BeanCreator</code> subclass</li>
+<li>Produce instance via <code>@Recorder</code> method</li>
+</ol>
+<h3 id="recorder-approach">Recorder Approach</h3>
+<p>The <code>@Record</code> and <code>.runtimeValue()</code> approaches are alternate ways of providing instances for
+synthetic beans in Quarkus.</p>
+<p>This allows you to instantiate the synthetic bean via a recorder class method annotated
+with <code>@Record(STATIC_INIT)</code>.
+For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75af00">@Recorder</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">MyRecorder</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Record</span><span style="color:#111">(</span><span style="color:#111">STATIC_INIT</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">MySyntheticBean</span> <span style="color:#75af00">createBean</span><span style="color:#111">()</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">new</span> <span style="color:#111">MySyntheticBean</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@BuildStep</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">SyntheticBeanBuildItem</span> <span style="color:#75af00">syntheticBean</span><span style="color:#111">(</span><span style="color:#111">MyRecorder</span> <span style="color:#111">recorder</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">SyntheticBeanBuildItem</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">.</span><span style="color:#75af00">configure</span><span style="color:#111">(</span><span style="color:#111">MySyntheticBean</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">.</span><span style="color:#75af00">runtimeValue</span><span style="color:#111">(</span><span style="color:#111">recorder</span><span style="color:#111">.</span><span style="color:#75af00">createBean</span><span style="color:#111">());</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span></code></pre></div><p>Here the <code>.runtimeValue()</code> references the recorder method to instantiate the bean.
+<strong>.runtimeValue</strong></p>
+<p>This allows passing a <code>RuntimeValue</code> directly to provide the synthetic bean instance.</p>
+<p>For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75af00">@BuildStep</span> 
+</span></span><span style="display:flex;"><span><span style="color:#111">SyntheticBeanBuildItem</span> <span style="color:#75af00">syntheticBean</span><span style="color:#111">(){</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">RuntimeValue</span><span style="color:#f92672">&lt;</span><span style="color:#111">MySyntheticBean</span><span style="color:#f92672">&gt;</span> <span style="color:#111">bean</span><span style="color:#f92672">=</span> <span style="color:#75715e">//...</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">SyntheticBeanBuildItem</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">.</span><span style="color:#75af00">configure</span><span style="color:#111">(</span><span style="color:#111">MySyntheticBean</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">.</span><span style="color:#75af00">runtimeValue</span><span style="color:#111">(</span><span style="color:#111">bean</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span></code></pre></div><p>The <code>RuntimeValue</code> could come from a recorder, supplier, proxy etc.</p>
+<p>So in summary:</p>
+<ul>
+<li><code>@Record</code> is one approach to generate the <code>RuntimeValue</code></li>
+<li><code>.runtimeValue()</code> sets the <code>RuntimeValue</code> on the <code>SyntheticBeanBuildItem</code></li>
+</ul>
+<p>They both achieve the same goal of providing a runtime instance, just in slightly different ways.</p>
+<p>When it comes to providing runtime instances for synthetic beans in Quarkus, I would consider using
+recorders (via <code>@Record</code>) to be a more advanced approach compared to directly generating bytecode
+with
+<code>.creator()</code> or supplying simple RuntimeValues.</p>
+<p>Here are some reasons why using recorders can be more advanced:</p>
+<ul>
+<li><strong>More encapsulation -</strong> The logic to instantiate beans is contained in a separate recorder class
+rather than directly in build steps. This keeps build steps lean.</li>
+<li><strong>Reuse -</strong> Recorder methods can be reused across multiple synthetic beans rather than rewriting
+creator logic.</li>
+<li><strong>Runtime data -</strong> Recorder methods execute at runtime so they can leverage runtime resources,
+configs, services etc. to construct beans.</li>
+<li><strong>Dependency injection -</strong> Recorder methods can inject other services.</li>
+<li><strong>Life cycle control -</strong> Recorder methods annotated with <code>@Record(STATIC_INIT)</code>
+or <code>@Record(RUNTIME_INIT)</code> give more control over bean instantiation life cycle.</li>
+<li><strong>Managed beans -</strong> Beans instantiated inside recorders can themselves be CDI managed beans.</li>
+</ul>
+<p>So in summary, recorder methods provide more encapsulation, flexibility and access to runtime data
+and services for instantiating synthetic beans. They allow for more advanced bean production logic
+compared to direct bytecode generation.</p>
+<p>However, direct bytecode generation with <code>.creator()</code> can still be useful for simple cases where
+recorders may be overkill. But as synthetic bean needs grow, recorders are a more powerful and
+advanced approach.</p>
+<p><em><strong>[IMPORTANT]</strong></em>
+It is possible to configure a synthetic bean in Quarkus to be initialized during the <code>RUNTIME_INIT</code>
+phase instead of the default <code>STATIC_INIT</code> phase.</p>
+<p>Here is an example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75af00">@BuildStep</span>
+</span></span><span style="display:flex;"><span><span style="color:#75af00">@Record</span><span style="color:#111">(</span><span style="color:#111">RUNTIME_INIT</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">SyntheticBeanBuildItem</span> <span style="color:#75af00">lazyBean</span><span style="color:#111">(</span><span style="color:#111">BeanRecorder</span> <span style="color:#111">recorder</span><span style="color:#111">){</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">SyntheticBeanBuildItem</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">.</span><span style="color:#75af00">configure</span><span style="color:#111">(</span><span style="color:#111">MyLazyBean</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">.</span><span style="color:#75af00">setRuntimeInit</span><span style="color:#111">()</span> <span style="color:#75715e">// initialize during RUNTIME_INIT</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">.</span><span style="color:#75af00">runtimeValue</span><span style="color:#111">(</span><span style="color:#111">recorder</span><span style="color:#111">.</span><span style="color:#75af00">createLazyBean</span><span style="color:#111">());</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span></code></pre></div><p>The key points are:</p>
+<ul>
+<li>Use <code>setRuntimeInit()</code> on the <code>SyntheticBeanBuildItem</code> to mark it for <code>RUNTIME_INIT</code></li>
+<li>The recorder method must be annotated with <code>@Record(RUNTIME_INIT)</code></li>
+<li>The runtime init synthetic beans cannot be accessed during <code>STATIC_INIT</code></li>
+</ul>
+<p>So in summary, synthetic beans can be initialized lazily during <code>RUNTIME_INIT</code> for cases where
+eager <code>STATIC_INIT</code> instantiation is not needed. This allows optimizing startup time.</p>
+<ol start="3">
+<li><strong>Use the Synthetic Bean:</strong> Now that your synthetic bean is registered, you can inject and use it
+in your application.</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#111">com.iqnev</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">javax.inject.Inject</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">MyBeanUser</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Inject</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">MySyntheticBean</span> <span style="color:#111">mySyntheticBean</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">useSyntheticBean</span><span style="color:#111">()</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Use the synthetic bean in your code</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">mySyntheticBean</span><span style="color:#111">.</span><span style="color:#75af00">printMessage</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><ol start="4">
+<li>Running Your Application: Build and run your Quarkus application as usual, and the synthetic bean
+will be available for injection and use.</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>Synthetic beans in Quarkus provide a powerful mechanism for integrating external libraries,
+dynamically registering beans, and customizing bean behavior in your CDI-based applications. These
+beans, whose attributes are defined by extensions rather than Java classes, offer flexibility and
+versatility in managing dependencies.</p>
+<p>As we&rsquo;ve explored in this article, creating and using synthetic beans in Quarkus is a
+straightforward process. By leveraging <code>SyntheticBeanBuildItem</code> and Quarkus extensions, you can
+seamlessly bridge the gap between traditional CDI and more specialized or dynamic bean registration
+requirements.</p>
+<p>In the ever-evolving landscape of Java frameworks, Quarkus continues to stand out by offering
+innovative solutions like synthetic beans, making it a compelling choice for modern, efficient, and
+flexible application development. Embrace the power of synthetic beans in Quarkus, and take your
+dependency injection to the next level!</p>
+
+      
+      <div class="post-date">
+        <span class="g time">November 11, 2023 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/development/">development</a> <a href="https://iqnev.github.io/tags/quarkus/">quarkus</a> <a href="https://iqnev.github.io/tags/cdi/">cdi</a> <a href="https://iqnev.github.io/tags/extension/">extension</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>

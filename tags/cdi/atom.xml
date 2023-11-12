@@ -6,16 +6,22 @@
     <description>Recent content in CDI on Codes are a puzzle</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Sep 2023 23:04:18 +0300</lastBuildDate><atom:link href="https://iqnev.github.io/tags/cdi/atom.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Nov 2023 11:04:18 +0300</lastBuildDate>
+    <atom:link href="https://iqnev.github.io/tags/cdi/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Exploring Synthetic Beans in Quarkus: A Powerful Extension Mechanism</title>
+      <link>https://iqnev.github.io/posts/exploring-synthetic-beans-in-quarkus-a-powerful-extension-mechanism/</link>
+      <pubDate>Sat, 11 Nov 2023 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/posts/exploring-synthetic-beans-in-quarkus-a-powerful-extension-mechanism/</guid>
+      <description>In the world of Quarkus, the realm of dependency injection is rich and versatile, offering developers a multitude of tools to manage and control beans. One such tool is the concept of synthetic beans. Synthetic beans are a powerful extension mechanism that allows you to register beans whose attributes are not derived from a Java class, method, or field. Instead, all the attributes of a synthetic bean are defined by an extension.</description>
+    </item>
     <item>
       <title>Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem</title>
       <link>https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/</link>
       <pubDate>Tue, 26 Sep 2023 23:04:18 +0300</pubDate>
-      
       <guid>https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/</guid>
       <description>Welcome to a comprehensive exploration of two key aspects in Quarkus extension development: Jandex and AdditionalBeanBuildItem. This article aims to elucidate the differences between these approaches, offering insights into their roles, applications, and the intricate interplay between them. By the end, you&amp;rsquo;ll have a clear understanding of how to wield these tools effectively in your Quarkus extensions.
 1. Jandex: Automatic Bean Discovery and Indexing Understanding Jandex and Its Role: In the realm of Quarkus extensions, beans are the building blocks of functionality, and Contexts and Dependency Injection (CDI) is the mechanism that governs their management.</description>
     </item>
-    
   </channel>
 </rss>
