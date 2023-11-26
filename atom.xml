@@ -16,7 +16,7 @@
     <item>
       <title>Registering Reflection in Quarkus Extensions</title>
       <link>https://iqnev.github.io/posts/registering-reflection-in-quarkus-extensions/</link>
-      <description>&lt;p&gt;Quarkus utilizes &lt;strong&gt;ahead-of-time (AOT)&lt;/strong&gt; compilation to build blazing fast native executables. However,
+      <description>&lt;p&gt;Quarkus utilizes ahead-of-time &lt;strong&gt;(AOT)&lt;/strong&gt; compilation to build blazing fast native executables. However,
 &lt;strong&gt;AOT&lt;/strong&gt; works through closed-world analysis which eliminates unused code paths. This can break
 functionality relying on runtime reflection like dependency injection, bytecode manipulation, and
 integration with certain libraries.&lt;/p&gt;
