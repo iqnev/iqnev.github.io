@@ -131,32 +131,32 @@ reflective access, explicit registration becomes crucial.</p>
 <p>Using the <code>@RegisterForReflection</code> Annotation
 The simplest way to register a class for reflection is through the <code>@RegisterForReflection</code>
 annotation:</p>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75af00">@RegisterForReflection</span>
-</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">MyClass</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@RegisterForReflection
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">MyClass</span> {
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>For classes in third-party JARs, an empty class can host the <code>@RegisterForReflection</code> annotation:</p>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75af00">@RegisterForReflection</span><span style="color:#111">(</span><span style="color:#111">targets</span><span style="color:#f92672">=</span><span style="color:#111">{</span><span style="color:#111">DemoReflection1</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">,</span> <span style="color:#111">DemoReflection2</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">})</span>
-</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">MyReflectionConfiguration</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@RegisterForReflection(targets<span style="color:#ff79c6">=</span>{DemoReflection1.<span style="color:#50fa7b">class</span>, DemoReflection2.<span style="color:#50fa7b">class</span>})
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">MyReflectionConfiguration</span> {
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Note that <code>DemoReflection1</code> and <code>DemoReflection2</code> will be registered for
 reflection, but not <code>MyReflectionConfiguration</code>.</p>
 <p>Using a Configuration File
 Configuration files can also be used to register classes for reflection. For instance, to register
 all methods of <code>com.demo.MyClass</code>, create <code>reflection-config.json</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#111">[</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;name&#34;</span> <span style="color:#111">:</span> <span style="color:#d88200">&#34;com.demo.MyClass&#34;</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allDeclaredConstructors&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allPublicConstructors&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allDeclaredMethods&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allPublicMethods&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allDeclaredFields&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allPublicFields&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>[
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&#34;name&#34;</span> : <span style="color:#f1fa8c">&#34;com.demo.MyClass&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&#34;allDeclaredConstructors&#34;</span> : <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&#34;allPublicConstructors&#34;</span> : <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&#34;allDeclaredMethods&#34;</span> : <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&#34;allPublicMethods&#34;</span> : <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&#34;allDeclaredFields&#34;</span> : <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">&#34;allPublicFields&#34;</span> : <span style="color:#ff79c6">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>]
 </span></span></code></pre></div><p>Make the configuration file known to the native-image executable by adding the following to
 <code>application.properties</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#75af00">quarkus.native.additional-build-args</span><span style="color:#f92672">=</span><span style="color:#d88200">-H:ReflectionConfigurationFiles=reflection-config.json</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#50fa7b">quarkus.native.additional-build-args</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">-H:ReflectionConfigurationFiles=reflection-config.json</span>
 </span></span></code></pre></div><h2 id="quarkus-extension-support-for-native-mode">Quarkus Extension Support for Native Mode</h2>
 <p>To enable native mode support for a custom extension, Quarkus simplifies the registration of
 reflection through <code>ReflectiveClassBuildItem</code>.
@@ -171,14 +171,14 @@ bytecode manipulation, require runtime reflection.</p>
 classes using <code>ReflectiveClassBuildItem</code>.
 The <code>@BuildStep</code> annotation signifies a build step, a fundamental concept in Quarkus extension
 development.</p>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">MyClass</span> <span style="color:#111">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">MyClass</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75af00">@BuildStep</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">ReflectiveClassBuildItem</span> <span style="color:#75af00">reflection</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">new</span> <span style="color:#111">ReflectiveClassBuildItem</span><span style="color:#111">(</span><span style="color:#00a8c8">false</span><span style="color:#111">,</span> <span style="color:#00a8c8">false</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;com.demo.DemoClass&#34;</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    @BuildStep
+</span></span><span style="display:flex;"><span>    ReflectiveClassBuildItem <span style="color:#50fa7b">reflection</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> ReflectiveClassBuildItem(<span style="color:#ff79c6">false</span>, <span style="color:#ff79c6">false</span>, <span style="color:#f1fa8c">&#34;com.demo.DemoClass&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>In this snippet, <code>MyClass</code> is a placeholder for the actual extension class you are
 developing. The <code>reflection()</code> method, annotated with <code>@BuildStep</code>, creates an instance of
 <code>ReflectiveClassBuildItem</code>, indicating that the class <code>com.demo.DemoClass</code> requires reflective access.
@@ -188,34 +188,34 @@ constructor.</p>
 classes for reflection.
 The extension focuses on identifying classes implementing a specific interface (Conversion in this
 case) and also explicitly registers some standard Java classes for reflective access.</p>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">io.quarkus.deployment.annotations.BuildStep</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">io.quarkus.deployment.builditem.CombinedIndexBuildItem</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">org.jboss.jandex.ClassInfo</span><span style="color:#111">;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> io.quarkus.deployment.annotations.BuildStep;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> io.quarkus.deployment.builditem.CombinedIndexBuildItem;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> org.jboss.jandex.ClassInfo;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">java.text.DecimalFormat</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">java.text.DecimalFormatSymbols</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">java.text.SimpleDateFormat</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.text.DecimalFormat;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.text.DecimalFormatSymbols;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> java.text.SimpleDateFormat;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">ReflectionExtension</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">ReflectionExtension</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Interface to identify classes for reflection</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">private</span> <span style="color:#00a8c8">static</span> <span style="color:#00a8c8">final</span> <span style="color:#111">DotName</span> <span style="color:#111">CUSTOM_FEATURE_INTERFACE</span> <span style="color:#f92672">=</span> <span style="color:#111">DotName</span><span style="color:#111">.</span><span style="color:#75af00">createSimple</span><span style="color:#111">(</span><span style="color:#111">CustomFeature</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">.</span><span style="color:#75af00">getName</span><span style="color:#111">());</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Interface to identify classes for reflection</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">final</span> DotName CUSTOM_FEATURE_INTERFACE <span style="color:#ff79c6">=</span> DotName.<span style="color:#50fa7b">createSimple</span>(CustomFeature.<span style="color:#50fa7b">class</span>.<span style="color:#50fa7b">getName</span>());
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75af00">@BuildStep</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">void</span> <span style="color:#75af00">registerForReflection</span><span style="color:#111">(</span><span style="color:#111">CombinedIndexBuildItem</span> <span style="color:#111">combinedIndex</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span>                               <span style="color:#111">BuildProducer</span><span style="color:#f92672">&lt;</span><span style="color:#111">ReflectiveClassBuildItem</span><span style="color:#f92672">&gt;</span> <span style="color:#111">reflectiveClasses</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    @BuildStep
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">registerForReflection</span>(CombinedIndexBuildItem combinedIndex,
+</span></span><span style="display:flex;"><span>                               BuildProducer<span style="color:#ff79c6">&lt;</span>ReflectiveClassBuildItem<span style="color:#ff79c6">&gt;</span> reflectiveClasses) {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">ClassInfo</span> <span style="color:#111">implClassInfo</span> <span style="color:#111">:</span> <span style="color:#111">combinedIndex</span><span style="color:#111">.</span><span style="color:#75af00">getIndex</span><span style="color:#111">().</span><span style="color:#75af00">getAllKnownImplementors</span><span style="color:#111">(</span><span style="color:#111">CUSTOM_FEATURE_INTERFACE</span><span style="color:#111">))</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#111">String</span> <span style="color:#111">combinedIndexName</span> <span style="color:#f92672">=</span> <span style="color:#111">implClassInfo</span><span style="color:#111">.</span><span style="color:#75af00">name</span><span style="color:#111">().</span><span style="color:#75af00">toString</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#111">log</span><span style="color:#111">.</span><span style="color:#75af00">debugf</span><span style="color:#111">(</span><span style="color:#d88200">&#34;CustomFeature class implementation &#39;[%s]&#39; registered for reflection&#34;</span><span style="color:#111">,</span> <span style="color:#111">combinedIndexName</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> (ClassInfo implClassInfo : combinedIndex.<span style="color:#50fa7b">getIndex</span>().<span style="color:#50fa7b">getAllKnownImplementors</span>(CUSTOM_FEATURE_INTERFACE)) {
+</span></span><span style="display:flex;"><span>            String combinedIndexName <span style="color:#ff79c6">=</span> implClassInfo.<span style="color:#50fa7b">name</span>().<span style="color:#50fa7b">toString</span>();
+</span></span><span style="display:flex;"><span>            log.<span style="color:#50fa7b">debugf</span>(<span style="color:#f1fa8c">&#34;CustomFeature class implementation &#39;[%s]&#39; registered for reflection&#34;</span>, combinedIndexName);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#111">reflectiveClasses</span><span style="color:#111">.</span><span style="color:#75af00">produce</span><span style="color:#111">(</span><span style="color:#00a8c8">new</span> <span style="color:#111">ReflectiveClassBuildItem</span><span style="color:#111">(</span><span style="color:#00a8c8">true</span><span style="color:#111">,</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span> <span style="color:#111">combinedIndexName</span><span style="color:#111">));</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>            reflectiveClasses.<span style="color:#50fa7b">produce</span>(<span style="color:#ff79c6">new</span> ReflectiveClassBuildItem(<span style="color:#ff79c6">true</span>, <span style="color:#ff79c6">true</span>, combinedIndexName));
+</span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><strong>Explanation:</strong></p>
 <ol>
 <li>

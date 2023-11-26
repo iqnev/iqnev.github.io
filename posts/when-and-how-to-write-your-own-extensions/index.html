@@ -236,43 +236,43 @@ utilization.</li>
 developers. They can easily incorporate caching into their applications, improving performance and
 optimizing resource usage.</p>
 <p>Runtime module:</p>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">CustomCacheService</span> <span style="color:#111">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">CustomCacheService</span> {
 </span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Core caching functionality using Java code</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">public</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">put</span><span style="color:#111">(</span><span style="color:#111">String</span> <span style="color:#111">key</span><span style="color:#111">,</span> <span style="color:#111">Object</span> <span style="color:#111">value</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// Cache data implementation</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Core caching functionality using Java code</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">put</span>(String key, Object value) {
+</span></span><span style="display:flex;"><span>      <span style="color:#6272a4">// Cache data implementation</span>
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">public</span> <span style="color:#111">Object</span> <span style="color:#75af00">get</span><span style="color:#111">(</span><span style="color:#111">String</span> <span style="color:#111">key</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// Retrieve cached data implementation</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> Object <span style="color:#50fa7b">get</span>(String key) {
+</span></span><span style="display:flex;"><span>      <span style="color:#6272a4">// Retrieve cached data implementation</span>
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">public</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">evict</span><span style="color:#111">(</span><span style="color:#111">String</span> <span style="color:#111">key</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// Evict cached data implementation</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">evict</span>(String key) {
+</span></span><span style="display:flex;"><span>      <span style="color:#6272a4">// Evict cached data implementation</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Deployment module:</p>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#00a8c8">class</span> <span style="color:#75af00">CustomCacheProcessor</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75af00">@BuildStep</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">FeatureBuildItem</span> <span style="color:#75af00">feature</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// This declares the custom cache extension as a feature</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">new</span> <span style="color:#111">FeatureBuildItem</span><span style="color:#111">(</span><span style="color:#d88200">&#34;custom-cache&#34;</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">CustomCacheProcessor</span> {
+</span></span><span style="display:flex;"><span>    @BuildStep
+</span></span><span style="display:flex;"><span>    FeatureBuildItem <span style="color:#50fa7b">feature</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// This declares the custom cache extension as a feature</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> FeatureBuildItem(<span style="color:#f1fa8c">&#34;custom-cache&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>Descriptor file: <code>custom-cache-extension.yaml</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">extension</span><span style="color:#111">:</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">name</span><span style="color:#111">:</span> <span style="color:#ae81ff">custom-cache-extension</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span><span style="color:#111">:</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">short-name</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;resteasy-reactive&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">keywords</span><span style="color:#111">:</span>
-</span></span><span style="display:flex;"><span>    - <span style="color:#d88200">&#34;jaxrs&#34;</span>
-</span></span><span style="display:flex;"><span>    - <span style="color:#d88200">&#34;web&#34;</span>
-</span></span><span style="display:flex;"><span>    - <span style="color:#d88200">&#34;rest&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">categories</span><span style="color:#111">:</span>
-</span></span><span style="display:flex;"><span>    - <span style="color:#d88200">&#34;web&#34;</span>
-</span></span><span style="display:flex;"><span>    - <span style="color:#d88200">&#34;reactive&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">status</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;stable&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">guide</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;https://quarkus.io/guides/resteasy-reactive&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ff79c6">extension</span>:
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">name</span>: custom-cache-extension
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">metadata</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">short-name</span>: <span style="color:#f1fa8c">&#34;resteasy-reactive&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">keywords</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f1fa8c">&#34;jaxrs&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f1fa8c">&#34;web&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f1fa8c">&#34;rest&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">categories</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f1fa8c">&#34;web&#34;</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f1fa8c">&#34;reactive&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">status</span>: <span style="color:#f1fa8c">&#34;stable&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">guide</span>: <span style="color:#f1fa8c">&#34;https://quarkus.io/guides/resteasy-reactive&#34;</span>
 </span></span></code></pre></div><p>In conclusion, whether to create a Quarkus extension depends on your project&rsquo;s specific needs and
 objectives.
 Quarkus extensions are powerful tools for deep integration, performance optimization, and enhancing

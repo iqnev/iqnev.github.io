@@ -159,101 +159,101 @@ the Quarkus configuration system.</p>
 <li>Specifying the source&rsquo;s ordinal value.</li>
 <li>Assigning a unique name to the source, which will be used for registration.</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75af00">@Slf4j</span>
-</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">JsonConfigSource</span> <span style="color:#00a8c8">implements</span> <span style="color:#111">ConfigSource</span> <span style="color:#111">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@Slf4j
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">JsonConfigSource</span> <span style="color:#8be9fd;font-style:italic">implements</span> ConfigSource {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">private</span> <span style="color:#00a8c8">final</span> <span style="color:#111">Map</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#111">,</span> <span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;</span> <span style="color:#111">existingValues</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">final</span> Map<span style="color:#ff79c6">&lt;</span>String, ConfigValue<span style="color:#ff79c6">&gt;</span> existingValues;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">private</span> <span style="color:#111">JsonObject</span> <span style="color:#111">root</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">private</span> JsonObject root;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#75af00">JsonConfigSource</span><span style="color:#111">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">Map</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#111">,</span> <span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;</span> <span style="color:#111">exProp</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">existingValues</span> <span style="color:#f92672">=</span> <span style="color:#111">exProp</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#50fa7b">JsonConfigSource</span>(<span style="color:#8be9fd;font-style:italic">final</span> Map<span style="color:#ff79c6">&lt;</span>String, ConfigValue<span style="color:#ff79c6">&gt;</span> exProp) {
+</span></span><span style="display:flex;"><span>    existingValues <span style="color:#ff79c6">=</span> exProp;
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#00a8c8">void</span> <span style="color:#75af00">addJsonConfigurations</span><span style="color:#111">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">ConfigValue</span> <span style="color:#111">config</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">File</span> <span style="color:#111">file</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">File</span><span style="color:#111">(</span><span style="color:#111">config</span><span style="color:#111">.</span><span style="color:#75af00">getValue</span><span style="color:#111">());</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">addJsonConfigurations</span>(<span style="color:#8be9fd;font-style:italic">final</span> ConfigValue config) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">final</span> File file <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> File(config.<span style="color:#50fa7b">getValue</span>());
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">file</span><span style="color:#111">.</span><span style="color:#75af00">canRead</span><span style="color:#111">())</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">log</span><span style="color:#111">.</span><span style="color:#75af00">warn</span><span style="color:#111">(</span><span style="color:#d88200">&#34;Can&#39;t read config from &#34;</span> <span style="color:#f92672">+</span> <span style="color:#111">file</span><span style="color:#111">.</span><span style="color:#75af00">getAbsolutePath</span><span style="color:#111">()</span> <span style="color:#f92672">+</span> <span style="color:#d88200">&#34;&#34;</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">try</span> <span style="color:#111">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">InputStream</span> <span style="color:#111">fis</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">FileInputStream</span><span style="color:#111">(</span><span style="color:#111">file</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#00a8c8">final</span> <span style="color:#111">JsonReader</span> <span style="color:#111">reader</span> <span style="color:#f92672">=</span> <span style="color:#111">Json</span><span style="color:#111">.</span><span style="color:#75af00">createReader</span><span style="color:#111">(</span><span style="color:#111">fis</span><span style="color:#111">))</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>file.<span style="color:#50fa7b">canRead</span>()) {
+</span></span><span style="display:flex;"><span>      log.<span style="color:#50fa7b">warn</span>(<span style="color:#f1fa8c">&#34;Can&#39;t read config from &#34;</span> <span style="color:#ff79c6">+</span> file.<span style="color:#50fa7b">getAbsolutePath</span>() <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34;&#34;</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">try</span> (<span style="color:#8be9fd;font-style:italic">final</span> InputStream fis <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> FileInputStream(file);
+</span></span><span style="display:flex;"><span>          <span style="color:#8be9fd;font-style:italic">final</span> JsonReader reader <span style="color:#ff79c6">=</span> Json.<span style="color:#50fa7b">createReader</span>(fis)) {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#111">root</span> <span style="color:#f92672">=</span> <span style="color:#111">reader</span><span style="color:#111">.</span><span style="color:#75af00">readObject</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">}</span> <span style="color:#00a8c8">catch</span> <span style="color:#111">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">IOException</span> <span style="color:#111">ioe</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#111">log</span><span style="color:#111">.</span><span style="color:#75af00">warn</span><span style="color:#111">(</span><span style="color:#d88200">&#34;Reading the config failed: &#34;</span> <span style="color:#f92672">+</span> <span style="color:#111">ioe</span><span style="color:#111">.</span><span style="color:#75af00">getMessage</span><span style="color:#111">());</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>        root <span style="color:#ff79c6">=</span> reader.<span style="color:#50fa7b">readObject</span>();
+</span></span><span style="display:flex;"><span>      } <span style="color:#ff79c6">catch</span> (<span style="color:#8be9fd;font-style:italic">final</span> IOException ioe) {
+</span></span><span style="display:flex;"><span>        log.<span style="color:#50fa7b">warn</span>(<span style="color:#f1fa8c">&#34;Reading the config failed: &#34;</span> <span style="color:#ff79c6">+</span> ioe.<span style="color:#50fa7b">getMessage</span>());
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">Map</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#111">,</span> <span style="color:#111">String</span><span style="color:#f92672">&gt;</span> <span style="color:#75af00">getProperties</span><span style="color:#111">()</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>  @Override
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> Map<span style="color:#ff79c6">&lt;</span>String, String<span style="color:#ff79c6">&gt;</span> <span style="color:#50fa7b">getProperties</span>() {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">Map</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#111">,</span> <span style="color:#111">String</span><span style="color:#f92672">&gt;</span> <span style="color:#111">props</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">HashMap</span><span style="color:#f92672">&lt;&gt;</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">Set</span><span style="color:#f92672">&lt;</span><span style="color:#111">Map</span><span style="color:#111">.</span><span style="color:#75af00">Entry</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#111">,</span> <span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;&gt;</span> <span style="color:#111">entries</span> <span style="color:#f92672">=</span> <span style="color:#111">existingValues</span><span style="color:#111">.</span><span style="color:#75af00">entrySet</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">Map</span><span style="color:#111">.</span><span style="color:#75af00">Entry</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#111">,</span> <span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;</span> <span style="color:#111">entry</span> <span style="color:#111">:</span> <span style="color:#111">entries</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">String</span> <span style="color:#111">newVal</span> <span style="color:#f92672">=</span> <span style="color:#111">getValue</span><span style="color:#111">(</span><span style="color:#111">entry</span><span style="color:#111">.</span><span style="color:#75af00">getKey</span><span style="color:#111">());</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">newVal</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">null</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#111">newVal</span> <span style="color:#f92672">=</span> <span style="color:#111">entry</span><span style="color:#111">.</span><span style="color:#75af00">getValue</span><span style="color:#111">().</span><span style="color:#75af00">getValue</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">props</span><span style="color:#111">.</span><span style="color:#75af00">put</span><span style="color:#111">(</span><span style="color:#111">entry</span><span style="color:#111">.</span><span style="color:#75af00">getKey</span><span style="color:#111">(),</span> <span style="color:#111">newVal</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">final</span> Map<span style="color:#ff79c6">&lt;</span>String, String<span style="color:#ff79c6">&gt;</span> props <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> HashMap<span style="color:#ff79c6">&lt;&gt;</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">final</span> Set<span style="color:#ff79c6">&lt;</span>Map.<span style="color:#50fa7b">Entry</span><span style="color:#ff79c6">&lt;</span>String, ConfigValue<span style="color:#ff79c6">&gt;&gt;</span> entries <span style="color:#ff79c6">=</span> existingValues.<span style="color:#50fa7b">entrySet</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd;font-style:italic">final</span> Map.<span style="color:#50fa7b">Entry</span><span style="color:#ff79c6">&lt;</span>String, ConfigValue<span style="color:#ff79c6">&gt;</span> entry : entries) {
+</span></span><span style="display:flex;"><span>      String newVal <span style="color:#ff79c6">=</span> getValue(entry.<span style="color:#50fa7b">getKey</span>());
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> (newVal <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span>) {
+</span></span><span style="display:flex;"><span>        newVal <span style="color:#ff79c6">=</span> entry.<span style="color:#50fa7b">getValue</span>().<span style="color:#50fa7b">getValue</span>();
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>      props.<span style="color:#50fa7b">put</span>(entry.<span style="color:#50fa7b">getKey</span>(), newVal);
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">props</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> props;
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">Set</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">&gt;</span> <span style="color:#75af00">getPropertyNames</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">existingValues</span><span style="color:#111">.</span><span style="color:#75af00">keySet</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>  @Override
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> Set<span style="color:#ff79c6">&lt;</span>String<span style="color:#ff79c6">&gt;</span> <span style="color:#50fa7b">getPropertyNames</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> existingValues.<span style="color:#50fa7b">keySet</span>();
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#00a8c8">int</span> <span style="color:#75af00">getOrdinal</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">270</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>  @Override
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">int</span> <span style="color:#50fa7b">getOrdinal</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> 270;
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">String</span> <span style="color:#75af00">getValue</span><span style="color:#111">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">String</span> <span style="color:#111">configKey</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>  @Override
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">getValue</span>(<span style="color:#8be9fd;font-style:italic">final</span> String configKey) {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">JsonValue</span> <span style="color:#111">jsonValue</span> <span style="color:#f92672">=</span> <span style="color:#111">root</span><span style="color:#111">.</span><span style="color:#75af00">get</span><span style="color:#111">(</span><span style="color:#111">configKey</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">final</span> JsonValue jsonValue <span style="color:#ff79c6">=</span> root.<span style="color:#50fa7b">get</span>(configKey);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">jsonValue</span> <span style="color:#f92672">!=</span> <span style="color:#00a8c8">null</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#111">getStringValue</span><span style="color:#111">(</span><span style="color:#111">jsonValue</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (jsonValue <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> getStringValue(jsonValue);
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">existingValues</span><span style="color:#111">.</span><span style="color:#75af00">containsKey</span><span style="color:#111">(</span><span style="color:#111">configKey</span><span style="color:#111">))</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#111">existingValues</span><span style="color:#111">.</span><span style="color:#75af00">get</span><span style="color:#111">(</span><span style="color:#111">configKey</span><span style="color:#111">).</span><span style="color:#75af00">getValue</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">null</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (existingValues.<span style="color:#50fa7b">containsKey</span>(configKey)) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> existingValues.<span style="color:#50fa7b">get</span>(configKey).<span style="color:#50fa7b">getValue</span>();
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">null</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">String</span> <span style="color:#75af00">getName</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#d88200">&#34;EXTERNAL_JSON&#34;</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>  @Override
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> String <span style="color:#50fa7b">getName</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#f1fa8c">&#34;EXTERNAL_JSON&#34;</span>;
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">private</span> <span style="color:#111">String</span> <span style="color:#75af00">getStringValue</span><span style="color:#111">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">JsonValue</span> <span style="color:#111">jsonValue</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">jsonValue</span> <span style="color:#f92672">!=</span> <span style="color:#00a8c8">null</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">final</span> <span style="color:#111">JsonValue</span><span style="color:#111">.</span><span style="color:#75af00">ValueType</span> <span style="color:#111">valueType</span> <span style="color:#f92672">=</span> <span style="color:#111">jsonValue</span><span style="color:#111">.</span><span style="color:#75af00">getValueType</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">private</span> String <span style="color:#50fa7b">getStringValue</span>(<span style="color:#8be9fd;font-style:italic">final</span> JsonValue jsonValue) {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (jsonValue <span style="color:#ff79c6">!=</span> <span style="color:#ff79c6">null</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">final</span> JsonValue.<span style="color:#50fa7b">ValueType</span> valueType <span style="color:#ff79c6">=</span> jsonValue.<span style="color:#50fa7b">getValueType</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">valueType</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#111">.</span><span style="color:#75af00">ValueType</span><span style="color:#111">.</span><span style="color:#75af00">STRING</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#111">((</span><span style="color:#111">JsonString</span><span style="color:#111">)</span> <span style="color:#111">jsonValue</span><span style="color:#111">).</span><span style="color:#75af00">getString</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">valueType</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#111">.</span><span style="color:#75af00">ValueType</span><span style="color:#111">.</span><span style="color:#75af00">NUMBER</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Handle integer and floating-point numbers</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#111">jsonValue</span><span style="color:#111">.</span><span style="color:#75af00">toString</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">valueType</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#111">.</span><span style="color:#75af00">ValueType</span><span style="color:#111">.</span><span style="color:#75af00">TRUE</span> <span style="color:#f92672">||</span> <span style="color:#111">valueType</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#111">.</span><span style="color:#75af00">ValueType</span><span style="color:#111">.</span><span style="color:#75af00">FALSE</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Handle boolean values</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#111">Boolean</span><span style="color:#111">.</span><span style="color:#75af00">toString</span><span style="color:#111">(</span><span style="color:#111">jsonValue</span><span style="color:#111">.</span><span style="color:#75af00">getValueType</span><span style="color:#111">()</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#111">.</span><span style="color:#75af00">ValueType</span><span style="color:#111">.</span><span style="color:#75af00">TRUE</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">valueType</span> <span style="color:#f92672">==</span> <span style="color:#111">JsonValue</span><span style="color:#111">.</span><span style="color:#75af00">ValueType</span><span style="color:#111">.</span><span style="color:#75af00">NULL</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Handle null values</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">null</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">null</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> (valueType <span style="color:#ff79c6">==</span> JsonValue.<span style="color:#50fa7b">ValueType</span>.<span style="color:#50fa7b">STRING</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> ((JsonString) jsonValue).<span style="color:#50fa7b">getString</span>();
+</span></span><span style="display:flex;"><span>      } <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (valueType <span style="color:#ff79c6">==</span> JsonValue.<span style="color:#50fa7b">ValueType</span>.<span style="color:#50fa7b">NUMBER</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// Handle integer and floating-point numbers</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> jsonValue.<span style="color:#50fa7b">toString</span>();
+</span></span><span style="display:flex;"><span>      } <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (valueType <span style="color:#ff79c6">==</span> JsonValue.<span style="color:#50fa7b">ValueType</span>.<span style="color:#50fa7b">TRUE</span> <span style="color:#ff79c6">||</span> valueType <span style="color:#ff79c6">==</span> JsonValue.<span style="color:#50fa7b">ValueType</span>.<span style="color:#50fa7b">FALSE</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// Handle boolean values</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> Boolean.<span style="color:#50fa7b">toString</span>(jsonValue.<span style="color:#50fa7b">getValueType</span>() <span style="color:#ff79c6">==</span> JsonValue.<span style="color:#50fa7b">ValueType</span>.<span style="color:#50fa7b">TRUE</span>);
+</span></span><span style="display:flex;"><span>      } <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (valueType <span style="color:#ff79c6">==</span> JsonValue.<span style="color:#50fa7b">ValueType</span>.<span style="color:#50fa7b">NULL</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// Handle null values</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">null</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">null</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>The <code>JsonConfigSourceFactory</code> class is a custom <code>ConfigSourceFactory</code> responsible for creating and
 configuring instances of the <code>JsonConfigSource</code>. It also defines a unique priority for this factory.</p>
 <p>Here is an overview of its key functionalities:</p>
@@ -262,58 +262,58 @@ configuring instances of the <code>JsonConfigSource</code>. It also defines a un
 <li>Building an instance of JsonConfigSource.</li>
 <li>Assigning a priority value to the factory.</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75af00">@Slf4j</span>
-</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">JsonConfigSourceFactory</span> <span style="color:#00a8c8">implements</span> <span style="color:#111">ConfigSourceFactory</span> <span style="color:#111">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@Slf4j
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">JsonConfigSourceFactory</span> <span style="color:#8be9fd;font-style:italic">implements</span> ConfigSourceFactory {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#00a8c8">static</span> <span style="color:#00a8c8">final</span> <span style="color:#111">String</span> <span style="color:#111">CONFIG_JSON_FILE</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#34;config.json.file&#34;</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd;font-style:italic">final</span> String CONFIG_JSON_FILE <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;config.json.file&#34;</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">Iterable</span><span style="color:#f92672">&lt;</span><span style="color:#111">ConfigSource</span><span style="color:#f92672">&gt;</span> <span style="color:#75af00">getConfigSources</span><span style="color:#111">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">ConfigSourceContext</span> <span style="color:#111">configSourceContext</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">ConfigValue</span> <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">configSourceContext</span><span style="color:#111">.</span><span style="color:#75af00">getValue</span><span style="color:#111">(</span><span style="color:#111">CONFIG_JSON_FILE</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>  @Override
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> Iterable<span style="color:#ff79c6">&lt;</span>ConfigSource<span style="color:#ff79c6">&gt;</span> <span style="color:#50fa7b">getConfigSources</span>(<span style="color:#8be9fd;font-style:italic">final</span> ConfigSourceContext configSourceContext) {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">final</span> ConfigValue value <span style="color:#ff79c6">=</span> configSourceContext.<span style="color:#50fa7b">getValue</span>(CONFIG_JSON_FILE);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">value</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">null</span> <span style="color:#f92672">||</span> <span style="color:#111">value</span><span style="color:#111">.</span><span style="color:#75af00">getValue</span><span style="color:#111">()</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">null</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#111">Collections</span><span style="color:#111">.</span><span style="color:#75af00">emptyList</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (value <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">||</span> value.<span style="color:#50fa7b">getValue</span>() <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> Collections.<span style="color:#50fa7b">emptyList</span>();
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">Map</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#111">,</span> <span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;</span> <span style="color:#111">exProp</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">HashMap</span><span style="color:#f92672">&lt;&gt;</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">Iterator</span><span style="color:#f92672">&lt;</span><span style="color:#111">String</span><span style="color:#f92672">&gt;</span> <span style="color:#111">stringIterator</span> <span style="color:#f92672">=</span> <span style="color:#111">configSourceContext</span><span style="color:#111">.</span><span style="color:#75af00">iterateNames</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">final</span> Map<span style="color:#ff79c6">&lt;</span>String, ConfigValue<span style="color:#ff79c6">&gt;</span> exProp <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> HashMap<span style="color:#ff79c6">&lt;&gt;</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">final</span> Iterator<span style="color:#ff79c6">&lt;</span>String<span style="color:#ff79c6">&gt;</span> stringIterator <span style="color:#ff79c6">=</span> configSourceContext.<span style="color:#50fa7b">iterateNames</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">while</span> <span style="color:#111">(</span><span style="color:#111">stringIterator</span><span style="color:#111">.</span><span style="color:#75af00">hasNext</span><span style="color:#111">())</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">final</span> <span style="color:#111">String</span> <span style="color:#111">key</span> <span style="color:#f92672">=</span> <span style="color:#111">stringIterator</span><span style="color:#111">.</span><span style="color:#75af00">next</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">final</span> <span style="color:#111">ConfigValue</span> <span style="color:#111">cValue</span> <span style="color:#f92672">=</span> <span style="color:#111">configSourceContext</span><span style="color:#111">.</span><span style="color:#75af00">getValue</span><span style="color:#111">(</span><span style="color:#111">key</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">exProp</span><span style="color:#111">.</span><span style="color:#75af00">put</span><span style="color:#111">(</span><span style="color:#111">key</span><span style="color:#111">,</span> <span style="color:#111">cValue</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">while</span> (stringIterator.<span style="color:#50fa7b">hasNext</span>()) {
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">final</span> String key <span style="color:#ff79c6">=</span> stringIterator.<span style="color:#50fa7b">next</span>();
+</span></span><span style="display:flex;"><span>      <span style="color:#8be9fd;font-style:italic">final</span> ConfigValue cValue <span style="color:#ff79c6">=</span> configSourceContext.<span style="color:#50fa7b">getValue</span>(key);
+</span></span><span style="display:flex;"><span>      exProp.<span style="color:#50fa7b">put</span>(key, cValue);
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">JsonConfigSource</span> <span style="color:#111">configSource</span> <span style="color:#f92672">=</span> <span style="color:#00a8c8">new</span> <span style="color:#111">JsonConfigSource</span><span style="color:#111">(</span><span style="color:#111">exProp</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">final</span> <span style="color:#111">List</span><span style="color:#f92672">&lt;</span><span style="color:#111">ConfigValue</span><span style="color:#f92672">&gt;</span> <span style="color:#111">configValueList</span> <span style="color:#f92672">=</span> <span style="color:#111">List</span><span style="color:#111">.</span><span style="color:#75af00">of</span><span style="color:#111">(</span><span style="color:#111">value</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">final</span> JsonConfigSource configSource <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> JsonConfigSource(exProp);
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">final</span> List<span style="color:#ff79c6">&lt;</span>ConfigValue<span style="color:#ff79c6">&gt;</span> configValueList <span style="color:#ff79c6">=</span> List.<span style="color:#50fa7b">of</span>(value);
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">ConfigValue</span> <span style="color:#111">config</span> <span style="color:#111">:</span> <span style="color:#111">configValueList</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">ConfigExists</span><span style="color:#111">(</span><span style="color:#111">config</span><span style="color:#111">))</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#111">configSource</span><span style="color:#111">.</span><span style="color:#75af00">addJsonConfigurations</span><span style="color:#111">(</span><span style="color:#111">config</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd;font-style:italic">final</span> ConfigValue config : configValueList) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">if</span> (ConfigExists(config)) {
+</span></span><span style="display:flex;"><span>        configSource.<span style="color:#50fa7b">addJsonConfigurations</span>(config);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">Collections</span><span style="color:#111">.</span><span style="color:#75af00">singletonList</span><span style="color:#111">(</span><span style="color:#111">configSource</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> Collections.<span style="color:#50fa7b">singletonList</span>(configSource);
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@Override</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">public</span> <span style="color:#111">OptionalInt</span> <span style="color:#75af00">getPriority</span><span style="color:#111">()</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#111">OptionalInt</span><span style="color:#111">.</span><span style="color:#75af00">of</span><span style="color:#111">(</span><span style="color:#111">270</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>  @Override
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> OptionalInt <span style="color:#50fa7b">getPriority</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> OptionalInt.<span style="color:#50fa7b">of</span>(270);
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#00a8c8">private</span> <span style="color:#00a8c8">boolean</span> <span style="color:#75af00">ConfigExists</span><span style="color:#111">(</span><span style="color:#00a8c8">final</span> <span style="color:#111">ConfigValue</span> <span style="color:#111">config</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd">boolean</span> <span style="color:#50fa7b">ConfigExists</span>(<span style="color:#8be9fd;font-style:italic">final</span> ConfigValue config) {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#111">config</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">null</span> <span style="color:#f92672">||</span> <span style="color:#111">config</span><span style="color:#111">.</span><span style="color:#75af00">getValue</span><span style="color:#111">()</span> <span style="color:#f92672">==</span> <span style="color:#00a8c8">null</span><span style="color:#111">)</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#111">log</span><span style="color:#111">.</span><span style="color:#75af00">warn</span><span style="color:#111">(</span><span style="color:#d88200">&#34;The given ConfigValue object is null&#34;</span><span style="color:#111">);</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">false</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span> <span style="color:#00a8c8">else</span> <span style="color:#00a8c8">if</span> <span style="color:#111">(</span><span style="color:#f92672">!</span><span style="color:#111">(</span><span style="color:#111">Files</span><span style="color:#111">.</span><span style="color:#75af00">exists</span><span style="color:#111">(</span><span style="color:#111">Path</span><span style="color:#111">.</span><span style="color:#75af00">of</span><span style="color:#111">(</span><span style="color:#111">config</span><span style="color:#111">.</span><span style="color:#75af00">getValue</span><span style="color:#111">()))))</span> <span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">false</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (config <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span> <span style="color:#ff79c6">||</span> config.<span style="color:#50fa7b">getValue</span>() <span style="color:#ff79c6">==</span> <span style="color:#ff79c6">null</span>) {
+</span></span><span style="display:flex;"><span>      log.<span style="color:#50fa7b">warn</span>(<span style="color:#f1fa8c">&#34;The given ConfigValue object is null&#34;</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>    } <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>(Files.<span style="color:#50fa7b">exists</span>(Path.<span style="color:#50fa7b">of</span>(config.<span style="color:#50fa7b">getValue</span>())))) {
+</span></span><span style="display:flex;"><span>      <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">false</span>;
+</span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">true</span><span style="color:#111">;</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">true</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="registration-via-serviceloader">Registration via ServiceLoader</h3>
 <p>Both the <code>JsonConfigSource</code> and <code>JsonConfigSourceFactory</code> are registered with the Quarkus
 application through the Java ServiceLoader mechanism. A file
@@ -322,25 +322,25 @@ file contains the fully qualified name of the <code>JsonConfigSourceFactory</cod
 discover
 and use it.</p>
 <h3 id="the-json-file">The JSON file</h3>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#111">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;simple.service&#34;</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;pusher&#34;</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;simple.source&#34;</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;source&#34;</span><span style="color:#111">,</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;simple.destination&#34;</span><span style="color:#111">:</span> <span style="color:#d88200">&#34;destination&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;simple.service&#34;</span>: <span style="color:#f1fa8c">&#34;pusher&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;simple.source&#34;</span>: <span style="color:#f1fa8c">&#34;source&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">&#34;simple.destination&#34;</span>: <span style="color:#f1fa8c">&#34;destination&#34;</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="define-your-configuration-interface">Define Your Configuration Interface</h3>
-<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75af00">@ConfigMapping</span><span style="color:#111">(</span><span style="color:#111">prefix</span> <span style="color:#f92672">=</span> <span style="color:#d88200">&#34;simple&#34;</span><span style="color:#111">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">interface</span> <span style="color:#75af00">SimpleConfig</span> <span style="color:#111">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@ConfigMapping(prefix <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;simple&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">interface</span> <span style="color:#50fa7b">SimpleConfig</span> {
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@WithName</span><span style="color:#111">(</span><span style="color:#d88200">&#34;source&#34;</span><span style="color:#111">)</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">String</span> <span style="color:#75af00">source</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span>  @WithName(<span style="color:#f1fa8c">&#34;source&#34;</span>)
+</span></span><span style="display:flex;"><span>  String <span style="color:#50fa7b">source</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@WithName</span><span style="color:#111">(</span><span style="color:#d88200">&#34;service&#34;</span><span style="color:#111">)</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">String</span> <span style="color:#75af00">service</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span>  @WithName(<span style="color:#f1fa8c">&#34;service&#34;</span>)
+</span></span><span style="display:flex;"><span>  String <span style="color:#50fa7b">service</span>();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75af00">@WithName</span><span style="color:#111">(</span><span style="color:#d88200">&#34;destination&#34;</span><span style="color:#111">)</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#111">String</span> <span style="color:#75af00">destination</span><span style="color:#111">();</span>
-</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>  @WithName(<span style="color:#f1fa8c">&#34;destination&#34;</span>)
+</span></span><span style="display:flex;"><span>  String <span style="color:#50fa7b">destination</span>();
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>Eclipse MicroProfile Config, in conjunction with the SmallRye implementation, empowers Quarkus
 developers to manage their application&rsquo;s configuration efficiently. The ability to create and
