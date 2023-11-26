@@ -82,7 +82,7 @@ The false arguments for methods and fields indicate that reflective access is ne
 constructor.&lt;/p&gt;
 &lt;p&gt;I showcase a Quarkus extension that leverages the &lt;code&gt;ReflectiveClassBuildItem to&lt;/code&gt; dynamically register
 classes for reflection.
-The extension focuses on identifying classes implementing a specific interface (Conversion in this
+The extension focuses on identifying classes implementing a specific interface (&lt;code&gt;CustomFeature&lt;/code&gt; in this
 case) and also explicitly registers some standard Java classes for reflective access.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;import&lt;/span&gt; io.quarkus.deployment.annotations.BuildStep;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ff79c6&#34;&gt;import&lt;/span&gt; io.quarkus.deployment.builditem.CombinedIndexBuildItem;
@@ -125,7 +125,7 @@ interface and registers them for reflection using &lt;code&gt;ReflectiveClassBui
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;DotName&lt;/strong&gt; is a class representing a dotted name, which is essentially a fully qualified class name
-in a format where package names and class names are separated by dots. The DotName class is part
+in a format where package names and class names are separated by dots. The &lt;code&gt;DotName&lt;/code&gt; class is part
 of the &lt;strong&gt;Jandex library&lt;/strong&gt;, which is a tool used by Quarkus for indexing and querying Java classes.
 &lt;code&gt;DotName&lt;/code&gt; is used to represent and work with fully qualified class names in the &lt;strong&gt;Jandex indexing&lt;/strong&gt;
 system. It&amp;rsquo;s a lightweight and efficient way to refer to classes within the &lt;strong&gt;Jandex index&lt;/strong&gt;.&lt;/p&gt;
@@ -134,11 +134,11 @@ system. It&amp;rsquo;s a lightweight and efficient way to refer to classes withi
 &lt;p&gt;&lt;strong&gt;Considerations:&lt;/strong&gt;
 While &lt;code&gt;ReflectiveClassBuildItem&lt;/code&gt; provides a mechanism to address reflective access requirements, it&amp;rsquo;s
 crucial to use it judiciously. Excessive reliance on reflective access can undermine the performance
-benefits of Quarkus&amp;rsquo; AOT compilation approach. Therefore, it&amp;rsquo;s recommended to leverage this tool
+benefits of Quarkus&amp;rsquo; &lt;strong&gt;AOT&lt;/strong&gt; compilation approach. Therefore, it&amp;rsquo;s recommended to leverage this tool
 sparingly and explore alternative strategies whenever possible.&lt;/p&gt;
-&lt;p&gt;In summary, understanding and effectively using ReflectiveClassBuildItem is key to optimizing
+&lt;p&gt;In summary, understanding and effectively using &lt;code&gt;ReflectiveClassBuildItem&lt;/code&gt; is key to optimizing
 Quarkus extensions for native mode. By selectively indicating classes that necessitate reflective
-access, developers can strike a balance between the advantages of AOT compilation and the
+access, developers can strike a balance between the advantages of &lt;strong&gt;AOT&lt;/strong&gt; compilation and the
 unavoidable realities of certain runtime operations.&lt;/p&gt;
 </description>
       <author>Calvin Tran</author>
