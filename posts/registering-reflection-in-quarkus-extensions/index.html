@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Registering Reflection in Quarkus Extensions | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:title" content="Registering Reflection in Quarkus Extensions" />
+<meta property="og:description" content="Quarkus utilizes ahead-of-time (AOT) compilation to build blazing fast native executables. However, AOT works through closed-world analysis which eliminates unused code paths. This can break functionality relying on runtime reflection like dependency injection, bytecode manipulation, and integration with certain libraries.
+Registering for Reflection When building a native executable, GraalVM operates under a closed-world assumption, analyzing the call tree and eliminating unused classes, methods, and fields. To include elements requiring reflective access, explicit registration becomes crucial." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://iqnev.github.io/posts/registering-reflection-in-quarkus-extensions/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-11-26T14:04:18+03:00" />
+<meta property="article:modified_time" content="2023-11-26T14:04:18+03:00" />
+
+
+    <meta itemprop="name" content="Registering Reflection in Quarkus Extensions">
+<meta itemprop="description" content="Quarkus utilizes ahead-of-time (AOT) compilation to build blazing fast native executables. However, AOT works through closed-world analysis which eliminates unused code paths. This can break functionality relying on runtime reflection like dependency injection, bytecode manipulation, and integration with certain libraries.
+Registering for Reflection When building a native executable, GraalVM operates under a closed-world assumption, analyzing the call tree and eliminating unused classes, methods, and fields. To include elements requiring reflective access, explicit registration becomes crucial."><meta itemprop="datePublished" content="2023-11-26T14:04:18+03:00" />
+<meta itemprop="dateModified" content="2023-11-26T14:04:18+03:00" />
+<meta itemprop="wordCount" content="729">
+<meta itemprop="keywords" content="Development,Quarkus,Extension,GraalVM," />
+    
+    <link rel="canonical" href="https://iqnev.github.io/posts/registering-reflection-in-quarkus-extensions/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Registering Reflection in Quarkus Extensions",
+      "headline": "Registering Reflection in Quarkus Extensions",
+      "alternativeHeadline": "",
+      "description": "Quarkus utilizes ahead-of-time (AOT) compilation to build blazing fast native executables. However, AOT works through closed-world analysis which eliminates unused code paths. This can break functionality relying on runtime reflection like dependency injection, bytecode manipulation, and integration with certain libraries.\nRegistering for Reflection When building a native executable, GraalVM operates under a closed-world assumption, analyzing the call tree and eliminating unused classes, methods, and fields. To include elements requiring reflective access, explicit registration becomes crucial.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/registering-reflection-in-quarkus-extensions\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2023",
+      "dateCreated": "2023-11-26T14:04:18.00Z",
+      "datePublished": "2023-11-26T14:04:18.00Z",
+      "dateModified": "2023-11-26T14:04:18.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": "https://iqnev.github.io/images/favicon.ico",
+      "url" : "https:\/\/iqnev.github.io\/posts\/registering-reflection-in-quarkus-extensions\/",
+      "wordCount" : "729",
+      "genre" : [ "Development" , "Quarkus" , "Extension" , "GraalVM" ],
+      "keywords" : [ "Development" , "Quarkus" , "Extension" , "GraalVM" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Registering Reflection in Quarkus Extensions</h2>
+      <p>Quarkus utilizes <strong>ahead-of-time (AOT)</strong> compilation to build blazing fast native executables. However,
+<strong>AOT</strong> works through closed-world analysis which eliminates unused code paths. This can break
+functionality relying on runtime reflection like dependency injection, bytecode manipulation, and
+integration with certain libraries.</p>
+<h2 id="registering-for-reflection">Registering for Reflection</h2>
+<p>When building a native executable, GraalVM operates under a closed-world assumption, analyzing the
+call tree and eliminating unused classes, methods, and fields. To include elements requiring
+reflective access, explicit registration becomes crucial.</p>
+<p>Using the <code>@RegisterForReflection</code> Annotation
+The simplest way to register a class for reflection is through the <code>@RegisterForReflection</code>
+annotation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75af00">@RegisterForReflection</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">MyClass</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>For classes in third-party JARs, an empty class can host the <code>@RegisterForReflection</code> annotation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75af00">@RegisterForReflection</span><span style="color:#111">(</span><span style="color:#111">targets</span><span style="color:#f92672">=</span><span style="color:#111">{</span> <span style="color:#111">DemoReflection1</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">DemoReflection2</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">})</span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">MyReflectionConfiguration</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>Note that <code>DemoReflection1</code> and <code>DemoReflection2</code> will be registered for
+reflection, but not <code>MyReflectionConfiguration</code>.</p>
+<p>Using a Configuration File
+Configuration files can also be used to register classes for reflection. For instance, to register
+all methods of com.demo.MyClass, create <code>reflection-config.json</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#111">[</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;name&#34;</span> <span style="color:#111">:</span> <span style="color:#d88200">&#34;com.demo.MyClass&#34;</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allDeclaredConstructors&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allPublicConstructors&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allDeclaredMethods&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allPublicMethods&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allDeclaredFields&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;allPublicFields&#34;</span> <span style="color:#111">:</span> <span style="color:#00a8c8">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#111">]</span>
+</span></span></code></pre></div><p>Make the configuration file known to the native-image executable by adding the following to
+<code>application.properties</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span><span style="color:#75af00">quarkus.native.additional-build-args</span><span style="color:#f92672">=</span><span style="color:#d88200">-H:ReflectionConfigurationFiles=reflection-config.json</span>
+</span></span></code></pre></div><h2 id="quarkus-extension-support-for-native-mode">Quarkus Extension Support for Native Mode</h2>
+<p>To enable native mode support for a custom extension, Quarkus simplifies the registration of
+reflection through <code>ReflectiveClassBuildItem</code>.
+This class is used in the build process to specify classes requiring reflective access.</p>
+<h2 id="understanding-reflectiveclassbuilditem">Understanding ReflectiveClassBuildItem:</h2>
+<p><code>ReflectiveClassBuildItem</code> is a Quarkus-specific class utilized in the extension development process.
+It plays a crucial role in indicating which classes should be made available for reflective access
+at runtime. This is especially relevant when certain operations, such as dependency injection or
+bytecode manipulation, require runtime reflection.</p>
+<h2 id="usage-in-quarkus-extensions">Usage in Quarkus Extensions:</h2>
+<p>When creating a Quarkus extension, you can seamlessly integrate the registration of reflective
+classes using <code>ReflectiveClassBuildItem</code>.
+The <code>@BuildStep</code> annotation signifies a build step, a fundamental concept in Quarkus extension
+development.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">MyClass</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">@BuildStep</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">ReflectiveClassBuildItem</span> <span style="color:#75af00">reflection</span><span style="color:#111">()</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Since reflection is needed only for the constructor, `false` is specified for both methods and fields arguments.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">return</span> <span style="color:#00a8c8">new</span> <span style="color:#111">ReflectiveClassBuildItem</span><span style="color:#111">(</span><span style="color:#00a8c8">false</span><span style="color:#111">,</span> <span style="color:#00a8c8">false</span><span style="color:#111">,</span> <span style="color:#d88200">&#34;com.demo.DemoClass&#34;</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p>In this snippet, <code>MyClass</code> is a placeholder for the actual extension class you are
+developing. The <code>reflection()</code> method, annotated with <code>@BuildStep</code>, creates an instance of
+<code>ReflectiveClassBuildItem</code>, indicating that the class <code>com.demo.DemoClass</code> requires reflective access.
+The false arguments for methods and fields indicate that reflective access is needed only for the
+constructor.</p>
+<p>I showcase a Quarkus extension that leverages the <code>ReflectiveClassBuildItem to</code> dynamically register
+classes for reflection.
+The extension focuses on identifying classes implementing a specific interface (Conversion in this
+case) and also explicitly registers some standard Java classes for reflective access.</p>
+<div class="highlight"><pre tabindex="0" style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">io.quarkus.deployment.annotations.BuildStep</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">io.quarkus.deployment.builditem.CombinedIndexBuildItem</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">org.jboss.jandex.ClassInfo</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">java.text.DecimalFormat</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">java.text.DecimalFormatSymbols</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#111">java.text.SimpleDateFormat</span><span style="color:#111">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">class</span> <span style="color:#75af00">ReflectionExtension</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Interface to identify classes for reflection</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">private</span> <span style="color:#00a8c8">static</span> <span style="color:#00a8c8">final</span> <span style="color:#111">DotName</span> <span style="color:#111">CUSTOM_FEATURE_INTERFACE</span> <span style="color:#f92672">=</span> <span style="color:#111">DotName</span><span style="color:#111">.</span><span style="color:#75af00">createSimple</span><span style="color:#111">(</span><span style="color:#111">CustomFeature</span><span style="color:#111">.</span><span style="color:#75af00">class</span><span style="color:#111">.</span><span style="color:#75af00">getName</span><span style="color:#111">());</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75af00">@BuildStep</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#00a8c8">void</span> <span style="color:#75af00">registerForReflection</span><span style="color:#111">(</span><span style="color:#111">CombinedIndexBuildItem</span> <span style="color:#111">combinedIndex</span><span style="color:#111">,</span>
+</span></span><span style="display:flex;"><span>                               <span style="color:#111">BuildProducer</span><span style="color:#f92672">&lt;</span><span style="color:#111">ReflectiveClassBuildItem</span><span style="color:#f92672">&gt;</span> <span style="color:#111">reflectiveClasses</span><span style="color:#111">)</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#00a8c8">for</span> <span style="color:#111">(</span><span style="color:#111">ClassInfo</span> <span style="color:#111">implClassInfo</span> <span style="color:#111">:</span> <span style="color:#111">combinedIndex</span><span style="color:#111">.</span><span style="color:#75af00">getIndex</span><span style="color:#111">().</span><span style="color:#75af00">getAllKnownImplementors</span><span style="color:#111">(</span><span style="color:#111">CUSTOM_FEATURE_INTERFACE</span><span style="color:#111">))</span> <span style="color:#111">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">String</span> <span style="color:#111">combinedIndexName</span> <span style="color:#f92672">=</span> <span style="color:#111">implClassInfo</span><span style="color:#111">.</span><span style="color:#75af00">name</span><span style="color:#111">().</span><span style="color:#75af00">toString</span><span style="color:#111">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">log</span><span style="color:#111">.</span><span style="color:#75af00">debugf</span><span style="color:#111">(</span><span style="color:#d88200">&#34;CustomFeature class implementation &#39;[%s]&#39; registered for reflection&#34;</span><span style="color:#111">,</span> <span style="color:#111">combinedIndexName</span><span style="color:#111">);</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#111">reflectiveClasses</span><span style="color:#111">.</span><span style="color:#75af00">produce</span><span style="color:#111">(</span><span style="color:#00a8c8">new</span> <span style="color:#111">ReflectiveClassBuildItem</span><span style="color:#111">(</span><span style="color:#00a8c8">true</span><span style="color:#111">,</span> <span style="color:#00a8c8">true</span><span style="color:#111">,</span> <span style="color:#111">combinedIndexName</span><span style="color:#111">));</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#111">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#111">}</span>
+</span></span></code></pre></div><p><strong>Explanation:</strong></p>
+<ol>
+<li>
+<p><strong>CombinedIndexBuildItem:</strong> This build item provides access to the combined index of all classes in
+the application. In this example, it is used to retrieve all known implementors of the Conversion
+interface.</p>
+</li>
+<li>
+<p><strong>Iterating Over Implementors:</strong> The extension iterates over all classes implementing the Conversion
+interface and registers them for reflection using <code>ReflectiveClassBuildItem</code>.</p>
+</li>
+<li>
+<p><strong>DotName</strong> is a class representing a dotted name, which is essentially a fully qualified class name
+in a format where package names and class names are separated by dots. The DotName class is part
+of the <strong>Jandex library</strong>, which is a tool used by Quarkus for indexing and querying Java classes.
+<code>DotName</code> is used to represent and work with fully qualified class names in the <strong>Jandex indexing</strong>
+system. It&rsquo;s a lightweight and efficient way to refer to classes within the <strong>Jandex index</strong>.</p>
+</li>
+</ol>
+<p><strong>Considerations:</strong>
+While <code>ReflectiveClassBuildItem</code> provides a mechanism to address reflective access requirements, it&rsquo;s
+crucial to use it judiciously. Excessive reliance on reflective access can undermine the performance
+benefits of Quarkus&rsquo; AOT compilation approach. Therefore, it&rsquo;s recommended to leverage this tool
+sparingly and explore alternative strategies whenever possible.</p>
+<p>In summary, understanding and effectively using ReflectiveClassBuildItem is key to optimizing
+Quarkus extensions for native mode. By selectively indicating classes that necessitate reflective
+access, developers can strike a balance between the advantages of AOT compilation and the
+unavoidable realities of certain runtime operations.</p>
+
+      
+      <div class="post-date">
+        <span class="g time">November 26, 2023 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/development/">development</a> <a href="https://iqnev.github.io/tags/quarkus/">quarkus</a> <a href="https://iqnev.github.io/tags/extension/">extension</a> <a href="https://iqnev.github.io/tags/graalvm/">graalvm</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>
