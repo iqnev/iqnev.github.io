@@ -18,7 +18,7 @@
     <meta itemprop="name" content="Exploring Synthetic Beans in Quarkus: A Powerful Extension Mechanism">
 <meta itemprop="description" content="In the world of Quarkus, the realm of dependency injection is rich and versatile, offering developers a multitude of tools to manage and control beans. One such tool is the concept of synthetic beans. Synthetic beans are a powerful extension mechanism that allows you to register beans whose attributes are not derived from a Java class, method, or field. Instead, all the attributes of a synthetic bean are defined by an extension."><meta itemprop="datePublished" content="2023-11-11T11:04:18+03:00" />
 <meta itemprop="dateModified" content="2023-11-11T11:04:18+03:00" />
-<meta itemprop="wordCount" content="1474"><meta itemprop="image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png">
+<meta itemprop="wordCount" content="1542"><meta itemprop="image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png">
 <meta itemprop="keywords" content="Development,Quarkus,CDI,Extension," />
     
     <link rel="canonical" href="https://iqnev.github.io/posts/exploring-synthetic-beans-in-quarkus-a-powerful-extension-mechanism/">
@@ -80,7 +80,7 @@
       },
       "image": ["https://iqnev.github.io/images/quarkus_blogpost_formallogo.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/exploring-synthetic-beans-in-quarkus-a-powerful-extension-mechanism\/",
-      "wordCount" : "1474",
+      "wordCount" : "1542",
       "genre" : [ "Development" , "Quarkus" , "CDI" , "Extension" ],
       "keywords" : [ "Development" , "Quarkus" , "CDI" , "Extension" ]
   }
@@ -169,23 +169,23 @@ dependencies and inject mock implementations for testing purposes.</p>
 process has completed.
 This allows extensions to know when it is safe to interact with the beans that have been registered.</p>
 <p>For example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@BuildStep  
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">onSynthesisFinished</span>(SynthesisFinishedBuildItem synthesisFinished){
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// CDI bean registration is complete, can now safely interact with beans</span>
-</span></span><span style="display:flex;"><span>    }
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>@BuildStep  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">onSynthesisFinished</span>(SynthesisFinishedBuildItem synthesisFinished){
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    <span style="color:#6c7986">// CDI bean registration is complete, can now safely interact with beans</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    }
 </span></span></code></pre></div><h2 id="syntheticbeansruntimeinitbuilditem">SyntheticBeansRuntimeInitBuildItem</h2>
 <p>The <code>SyntheticBeansRuntimeInitBuildItem</code> is used to register a callback that will be invoked at
 runtime after all synthetic beans have been initialized.
 This is useful if you need to perform additional initialization logic involving synthetic beans.</p>
 <p>For example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@BuildStep
-</span></span><span style="display:flex;"><span>SyntheticBeansRuntimeInitBuildItem <span style="color:#50fa7b">initSyntheticBeans</span>(){
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> SyntheticBeansRuntimeInitBuildItem(ids<span style="color:#ff79c6">-&gt;</span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Perform logic with initialized synthetic beans</span>
-</span></span><span style="display:flex;"><span>    });
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    }
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>@BuildStep
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>SyntheticBeansRuntimeInitBuildItem <span style="color:#41a1c0">initSyntheticBeans</span>(){
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    <span style="color:#fc5fa3">return</span> <span style="color:#fc5fa3">new</span> SyntheticBeansRuntimeInitBuildItem(ids-&gt;{
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>    <span style="color:#6c7986">// Perform logic with initialized synthetic beans</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    });
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span>    }
 </span></span></code></pre></div><p>The callback passed to <code>SyntheticBeansRuntimeInitBuildItem</code> will receive a <code>Set&lt;Integer&gt;</code> containing
 the IDs of all initialized synthetic beans.</p>
 <p>So in summary, <code>SynthesisFinishedBuildItem</code> indicates bean discovery is done,
@@ -198,15 +198,15 @@ Let&rsquo;s walk through the steps to create and use a synthetic bean:</p>
 <li><strong>Create the Synthetic Bean Class:</strong> Start by defining the synthetic bean class. This class will
 be the foundation for your synthetic bean.</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> com.iqnev;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">MySyntheticBean</span> {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#6272a4">// Define the behavior and attributes of your synthetic bean</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">printMessage</span>() {
-</span></span><span style="display:flex;"><span>    System.<span style="color:#50fa7b">out</span>.<span style="color:#50fa7b">println</span>(<span style="color:#f1fa8c">&#34;Hello from synthetic bean!&#34;</span>);
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">package</span> com.iqnev;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">MySyntheticBean</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>  <span style="color:#6c7986">// Define the behavior and attributes of your synthetic bean</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">printMessage</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>    System.out.println(<span style="color:#fc6a5d">&#34;Hello from synthetic bean!&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9</span><span>}
 </span></span></code></pre></div><ol start="2">
 <li><strong>Create a Quarkus Extension:</strong> You&rsquo;ll need to create a Quarkus extension to register your
 synthetic
@@ -214,23 +214,23 @@ bean.
 This extension class will use <code>SyntheticBeanBuildItem</code> to configure your bean.</li>
 </ol>
 <h3 id="bytecode-generation-approach">Bytecode Generation Approach</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> com.iqnev;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> io.quarkus.arc.deployment.SyntheticBeanBuildItem;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">MySyntheticBeanExtension</span> {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  @BuildStep
-</span></span><span style="display:flex;"><span>  SyntheticBeanBuildItem <span style="color:#50fa7b">syntheticBean</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> SyntheticBeanBuildItem
-</span></span><span style="display:flex;"><span>        .<span style="color:#50fa7b">configure</span>(MySyntheticBean.<span style="color:#50fa7b">class</span>)
-</span></span><span style="display:flex;"><span>        .<span style="color:#50fa7b">scope</span>(ApplicationScoped.<span style="color:#50fa7b">class</span>)
-</span></span><span style="display:flex;"><span>        .<span style="color:#50fa7b">creator</span>(mc <span style="color:#ff79c6">-&gt;</span> {
-</span></span><span style="display:flex;"><span>          mc.<span style="color:#50fa7b">returnValue</span>(<span style="color:#ff79c6">new</span> MySyntheticBean());
-</span></span><span style="display:flex;"><span>        })
-</span></span><span style="display:flex;"><span>        .<span style="color:#50fa7b">done</span>();
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">package</span> com.iqnev;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#fc5fa3">import</span> io.quarkus.arc.deployment.SyntheticBeanBuildItem;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">MySyntheticBeanExtension</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>  @BuildStep
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>  SyntheticBeanBuildItem <span style="color:#41a1c0">syntheticBean</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    <span style="color:#fc5fa3">return</span> SyntheticBeanBuildItem
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>        .configure(MySyntheticBean.class)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>        .scope(ApplicationScoped.class)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        .creator(mc -&gt; {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>          mc.returnValue(<span style="color:#fc5fa3">new</span> MySyntheticBean());
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>        })
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>        .done();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>}
 </span></span></code></pre></div><p>The <code>.creator()</code> method on <code>SyntheticBeanBuildItem</code> is used to generate the bytecode that will
 create instances of the synthetic bean at runtime.</p>
 <p>The argument passed to <code>.creator()</code> is a <code>Consumer&lt;MethodCreator&gt;</code> which allows generating Java
@@ -242,9 +242,9 @@ bytecode inside a method.</p>
 of <code>MySyntheticBean</code> and return it from the method.</li>
 </ol>
 <p>So essentially, we are telling Quarkus to generate a method that looks something like:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>MySyntheticBean <span style="color:#50fa7b">createSyntheticBean</span>(){
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> MySyntheticBean();
-</span></span><span style="display:flex;"><span>    }
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>MySyntheticBean <span style="color:#41a1c0">createSyntheticBean</span>(){
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#fc5fa3">return</span> <span style="color:#fc5fa3">new</span> MySyntheticBean();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    }
 </span></span></code></pre></div><p>This generated method will then be called to instantiate the <code>MySyntheticBean</code> when it needs to be
 injected or used.</p>
 <p>The reason bytecode generation is used is that synthetic beans do not correspond to real Java
@@ -262,36 +262,36 @@ synthetic beans in Quarkus.</p>
 <p>This allows you to instantiate the synthetic bean via a recorder class method annotated
 with <code>@Record(STATIC_INIT)</code>.
 For example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>@Recorder
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">MyRecorder</span> {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  @Record(STATIC_INIT)
-</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> MySyntheticBean <span style="color:#50fa7b">createBean</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> MySyntheticBean();
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  @BuildStep
-</span></span><span style="display:flex;"><span>  SyntheticBeanBuildItem <span style="color:#50fa7b">syntheticBean</span>(MyRecorder recorder) {
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> SyntheticBeanBuildItem
-</span></span><span style="display:flex;"><span>        .<span style="color:#50fa7b">configure</span>(MySyntheticBean.<span style="color:#50fa7b">class</span>)
-</span></span><span style="display:flex;"><span>        .<span style="color:#50fa7b">runtimeValue</span>(recorder.<span style="color:#50fa7b">createBean</span>());
-</span></span><span style="display:flex;"><span>  }
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>@Recorder
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">MyRecorder</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>  @Record(STATIC_INIT)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>  <span style="color:#fc5fa3">public</span> MySyntheticBean <span style="color:#41a1c0">createBean</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    <span style="color:#fc5fa3">return</span> <span style="color:#fc5fa3">new</span> MySyntheticBean();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>  @BuildStep
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>  SyntheticBeanBuildItem <span style="color:#41a1c0">syntheticBean</span>(MyRecorder recorder) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    <span style="color:#fc5fa3">return</span> SyntheticBeanBuildItem
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>        .configure(MySyntheticBean.class)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>        .runtimeValue(recorder.createBean());
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>  }
 </span></span></code></pre></div><p>Here the <code>.runtimeValue()</code> references the recorder method to instantiate the bean.</p>
 <p>This allows passing a <code>RuntimeValue</code> directly to provide the synthetic bean instance.</p>
 <p>For example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@BuildStep 
-</span></span><span style="display:flex;"><span>SyntheticBeanBuildItem <span style="color:#50fa7b">syntheticBean</span>(){
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    RuntimeValue<span style="color:#ff79c6">&lt;</span>MySyntheticBean<span style="color:#ff79c6">&gt;</span> bean<span style="color:#ff79c6">=</span> <span style="color:#6272a4">//...</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> SyntheticBeanBuildItem
-</span></span><span style="display:flex;"><span>    .<span style="color:#50fa7b">configure</span>(MySyntheticBean.<span style="color:#50fa7b">class</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#50fa7b">runtimeValue</span>(bean);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    }
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>@BuildStep 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>SyntheticBeanBuildItem <span style="color:#41a1c0">syntheticBean</span>(){
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    RuntimeValue&lt;MySyntheticBean&gt; bean= <span style="color:#6c7986">//...</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#fc5fa3">return</span> SyntheticBeanBuildItem
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    .configure(MySyntheticBean.class)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    .runtimeValue(bean);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    }
 </span></span></code></pre></div><p>The <code>RuntimeValue</code> could come from a recorder, supplier, proxy etc.</p>
 <p>So in summary:</p>
 <ul>
@@ -329,16 +329,16 @@ the <code>RUNTIME_INIT</code>
 phase instead of the default <code>STATIC_INIT</code> phase.</p></div>
 
 <p>Here is an example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>@BuildStep
-</span></span><span style="display:flex;"><span>@Record(RUNTIME_INIT)
-</span></span><span style="display:flex;"><span>SyntheticBeanBuildItem <span style="color:#50fa7b">lazyBean</span>(BeanRecorder recorder){
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> SyntheticBeanBuildItem
-</span></span><span style="display:flex;"><span>    .<span style="color:#50fa7b">configure</span>(MyLazyBean.<span style="color:#50fa7b">class</span>)
-</span></span><span style="display:flex;"><span>    .<span style="color:#50fa7b">setRuntimeInit</span>() <span style="color:#6272a4">// initialize during RUNTIME_INIT</span>
-</span></span><span style="display:flex;"><span>    .<span style="color:#50fa7b">runtimeValue</span>(recorder.<span style="color:#50fa7b">createLazyBean</span>());
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    }
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>@BuildStep
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>@Record(RUNTIME_INIT)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>SyntheticBeanBuildItem <span style="color:#41a1c0">lazyBean</span>(BeanRecorder recorder){
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#fc5fa3">return</span> SyntheticBeanBuildItem
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    .configure(MyLazyBean.class)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    .setRuntimeInit() <span style="color:#6c7986">// initialize during RUNTIME_INIT</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    .runtimeValue(recorder.createLazyBean());
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    }
 </span></span></code></pre></div><p>The key points are:</p>
 <ul>
 <li>Use <code>setRuntimeInit()</code> on the <code>SyntheticBeanBuildItem</code> to mark it for <code>RUNTIME_INIT</code></li>
@@ -351,20 +351,20 @@ eager <code>STATIC_INIT</code> instantiation is not needed. This allows optimizi
 <li><strong>Use the Synthetic Bean:</strong> Now that your synthetic bean is registered, you can inject and use it
 in your application.</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#ff79c6">package</span> com.iqnev;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> javax.inject.Inject;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">MyBeanUser</span> {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  @Inject
-</span></span><span style="display:flex;"><span>  MySyntheticBean mySyntheticBean;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">useSyntheticBean</span>() {
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Use the synthetic bean in your code</span>
-</span></span><span style="display:flex;"><span>    mySyntheticBean.<span style="color:#50fa7b">printMessage</span>();
-</span></span><span style="display:flex;"><span>  }
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">package</span> com.iqnev;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#fc5fa3">import</span> javax.inject.Inject;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">MyBeanUser</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>  @Inject
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>  MySyntheticBean mySyntheticBean;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">useSyntheticBean</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    <span style="color:#6c7986">// Use the synthetic bean in your code</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    mySyntheticBean.printMessage();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>}
 </span></span></code></pre></div><ol start="4">
 <li>Running Your Application: Build and run your Quarkus application as usual, and the synthetic bean
 will be available for injection and use.</li>

@@ -20,7 +20,7 @@ When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working
 <meta itemprop="description" content="Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&rsquo;s crucial to understand when it&#39; s necessary and how to do it effectively.
 When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management."><meta itemprop="datePublished" content="2023-10-08T21:29:18+03:00" />
 <meta itemprop="dateModified" content="2023-10-08T21:29:18+03:00" />
-<meta itemprop="wordCount" content="1048"><meta itemprop="image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png">
+<meta itemprop="wordCount" content="1076"><meta itemprop="image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png">
 <meta itemprop="keywords" content="Development,Quarkus,Extension," />
     
     <link rel="canonical" href="https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/">
@@ -82,7 +82,7 @@ When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working
       },
       "image": ["https://iqnev.github.io/images/quarkus_blogpost_formallogo.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/when-and-how-to-write-your-own-extensions\/",
-      "wordCount" : "1048",
+      "wordCount" : "1076",
       "genre" : [ "Development" , "Quarkus" , "Extension" ],
       "keywords" : [ "Development" , "Quarkus" , "Extension" ]
   }
@@ -236,43 +236,43 @@ utilization.</li>
 developers. They can easily incorporate caching into their applications, improving performance and
 optimizing resource usage.</p>
 <p>Runtime module:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">CustomCacheService</span> {
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// Core caching functionality using Java code</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">put</span>(String key, Object value) {
-</span></span><span style="display:flex;"><span>      <span style="color:#6272a4">// Cache data implementation</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> Object <span style="color:#50fa7b">get</span>(String key) {
-</span></span><span style="display:flex;"><span>      <span style="color:#6272a4">// Retrieve cached data implementation</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">evict</span>(String key) {
-</span></span><span style="display:flex;"><span>      <span style="color:#6272a4">// Evict cached data implementation</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">CustomCacheService</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#6c7986">// Core caching functionality using Java code</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">put</span>(String key, Object value) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>      <span style="color:#6c7986">// Cache data implementation</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    <span style="color:#fc5fa3">public</span> Object <span style="color:#41a1c0">get</span>(String key) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>      <span style="color:#6c7986">// Retrieve cached data implementation</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">evict</span>(String key) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>      <span style="color:#6c7986">// Evict cached data implementation</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>}
 </span></span></code></pre></div><p>Deployment module:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">class</span> <span style="color:#50fa7b">CustomCacheProcessor</span> {
-</span></span><span style="display:flex;"><span>    @BuildStep
-</span></span><span style="display:flex;"><span>    FeatureBuildItem <span style="color:#50fa7b">feature</span>() {
-</span></span><span style="display:flex;"><span>        <span style="color:#6272a4">// This declares the custom cache extension as a feature</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">new</span> FeatureBuildItem(<span style="color:#f1fa8c">&#34;custom-cache&#34;</span>);
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">CustomCacheProcessor</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    @BuildStep
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    FeatureBuildItem <span style="color:#41a1c0">feature</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>        <span style="color:#6c7986">// This declares the custom cache extension as a feature</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>        <span style="color:#fc5fa3">return</span> <span style="color:#fc5fa3">new</span> FeatureBuildItem(<span style="color:#fc6a5d">&#34;custom-cache&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>}
 </span></span></code></pre></div><p>Descriptor file: <code>custom-cache-extension.yaml</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ff79c6">extension</span>:
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">name</span>: custom-cache-extension
-</span></span><span style="display:flex;"><span><span style="color:#ff79c6">metadata</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">short-name</span>: <span style="color:#f1fa8c">&#34;resteasy-reactive&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">keywords</span>:
-</span></span><span style="display:flex;"><span>    - <span style="color:#f1fa8c">&#34;jaxrs&#34;</span>
-</span></span><span style="display:flex;"><span>    - <span style="color:#f1fa8c">&#34;web&#34;</span>
-</span></span><span style="display:flex;"><span>    - <span style="color:#f1fa8c">&#34;rest&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">categories</span>:
-</span></span><span style="display:flex;"><span>    - <span style="color:#f1fa8c">&#34;web&#34;</span>
-</span></span><span style="display:flex;"><span>    - <span style="color:#f1fa8c">&#34;reactive&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">status</span>: <span style="color:#f1fa8c">&#34;stable&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">guide</span>: <span style="color:#f1fa8c">&#34;https://quarkus.io/guides/resteasy-reactive&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>extension:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>name: custom-cache-extension
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>metadata:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    short-name: <span style="color:#fc6a5d">&#34;resteasy-reactive&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    keywords:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    - <span style="color:#fc6a5d">&#34;jaxrs&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    - <span style="color:#fc6a5d">&#34;web&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    - <span style="color:#fc6a5d">&#34;rest&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    categories:
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    - <span style="color:#fc6a5d">&#34;web&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    - <span style="color:#fc6a5d">&#34;reactive&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    status: <span style="color:#fc6a5d">&#34;stable&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    guide: <span style="color:#fc6a5d">&#34;https://quarkus.io/guides/resteasy-reactive&#34;</span>
 </span></span></code></pre></div><p>In conclusion, whether to create a Quarkus extension depends on your project&rsquo;s specific needs and
 objectives.
 Quarkus extensions are powerful tools for deep integration, performance optimization, and enhancing
