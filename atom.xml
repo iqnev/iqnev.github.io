@@ -109,7 +109,8 @@ a failed injection due to an ambiguous dependency.&lt;/p&gt;
 &lt;h2 id=&#34;alternatives-introducing-identifier-from-smallrye-common&#34;&gt;Alternatives: Introducing &lt;code&gt;@Identifier&lt;/code&gt; from SmallRye Common&lt;/h2&gt;
 &lt;p&gt;Acknowledging the challenges posed by &lt;code&gt;@Named&lt;/code&gt;, developers often seek alternatives for more explicit
 control over bean identification. One such alternative is the &lt;code&gt;@Identifier&lt;/code&gt; annotation
-from &lt;a href=&#34;https://javadoc.io/doc/io.smallrye.common/smallrye-common-annotation/latest/io/smallrye/common/annotation/Identifier.html&#34;&gt;SmallRye
+from &lt;a href=&#34;https://javadoc.io/doc/io.smallrye.common/smallrye-common-annotation/latest/io/smallrye/common/annotation/Identifier.html&#34;&gt;
+SmallRye
 Common&lt;/a&gt; . This annotation offers a clearer and more controlled approach to naming beans, reducing
 the
 risk of conflicts and unexpected defaults.
@@ -206,6 +207,9 @@ qualifiers offer more control and flexibility.&lt;/p&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;p&gt;For further confirmation, you can refer to the official &lt;strong&gt;CDI&lt;/strong&gt; specification&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://iqnev.github.io/images/2.2.9.png&#34; alt=&#34;2.2.9. The qualifier @Named at injection points
+&#34; title=&#34;2.2.9. The qualifier @Named at injection points&#34;&gt;&lt;/p&gt;
 &lt;h3 id=&#34;conclusion-strategic-choices-for-bean-naming-and-defaults&#34;&gt;Conclusion: Strategic Choices for Bean Naming and Defaults&lt;/h3&gt;
 &lt;p&gt;In conclusion, the potential pitfalls associated with &lt;code&gt;@Named&lt;/code&gt; underscore the need for careful
 consideration when using this annotation in &lt;strong&gt;CDI&lt;/strong&gt;. Ambiguity and unintended defaults can arise
