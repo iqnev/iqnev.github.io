@@ -186,39 +186,37 @@ value:&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5&lt;/span&gt;&lt;span&gt;@Inject
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6&lt;/span&gt;&lt;span&gt;@Identifier(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;paymentGateway&amp;#34;&lt;/span&gt;)
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;7&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;private&lt;/span&gt; PaymentGateway paymentGateway;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Another alternative to &lt;code&gt;@Named&lt;/code&gt; is to create custom qualifiers. Custom qualifiers are user-defined
-annotations that can be used to identify and qualify beans. They offer the most granular control
-over bean selection and can be tailored to specific needs of the application.&lt;/p&gt;
-&lt;p&gt;To create a custom qualifier, follow these steps:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Define a new annotation class.&lt;/li&gt;
-&lt;li&gt;Annotate the annotation class with &lt;code&gt;@Qualifier&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Optionally, provide a default value for the qualifier.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;For example, the following custom qualifier named  &lt;code&gt;DefaultPaymentGateway&lt;/code&gt; indicates the default
-payment gateway implementation:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;@Qualifier
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; @interface DefaultPaymentGateway {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;To use the custom qualifier, annotate the bean class with it:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;@DefaultPaymentGateway
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;StandardPaymentGateway&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;implements&lt;/span&gt; PaymentGateway {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#6c7986&#34;&gt;// Implementation&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4&lt;/span&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;ExpressPaymentGateway&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;implements&lt;/span&gt; PaymentGateway {
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#6c7986&#34;&gt;// Implementation&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then, inject the bean using the qualifier:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;@Inject
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;@DefaultPaymentGateway
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;private&lt;/span&gt; PaymentGateway paymentGateway;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Custom qualifiers provide the most flexibility for controlling bean selection, but they also require
-more upfront effort to define and maintain.&lt;/p&gt;
-&lt;p&gt;Choosing the Right Approach&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;choosing-the-right-approach&#34;&gt;Choosing the Right Approach&lt;/h2&gt;
 &lt;p&gt;The best approach for bean identification depends on the specific needs of the application. For
 simple applications, &lt;code&gt;@Named&lt;/code&gt; may be sufficient. For more complex applications, &lt;code&gt;@Identifier&lt;/code&gt; or custom
 qualifiers offer more control and flexibility.&lt;/p&gt;
 &lt;p&gt;The following table summarizes the pros and cons of each approach:&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Approach&lt;/th&gt;
+&lt;th&gt;Pros&lt;/th&gt;
+&lt;th&gt;Cons&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;@Named&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Simple, widely supported&lt;/td&gt;
+&lt;td&gt;Can be ambiguous, conflicts with &lt;code&gt;@Default&lt;/code&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;@Identifier&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Clearer identification, no conflicts with &lt;code&gt;@Default&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Requires additional annotations&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Custom qualifiers&lt;/td&gt;
+&lt;td&gt;Maximum flexibility, fine-grained control&lt;/td&gt;
+&lt;td&gt;Requires upfront effort to define and maintain&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;h3 id=&#34;conclusion-strategic-choices-for-bean-naming-and-defaults&#34;&gt;Conclusion: Strategic Choices for Bean Naming and Defaults&lt;/h3&gt;
 &lt;p&gt;In conclusion, the potential pitfalls associated with &lt;code&gt;@Named&lt;/code&gt; underscore the need for careful
 consideration when using this annotation in &lt;strong&gt;CDI&lt;/strong&gt;. Ambiguity and unintended defaults can arise when

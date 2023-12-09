@@ -18,7 +18,7 @@
     <meta itemprop="name" content="Unveiling Challenges with @Named">
 <meta itemprop="description" content="In the ever-evolving landscape of Contexts and Dependency Injection (CDI), developers frequently encounter hurdles related to bean naming, default implementations, and potential conflicts. This article provides a detailed exploration of the potential pitfalls associated with the @Named annotation in CDI. We will delve into its intricacies, shed light on problematic scenarios, and discuss alternative approaches, including the use of @Identifier from SmallRye. Furthermore, we&rsquo;ll offer insights into best practices for building robust and maintainable Jakarta EE applications."><meta itemprop="datePublished" content="2023-12-09T11:04:18+03:00" />
 <meta itemprop="dateModified" content="2023-12-09T11:04:18+03:00" />
-<meta itemprop="wordCount" content="1350"><meta itemprop="image" content="https://iqnev.github.io/images/java-ee.png" />
+<meta itemprop="wordCount" content="1232"><meta itemprop="image" content="https://iqnev.github.io/images/java-ee.png" />
 <meta itemprop="keywords" content="cdi,dependency-injection,java-ee," />
     
     <link rel="canonical" href="https://iqnev.github.io/posts/unveiling-challenges-with-named/">
@@ -80,7 +80,7 @@
       },
       "image": ["https://iqnev.github.io/images/java-ee.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/unveiling-challenges-with-named\/",
-      "wordCount" : "1350",
+      "wordCount" : "1232",
       "genre" : [ "cdi" , "dependency-injection" , "java-ee" ],
       "keywords" : [ "cdi" , "dependency-injection" , "java-ee" ]
   }
@@ -288,39 +288,37 @@ value:</p>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>@Inject
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>@Identifier(<span style="color:#fc6a5d">&#34;paymentGateway&#34;</span>)
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span><span style="color:#fc5fa3">private</span> PaymentGateway paymentGateway;
-</span></span></code></pre></div><p>Another alternative to <code>@Named</code> is to create custom qualifiers. Custom qualifiers are user-defined
-annotations that can be used to identify and qualify beans. They offer the most granular control
-over bean selection and can be tailored to specific needs of the application.</p>
-<p>To create a custom qualifier, follow these steps:</p>
-<ol>
-<li>Define a new annotation class.</li>
-<li>Annotate the annotation class with <code>@Qualifier</code>.</li>
-<li>Optionally, provide a default value for the qualifier.</li>
-</ol>
-<p>For example, the following custom qualifier named  <code>DefaultPaymentGateway</code> indicates the default
-payment gateway implementation:</p>
-<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>@Qualifier
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#fc5fa3">public</span> @interface DefaultPaymentGateway {
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>}
-</span></span></code></pre></div><p>To use the custom qualifier, annotate the bean class with it:</p>
-<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>@DefaultPaymentGateway
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">StandardPaymentGateway</span> <span style="color:#fc5fa3">implements</span> PaymentGateway {
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>  <span style="color:#6c7986">// Implementation</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">ExpressPaymentGateway</span> <span style="color:#fc5fa3">implements</span> PaymentGateway {
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>  <span style="color:#6c7986">// Implementation</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>}
-</span></span></code></pre></div><p>Then, inject the bean using the qualifier:</p>
-<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>@Inject
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>@DefaultPaymentGateway
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#fc5fa3">private</span> PaymentGateway paymentGateway;
-</span></span></code></pre></div><p>Custom qualifiers provide the most flexibility for controlling bean selection, but they also require
-more upfront effort to define and maintain.</p>
-<p>Choosing the Right Approach</p>
+</span></span></code></pre></div><h2 id="choosing-the-right-approach">Choosing the Right Approach</h2>
 <p>The best approach for bean identification depends on the specific needs of the application. For
 simple applications, <code>@Named</code> may be sufficient. For more complex applications, <code>@Identifier</code> or custom
 qualifiers offer more control and flexibility.</p>
 <p>The following table summarizes the pros and cons of each approach:</p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Named</code></td>
+<td>Simple, widely supported</td>
+<td>Can be ambiguous, conflicts with <code>@Default</code></td>
+</tr>
+<tr>
+<td><code>@Identifier</code></td>
+<td>Clearer identification, no conflicts with <code>@Default</code></td>
+<td>Requires additional annotations</td>
+</tr>
+<tr>
+<td>Custom qualifiers</td>
+<td>Maximum flexibility, fine-grained control</td>
+<td>Requires upfront effort to define and maintain</td>
+</tr>
+</tbody>
+</table>
 <h3 id="conclusion-strategic-choices-for-bean-naming-and-defaults">Conclusion: Strategic Choices for Bean Naming and Defaults</h3>
 <p>In conclusion, the potential pitfalls associated with <code>@Named</code> underscore the need for careful
 consideration when using this annotation in <strong>CDI</strong>. Ambiguity and unintended defaults can arise when
