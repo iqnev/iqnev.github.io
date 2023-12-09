@@ -181,6 +181,21 @@ simple applications, &lt;code&gt;@Named&lt;/code&gt; may be sufficient. For more
 custom
 qualifiers offer more control and flexibility.&lt;/p&gt;
 &lt;p&gt;The following table summarizes the pros and cons of each approach:&lt;/p&gt;
+&lt;style&gt;
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+thead {
+    background-color: #f0e8e8; /* Change this to the desired background color for the header */
+}
+&lt;/style&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
