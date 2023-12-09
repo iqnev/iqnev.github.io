@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>java-ee on Codes are a puzzle</title>
+    <link>https://iqnev.github.io/tags/java-ee/</link>
+    <description>Recent content in java-ee on Codes are a puzzle</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 09 Dec 2023 11:04:18 +0300</lastBuildDate>
+    <atom:link href="https://iqnev.github.io/tags/java-ee/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Unveiling Challenges with @Named</title>
+      <link>https://iqnev.github.io/posts/unveiling-challenges-with-named/</link>
+      <pubDate>Sat, 09 Dec 2023 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/posts/unveiling-challenges-with-named/</guid>
+      <description>In the ever-evolving landscape of Contexts and Dependency Injection (CDI), developers frequently encounter hurdles related to bean naming, default implementations, and potential conflicts. This article provides a detailed exploration of the potential pitfalls associated with the @Named annotation in CDI. We will delve into its intricacies, shed light on problematic scenarios, and discuss alternative approaches, including the use of @Identifier from SmallRye. Furthermore, we&amp;rsquo;ll offer insights into best practices for building robust and maintainable Jakarta EE applications.</description>
+    </item>
+  </channel>
+</rss>

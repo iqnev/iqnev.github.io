@@ -3,10 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://iqnev.github.io/</loc>
-    <lastmod>2023-11-26T14:04:18+03:00</lastmod>
+    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/</loc>
-    <lastmod>2023-11-26T14:04:18+03:00</lastmod>
+    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/cdi/</loc>
+    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/dependency-injection/</loc>
+    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/java-ee/</loc>
+    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/</loc>
+    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/categories/quarkus/</loc>
+    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/</loc>
+    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/unveiling-challenges-with-named/</loc>
+    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/development/</loc>
     <lastmod>2023-11-26T14:04:18+03:00</lastmod>
@@ -17,23 +38,11 @@
     <loc>https://iqnev.github.io/tags/graalvm/</loc>
     <lastmod>2023-11-26T14:04:18+03:00</lastmod>
   </url><url>
-    <loc>https://iqnev.github.io/posts/</loc>
-    <lastmod>2023-11-26T14:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/categories/quarkus/</loc>
-    <lastmod>2023-11-26T14:04:18+03:00</lastmod>
-  </url><url>
     <loc>https://iqnev.github.io/tags/quarkus/</loc>
     <lastmod>2023-11-26T14:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/posts/registering-reflection-in-quarkus-extensions/</loc>
     <lastmod>2023-11-26T14:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/</loc>
-    <lastmod>2023-11-26T14:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/cdi/</loc>
-    <lastmod>2023-11-11T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/posts/exploring-synthetic-beans-in-quarkus-a-powerful-extension-mechanism/</loc>
     <lastmod>2023-11-11T11:04:18+03:00</lastmod>

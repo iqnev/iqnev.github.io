@@ -6,15 +6,21 @@
     <description>Recent content in quarkus on Codes are a puzzle</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 26 Nov 2023 14:04:18 +0300</lastBuildDate>
+    <lastBuildDate>Sat, 09 Dec 2023 11:04:18 +0300</lastBuildDate>
     <atom:link href="https://iqnev.github.io/categories/quarkus/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Unveiling Challenges with @Named</title>
+      <link>https://iqnev.github.io/posts/unveiling-challenges-with-named/</link>
+      <pubDate>Sat, 09 Dec 2023 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/posts/unveiling-challenges-with-named/</guid>
+      <description>In the ever-evolving landscape of Contexts and Dependency Injection (CDI), developers frequently encounter hurdles related to bean naming, default implementations, and potential conflicts. This article provides a detailed exploration of the potential pitfalls associated with the @Named annotation in CDI. We will delve into its intricacies, shed light on problematic scenarios, and discuss alternative approaches, including the use of @Identifier from SmallRye. Furthermore, we&amp;rsquo;ll offer insights into best practices for building robust and maintainable Jakarta EE applications.</description>
+    </item>
     <item>
       <title>Registering Reflection in Quarkus Extensions</title>
       <link>https://iqnev.github.io/posts/registering-reflection-in-quarkus-extensions/</link>
       <pubDate>Sun, 26 Nov 2023 14:04:18 +0300</pubDate>
       <guid>https://iqnev.github.io/posts/registering-reflection-in-quarkus-extensions/</guid>
-      <description>Quarkus utilizes ahead-of-time (AOT) compilation to build blazing fast native executables. However, AOT works through closed-world analysis which eliminates unused code paths. This can break functionality relying on runtime reflection like dependency injection, bytecode manipulation, and integration with certain libraries.
-Registering for Reflection When building a native executable, GraalVM operates under a closed-world assumption, analyzing the call tree and eliminating unused classes, methods, and fields. To include elements requiring reflective access, explicit registration becomes crucial.</description>
+      <description>Quarkus utilizes ahead-of-time (AOT) compilation to build blazing fast native executables. However, AOT works through closed-world analysis which eliminates unused code paths. This can break functionality relying on runtime reflection like dependency injection, bytecode manipulation, and integration with certain libraries.&#xA;Registering for Reflection When building a native executable, GraalVM operates under a closed-world assumption, analyzing the call tree and eliminating unused classes, methods, and fields. To include elements requiring reflective access, explicit registration becomes crucial.</description>
     </item>
     <item>
       <title>Exploring Synthetic Beans in Quarkus: A Powerful Extension Mechanism</title>
@@ -35,16 +41,14 @@ Registering for Reflection When building a native executable, GraalVM operates u
       <link>https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/</link>
       <pubDate>Sun, 08 Oct 2023 21:29:18 +0300</pubDate>
       <guid>https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/</guid>
-      <description>Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&amp;rsquo;s crucial to understand when it&#39; s necessary and how to do it effectively.
-When to Create a Quarkus Extension Complex Integrations: If you&amp;rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management.</description>
+      <description>Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&amp;rsquo;s crucial to understand when it&#39; s necessary and how to do it effectively.&#xA;When to Create a Quarkus Extension Complex Integrations: If you&amp;rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management.</description>
     </item>
     <item>
       <title>Demystifying Quarkus Extension Development: Jandex vs. AdditionalBeanBuildItem</title>
       <link>https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/</link>
       <pubDate>Tue, 26 Sep 2023 23:04:18 +0300</pubDate>
       <guid>https://iqnev.github.io/posts/jandex-vs-additional-bean-builditem/</guid>
-      <description>Welcome to a comprehensive exploration of two key aspects in Quarkus extension development: Jandex and AdditionalBeanBuildItem. This article aims to elucidate the differences between these approaches, offering insights into their roles, applications, and the intricate interplay between them. By the end, you&amp;rsquo;ll have a clear understanding of how to wield these tools effectively in your Quarkus extensions.
-1. Jandex: Automatic Bean Discovery and Indexing Understanding Jandex and Its Role: In the realm of Quarkus extensions, beans are the building blocks of functionality, and Contexts and Dependency Injection (CDI) is the mechanism that governs their management.</description>
+      <description>Welcome to a comprehensive exploration of two key aspects in Quarkus extension development: Jandex and AdditionalBeanBuildItem. This article aims to elucidate the differences between these approaches, offering insights into their roles, applications, and the intricate interplay between them. By the end, you&amp;rsquo;ll have a clear understanding of how to wield these tools effectively in your Quarkus extensions.&#xA;1. Jandex: Automatic Bean Discovery and Indexing Understanding Jandex and Its Role: In the realm of Quarkus extensions, beans are the building blocks of functionality, and Contexts and Dependency Injection (CDI) is the mechanism that governs their management.</description>
     </item>
   </channel>
 </rss>
