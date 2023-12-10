@@ -18,7 +18,7 @@
     <meta itemprop="name" content="Unveiling Challenges with @Named">
 <meta itemprop="description" content="In the ever-evolving landscape of Contexts and Dependency Injection (CDI), developers frequently encounter hurdles related to bean naming, default implementations, and potential conflicts. This article provides a detailed exploration of the potential pitfalls associated with the @Named annotation in CDI. We will delve into its intricacies, shed light on problematic scenarios, and discuss alternative approaches, including the use of @Identifier from SmallRye. Furthermore, we&rsquo;ll offer insights into best practices for building robust and maintainable Jakarta EE applications."><meta itemprop="datePublished" content="2023-12-09T11:04:18+03:00" />
 <meta itemprop="dateModified" content="2023-12-09T11:04:18+03:00" />
-<meta itemprop="wordCount" content="1090"><meta itemprop="image" content="https://iqnev.github.io/images/java-ee.png" />
+<meta itemprop="wordCount" content="1095"><meta itemprop="image" content="https://iqnev.github.io/images/java-ee.png" />
 <meta itemprop="keywords" content="cdi,dependency-injection,java-ee," />
     
     <link rel="canonical" href="https://iqnev.github.io/posts/unveiling-challenges-with-named/">
@@ -80,7 +80,7 @@
       },
       "image": ["https://iqnev.github.io/images/java-ee.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/unveiling-challenges-with-named\/",
-      "wordCount" : "1090",
+      "wordCount" : "1095",
       "genre" : [ "cdi" , "dependency-injection" , "java-ee" ],
       "keywords" : [ "cdi" , "dependency-injection" , "java-ee" ]
   }
@@ -260,9 +260,11 @@ over bean selection and can be tailored to specific needs of the application.</p
 payment gateway implementation:</p>
 <div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>@Qualifier
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#fc5fa3">public</span> @interface DefaultPaymentGateway {
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>@Retention(RUNTIME)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>@Target({METHOD, FIELD, PARAMETER, TYPE})
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#fc5fa3">public</span> @interface DefaultPaymentGateway {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>}
 </span></span></code></pre></div><p>To use the custom qualifier, annotate the bean class with it:</p>
 <div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>@DefaultPaymentGateway
