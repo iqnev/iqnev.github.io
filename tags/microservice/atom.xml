@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>microservice on Codes are a puzzle</title>
+    <link>https://iqnev.github.io/tags/microservice/</link>
+    <description>Recent content in microservice on Codes are a puzzle</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 07 Jan 2024 11:04:18 +0300</lastBuildDate>
+    <atom:link href="https://iqnev.github.io/tags/microservice/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Turbocharge Java Microservices with Quarkus and GraalVM Native Image</title>
+      <link>https://iqnev.github.io/posts/graalvm-native-image/</link>
+      <pubDate>Sun, 07 Jan 2024 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/posts/graalvm-native-image/</guid>
+      <description>In the dynamic landscape of modern software development, microservices have become the favored architectural approach. While this methodology offers numerous advantages, it is not without its challenges. Issues such as large memory footprints, extended start times, and high CPU usage often accompany traditional JVM-based services. These challenges not only impact the technical aspects but also have financial implications that can significantly affect the overall cost of running and maintaining software solutions.</description>
+    </item>
+  </channel>
+</rss>

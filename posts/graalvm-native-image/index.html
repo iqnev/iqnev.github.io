@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Turbocharge Java Microservices with Quarkus and GraalVM Native Image | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:title" content="Turbocharge Java Microservices with Quarkus and GraalVM Native Image" />
+<meta property="og:description" content="In the dynamic landscape of modern software development, microservices have become the favored architectural approach. While this methodology offers numerous advantages, it is not without its challenges. Issues such as large memory footprints, extended start times, and high CPU usage often accompany traditional JVM-based services. These challenges not only impact the technical aspects but also have financial implications that can significantly affect the overall cost of running and maintaining software solutions." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://iqnev.github.io/posts/graalvm-native-image/" /><meta property="og:image" content="https://iqnev.github.io/images/Mandrel_specialized_distribution_GraalVM-01.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-01-07T11:04:18+03:00" />
+<meta property="article:modified_time" content="2024-01-07T11:04:18+03:00" />
+
+
+    <meta itemprop="name" content="Turbocharge Java Microservices with Quarkus and GraalVM Native Image">
+<meta itemprop="description" content="In the dynamic landscape of modern software development, microservices have become the favored architectural approach. While this methodology offers numerous advantages, it is not without its challenges. Issues such as large memory footprints, extended start times, and high CPU usage often accompany traditional JVM-based services. These challenges not only impact the technical aspects but also have financial implications that can significantly affect the overall cost of running and maintaining software solutions."><meta itemprop="datePublished" content="2024-01-07T11:04:18+03:00" />
+<meta itemprop="dateModified" content="2024-01-07T11:04:18+03:00" />
+<meta itemprop="wordCount" content="1323"><meta itemprop="image" content="https://iqnev.github.io/images/Mandrel_specialized_distribution_GraalVM-01.png" />
+<meta itemprop="keywords" content="quarkus,graalvm,microservice," />
+    
+    <link rel="canonical" href="https://iqnev.github.io/posts/graalvm-native-image/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Turbocharge Java Microservices with Quarkus and GraalVM Native Image",
+      "headline": "Turbocharge Java Microservices with Quarkus and GraalVM Native Image",
+      "alternativeHeadline": "",
+      "description": "In the dynamic landscape of modern software development, microservices have become the favored architectural approach. While this methodology offers numerous advantages, it is not without its challenges. Issues such as large memory footprints, extended start times, and high CPU usage often accompany traditional JVM-based services. These challenges not only impact the technical aspects but also have financial implications that can significantly affect the overall cost of running and maintaining software solutions.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/graalvm-native-image\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2024",
+      "dateCreated": "2024-01-07T11:04:18.00Z",
+      "datePublished": "2024-01-07T11:04:18.00Z",
+      "dateModified": "2024-01-07T11:04:18.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": ["https://iqnev.github.io/images/Mandrel_specialized_distribution_GraalVM-01.png"],
+      "url" : "https:\/\/iqnev.github.io\/posts\/graalvm-native-image\/",
+      "wordCount" : "1323",
+      "genre" : [ "quarkus" , "graalvm" , "microservice" ],
+      "keywords" : [ "quarkus" , "graalvm" , "microservice" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Turbocharge Java Microservices with Quarkus and GraalVM Native Image</h2>
+      <p>In the dynamic landscape of modern software development, microservices have become the favored
+architectural approach. While this methodology offers numerous advantages, it is not without its
+challenges. Issues such as large memory footprints, extended start times, and high CPU usage often
+accompany traditional JVM-based services. These challenges not only impact the technical aspects but
+also have financial implications that can significantly affect the overall cost of running and
+maintaining software solutions.</p>
+<h2 id="what-is-graalvm-native-image">What is GraalVM Native Image?</h2>
+<p>GraalVM Native Image is a key feature of the GraalVM, which is a high-performance runtime
+that
+provides support for various programming languages and execution modes. Specifically, GraalVM
+Native Image allows you to compile Java applications ahead-of-time into standalone native
+executables,
+bypassing the need for a Java Virtual Machine (JVM) during runtime. This innovative approach
+yields executable files that exhibit nearly instantaneous startup
+times and significantly reduced memory consumption compared to their traditional JVM counterparts.
+These native executables are meticulously crafted, containing only the essential classes, methods,
+and dependent libraries indispensable for the application&rsquo;s functionality.
+Beyond its technical prowess, GraalVM Native Image emerges as a strategic solution with
+far-reaching
+implications. It not only surmounts technical challenges but also introduces a compelling financial
+case. By facilitating the development of efficient, secure, and instantly scalable cloud-native Java
+applications, GraalVM becomes instrumental in optimizing resource utilization and fostering
+cost-effectiveness. In essence, it plays a pivotal role in elevating the performance and financial
+efficiency of software solutions in contemporary, dynamic environments.</p>
+<h2 id="technical-challenges-and-financial-implications">Technical Challenges and Financial Implications</h2>
+<p><strong>1. Large Memory Footprints</strong></p>
+<p><strong>Technical Impact:</strong> Traditional JVM-based services often incur substantial memory overhead due to
+classloading and metadata for loaded classes.</p>
+<p><strong>Financial Case:</strong> High memory consumption translates to increased infrastructure costs. GraalVM&rsquo;s
+elimination of metadata for loaded classes and other optimizations leads to a more efficient use of
+resources, resulting in potential cost savings.</p>
+<p><strong>2. Extended Start Times</strong></p>
+<p><strong>Technical Impact:</strong> Cold starts in microservices can lead to higher response times, impacting user
+experience and potentially causing service degradation.</p>
+<p><strong>Financial Case:</strong> Extended start times not only affect user satisfaction but also contribute to
+higher
+operational costs. GraalVM&rsquo;s optimizations, such as eliminating classloading overhead and
+pre-generating image heap during the build, drastically reduce startup times, potentially minimizing
+operational expenses.</p>
+<p><strong>3. High CPU Usage</strong></p>
+<p><strong>Technical Impact:</strong> Traditional JVMs often burn CPU cycles for profiling and Just-In-Time (JIT)
+compilation during startup.</p>
+<p><strong>Financial Case:</strong> Excessive CPU usage results in increased cloud infrastructure costs. GraalVM&rsquo;s
+avoidance of profiling and JIT-ing overhead directly contributes to reduced CPU consumption,
+translating to potential cost savings in cloud usage.</p>
+<h3 id="tackling-the-cold-start-problem">Tackling the Cold Start Problem</h3>
+<p>Microservices, especially in serverless or containerized environments, often face the Cold Start
+Problem, impacting response times and user experience. GraalVM addresses this challenge by
+implementing several optimizations:</p>
+<p><strong>1. No Classloading Overhead</strong></p>
+<ul>
+<li>Traditional Java applications rely on classloading at runtime to dynamically load and link
+classes. This process introduces overhead, particularly during the startup phase. GraalVM
+minimizes this overhead through a process known as static or ahead-of-time (AOT) compilation. This
+involves pre-loading, linking, and partially initiating all classes that the application requires.
+As a result, there is no need for runtime classloading during application startup.</li>
+</ul>
+<p><strong>2. Elimination of Interpreted Code</strong></p>
+<ul>
+<li>Traditional Java Virtual Machines rely on an interpreted execution mode before applying
+Just-In-Time (JIT) compilation. This can contribute to startup delays and increased CPU usage.
+Native executables contain no interpreted code, further contributing to faster startup times.</li>
+</ul>
+<p><strong>3. No Profiling and JIT-ing Overhead</strong></p>
+<ul>
+<li>GraalVM bypasses the need to start the Just-In-Time (JIT) Compiler, reducing CPU usage
+during startup.</li>
+</ul>
+<p><strong>4. Image Heap Generation at Build Time</strong></p>
+<ul>
+<li>GraalVM&rsquo;s native image utility enables the execution of initialization processes for
+specific classes during the build process. This results in the generation of an image heap that
+includes
+pre-initialized portions, speeding up the application&rsquo;s startup.</li>
+</ul>
+<p>Oracle GraalVM&rsquo;s native image utility has demonstrated startup times almost 100 times faster
+than traditional JVM-based applications. The graph below illustrates the substantial reduction in
+runtime
+memory requirements, showcasing GraalVM&rsquo;s efficiency compared to HotSpot(<strong>Figure 1</strong>).</p>
+<img src="/images/hello_word_graalvm.png" alt="Executables start up" title="Executables start up">
+<br>
+<p><em>Figure 1 – Native executables start up almost instantly(oracle.com)</em></p>
+<br>
+<h3 id="achieving-a-leaner-memory-footprint">Achieving a Leaner Memory Footprint</h3>
+<p>GraalVM contributes to lower memory footprints through the following optimizations:</p>
+<p><strong>1. No Metadata for Loaded Classes</strong></p>
+<ul>
+<li>GraalVM avoids storing metadata for dynamically loaded classes in the non-heap memory. During
+the build process, the necessary class information is pre-loaded and linked, minimizing the need
+for additional metadata at runtime.</li>
+</ul>
+<p><strong>2. No Profiling Data or JIT Optimizations</strong></p>
+<ul>
+<li>Since the bytecode is already in native code, GraalVM eliminates the need for collecting
+profiling data for JIT optimizations, reducing memory overhead.</li>
+</ul>
+<p><strong>3. Isolation Technology</strong></p>
+<ul>
+<li>GraalVM introduces Isolates, a technology that partitions the heap into smaller, independent &quot;
+heaps,&quot; enhancing efficiency, particularly in request processing scenarios.</li>
+</ul>
+<p>In common, it consumes up to x5 times less memory compared to running on a JVM(<strong>Figure 2</strong>)</p>
+<img src="/images/memory_usage_graalvm.png" alt="Memory compared to Go or Java HotSpot" title="Memory compared to Go or Java HotSpot">
+<br>
+<p><em>Figure 2 – Native executables memory compared to Go or Java HotSpot(oracle.com)</em></p>
+<br>
+<p>In conclusion, GraalVM&rsquo;s native image utility offers a transformative solution to the challenges
+posed by microservices, addressing startup time, memory footprint, and CPU usage concerns. By
+adopting GraalVM, developers can create cloud-native Java applications that are not only
+efficient and secure but also provide a superior user experience.</p>
+<h2 id="native-java-with-quarkus">Native Java with Quarkus</h2>
+<p>To compile your Quarkus service into a native image, various methods are available. While this
+article won&rsquo;t delve deeply into the Quarkus native build procedure, it does provide an overview of
+the essential steps.</p>
+<p>Before proceeding with any approach for building a native image, it&rsquo;s crucial to set up the proper
+native profile in your <code>pom.xml</code> file. Add the following profile:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;profiles&gt;
+</span></span><span style="display:flex;"><span>  &lt;profile&gt;
+</span></span><span style="display:flex;"><span>    &lt;id&gt;native&lt;/id&gt;
+</span></span><span style="display:flex;"><span>    &lt;properties&gt;
+</span></span><span style="display:flex;"><span>      &lt;quarkus.package.type&gt;native&lt;/quarkus.package.type&gt;
+</span></span><span style="display:flex;"><span>    &lt;/properties&gt;
+</span></span><span style="display:flex;"><span>  &lt;/profile&gt;
+</span></span><span style="display:flex;"><span>&lt;/profiles&gt;
+</span></span></code></pre></div><ol>
+<li>Producing a Native Executable with Installed GraalVM</li>
+</ol>
+<p>Check your GraalVM version using the following command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./gu info native-image
+</span></span></code></pre></div><p>This command will display the installed GraalVM version:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Downloading: Component catalog from www.graalvm.org
+</span></span><span style="display:flex;"><span>Filename : https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-22.3.0/native-image-installable-svm-java19-linux-amd64-22.3.0.jar
+</span></span><span style="display:flex;"><span>Name     : Native Image
+</span></span><span style="display:flex;"><span>ID       : native-image
+</span></span><span style="display:flex;"><span>Version  : 22.3.0
+</span></span><span style="display:flex;"><span>GraalVM  : 22.3.0
+</span></span><span style="display:flex;"><span>Stability: Experimental
+</span></span><span style="display:flex;"><span>Component bundle native-image cannot be installed
+</span></span><span style="display:flex;"><span>        - The same component Native Image (org.graalvm.native-image[22.3.0.0/55b341ca1bca5219aafa8ed7c8a2273b81d184dd600d8261c837fc32d2dedae5]) is already installed in version 22.3.0
+</span></span></code></pre></div><p>And to create a native executable, use:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./mvnw install -Dnative
+</span></span></code></pre></div><p>These commands generate a <code>*-runner</code> binary in the <code>target</code> directory, allowing you to run the
+native executable:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./target/*-runner
+</span></span></code></pre></div><ol start="2">
+<li>Creating a Native Executable without installed GraalVM</li>
+</ol>
+<p>If installing GraalVM locally poses challenges, an in-container build can be used:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./mvnw install -Dnative -Dquarkus.native.container-build=<span style="color:#d0a8ff">true</span> -Dquarkus.native.builder-image=graalvm
+</span></span></code></pre></div><p>This command initiates the build within a Docker container and provides the necessary image file.
+You can then start the application with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./target/*-runner
+</span></span></code></pre></div><p>In cases where building the native image proves challenging, the RedHat team provides a specialized
+distribution of GraalVM designed for the Quarkus framework called Mandrel. Mandrel streamlines
+GraalVM, focusing solely on the native-image capabilities essential for Quarkus applications. To
+use Mandrel, follow these steps:</p>
+<ol>
+<li>
+<p>Identify the appropriate Mandrel version <a href="https://quay.io/repository/quarkus/ubi-quarkus-mandrel-builder-image?tab=tags">Mandrel repository</a></p>
+</li>
+<li>
+<p>Set the Mandrel version in your <code>application.properties</code> file:</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span>quarkus.native.builder-image=<span style="color:#fc6a5d">quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.0.1.2-Final-java17</span>
+</span></span></code></pre></div><ol start="3">
+<li>Run the Maven build command:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>./mvnw clean install -Pnative
+</span></span></code></pre></div><h3 id="manually-creating-a-container">Manually Creating a Container</h3>
+<p>For those who prefer manual control over container creation, a multi-stage Docker build can be
+employed.</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#fc5fa3">FROM</span><span style="color:#fc6a5d"> quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.0.1.2-Final-java17 AS build</span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">COPY</span> --chown=quarkus:quarkus mvnw /app/mvnw<span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">COPY</span> --chown=quarkus:quarkus .mvn /app/.mvn<span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">COPY</span> --chown=quarkus:quarkus pom.xml /app/<span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">USER</span><span style="color:#fc6a5d"> quarkus</span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">WORKDIR</span><span style="color:#fc6a5d"> /app</span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">RUN</span> ./mvnw -B org.apache.maven.plugins:maven-dependency-plugin:3.6.1:go-offline<span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">COPY</span> src /app/src<span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">RUN</span> ./mvnw package -Dnative<span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">FROM</span><span style="color:#fc6a5d"> quay.io/quarkus/quarkus-micro-image:2.0</span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">WORKDIR</span><span style="color:#fc6a5d"> /app/</span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">COPY</span> --from=build /app/target/*-runner /app/application<span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">RUN</span> chmod <span style="color:#d0bf69">775</span> /app /app/application <span style="color:#fc6a5d">\
+</span></span></span><span style="display:flex;"><span><span style="color:#fc6a5d"></span>  &amp;&amp; chown -R <span style="color:#d0bf69">1001</span> /app <span style="color:#fc6a5d">\
+</span></span></span><span style="display:flex;"><span><span style="color:#fc6a5d"></span>  &amp;&amp; chmod -R <span style="color:#fc6a5d">&#34;g+rwX&#34;</span> /app <span style="color:#fc6a5d">\
+</span></span></span><span style="display:flex;"><span><span style="color:#fc6a5d"></span>  &amp;&amp; chown -R 1001:root /app<span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">EXPOSE</span><span style="color:#fc6a5d"> 8080</span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">USER</span><span style="color:#fc6a5d"> 1001</span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050"></span><span style="color:#fc5fa3">CMD</span> [<span style="color:#fc6a5d">&#34;./application&#34;</span>, <span style="color:#fc6a5d">&#34;-Dquarkus.http.host=0.0.0.0&#34;</span>]<span style="color:#960050">
+</span></span></span></code></pre></div><p>This Dockerfile orchestrates a multi-stage build, resulting in a Docker image with your Quarkus
+application. Execute this Dockerfile to produce the Docker image, ready to run your Quarkus
+application.</p>
+<h2 id="summary">Summary</h2>
+<p>GraalVM Native Image is a powerful technology that can revolutionize the way you develop and deploy Java microservices. By adopting GraalVM Native Image, you can create microservices that are:</p>
+<ul>
+<li>Faster</li>
+<li>More scalable</li>
+<li>Simpler to deploy</li>
+<li>More cost-effective</li>
+</ul>
+<p>GraalVM Native Image is a key enabler of cloud-native Java development and can help you achieve the performance, scalability, and cost savings that your business demands.</p>
+<p>I hope this updated text is more helpful!</p>
+
+      
+      <div class="post-date">
+        <span class="g time">January 7, 2024 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/quarkus/">quarkus</a> <a href="https://iqnev.github.io/tags/graalvm/">graalvm</a> <a href="https://iqnev.github.io/tags/microservice/">microservice</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>

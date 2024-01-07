@@ -3,10 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://iqnev.github.io/</loc>
-    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
+    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/</loc>
-    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
+    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/graalvm/</loc>
+    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/microservice/</loc>
+    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/</loc>
+    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/categories/quarkus/</loc>
+    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/quarkus/</loc>
+    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/</loc>
+    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/graalvm-native-image/</loc>
+    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/cdi/</loc>
     <lastmod>2023-12-09T11:04:18+03:00</lastmod>
@@ -17,15 +38,6 @@
     <loc>https://iqnev.github.io/tags/java-ee/</loc>
     <lastmod>2023-12-09T11:04:18+03:00</lastmod>
   </url><url>
-    <loc>https://iqnev.github.io/posts/</loc>
-    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/categories/quarkus/</loc>
-    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/</loc>
-    <lastmod>2023-12-09T11:04:18+03:00</lastmod>
-  </url><url>
     <loc>https://iqnev.github.io/posts/unveiling-challenges-with-named/</loc>
     <lastmod>2023-12-09T11:04:18+03:00</lastmod>
   </url><url>
@@ -33,12 +45,6 @@
     <lastmod>2023-11-26T14:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/extension/</loc>
-    <lastmod>2023-11-26T14:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/graalvm/</loc>
-    <lastmod>2023-11-26T14:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/quarkus/</loc>
     <lastmod>2023-11-26T14:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/posts/registering-reflection-in-quarkus-extensions/</loc>
