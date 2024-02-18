@@ -7,11 +7,126 @@
     
     <language>en</language>
     <copyright>Copyright 2024, Calvin Tran</copyright>
-    <lastBuildDate>Sun, 07 Jan 2024 11:04:18 +0300</lastBuildDate>
+    <lastBuildDate>Sun, 18 Feb 2024 11:04:18 +0300</lastBuildDate>
     <generator>Hugo - gohugo.io</generator>
     <docs>http://cyber.harvard.edu/rss/rss.html</docs>
     <atom:link href="https://iqnev.github.io//atom.xml" rel="self" type="application/atom+xml"/>
     
+    
+    <item>
+      <title>The Challenge of Evolving Schemas in Message Queues</title>
+      <link>https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/</link>
+      <description>&lt;p&gt;In systems built on message queues like RabbitMQ or Pub/Sub, schema evolution is inevitable.
+It allows you to adapt to changing needs and add new features, but it can also introduce challenges.
+When updating schemas, ensuring a smooth transition is crucial to avoid disrupting existing processes and consumers.
+Let&amp;rsquo;s explore a scenario where your schema undergoes significant changes:&lt;/p&gt;
+&lt;p&gt;Initial Payload (Version 1.0):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;  &amp;#34;eventType&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;user_created&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;  &amp;#34;version&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;1.0&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4&lt;/span&gt;&lt;span&gt;  &amp;#34;timestamp&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;2024-01-15T08:00:00Z&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5&lt;/span&gt;&lt;span&gt;  &amp;#34;data&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6&lt;/span&gt;&lt;span&gt;    &amp;#34;id&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;123456789&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7&lt;/span&gt;&lt;span&gt;    &amp;#34;username&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;john_doe&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8&lt;/span&gt;&lt;span&gt;    &amp;#34;name&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;John Doe&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9&lt;/span&gt;&lt;span&gt;    &amp;#34;email&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;john.doe@example.com&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;    &amp;#34;age&amp;#34;: &lt;span style=&#34;color:#d0bf69&#34;&gt;30&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;    &amp;#34;gender&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;male&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12&lt;/span&gt;&lt;span&gt;    &amp;#34;address&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;      &amp;#34;street&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;123 Main St&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14&lt;/span&gt;&lt;span&gt;      &amp;#34;city&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Anytown&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15&lt;/span&gt;&lt;span&gt;      &amp;#34;state&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;CA&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16&lt;/span&gt;&lt;span&gt;      &amp;#34;postal_code&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;12345&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17&lt;/span&gt;&lt;span&gt;      &amp;#34;country&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;USA&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18&lt;/span&gt;&lt;span&gt;    },
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19&lt;/span&gt;&lt;span&gt;    &amp;#34;phone_numbers&amp;#34;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20&lt;/span&gt;&lt;span&gt;      {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21&lt;/span&gt;&lt;span&gt;        &amp;#34;type&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;home&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22&lt;/span&gt;&lt;span&gt;        &amp;#34;number&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;123-456-7890&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23&lt;/span&gt;&lt;span&gt;      }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24&lt;/span&gt;&lt;span&gt;    ],
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25&lt;/span&gt;&lt;span&gt;    &amp;#34;is_active&amp;#34;: &lt;span style=&#34;color:#fc5fa3&#34;&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26&lt;/span&gt;&lt;span&gt;    &amp;#34;registration_date&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;2024-01-15T08:00:00Z&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27&lt;/span&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Then, suppose you introduce changes to this JSON structure as follows(Version 2.0):&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-json&#34; data-lang=&#34;json&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;  &amp;#34;eventType&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;user_created&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;  &amp;#34;version&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;2.0&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4&lt;/span&gt;&lt;span&gt;  &amp;#34;timestamp&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;2024-01-15T08:00:00Z&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5&lt;/span&gt;&lt;span&gt;  &amp;#34;data&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6&lt;/span&gt;&lt;span&gt;    &amp;#34;userId&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;123456789&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7&lt;/span&gt;&lt;span&gt;    &amp;#34;profileDetails&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8&lt;/span&gt;&lt;span&gt;      &amp;#34;username&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;john_doe&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9&lt;/span&gt;&lt;span&gt;      &amp;#34;fullName&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;John Doe&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;      &amp;#34;email&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;john.doe@example.com&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;      &amp;#34;age&amp;#34;: &lt;span style=&#34;color:#d0bf69&#34;&gt;30&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12&lt;/span&gt;&lt;span&gt;      &amp;#34;gender&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;male&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;    },
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14&lt;/span&gt;&lt;span&gt;    &amp;#34;contact&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15&lt;/span&gt;&lt;span&gt;      &amp;#34;address&amp;#34;: {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16&lt;/span&gt;&lt;span&gt;        &amp;#34;street&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;123 Main St&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17&lt;/span&gt;&lt;span&gt;        &amp;#34;city&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Anytown&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18&lt;/span&gt;&lt;span&gt;        &amp;#34;state&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;CA&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19&lt;/span&gt;&lt;span&gt;        &amp;#34;postalCode&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;12345&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20&lt;/span&gt;&lt;span&gt;        &amp;#34;country&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;USA&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21&lt;/span&gt;&lt;span&gt;      },
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22&lt;/span&gt;&lt;span&gt;      &amp;#34;phoneNumbers&amp;#34;: [
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23&lt;/span&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24&lt;/span&gt;&lt;span&gt;          &amp;#34;type&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;home&amp;#34;&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25&lt;/span&gt;&lt;span&gt;          &amp;#34;number&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;123-456-7890&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26&lt;/span&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27&lt;/span&gt;&lt;span&gt;      ]
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28&lt;/span&gt;&lt;span&gt;    },
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29&lt;/span&gt;&lt;span&gt;    &amp;#34;isActive&amp;#34;: &lt;span style=&#34;color:#fc5fa3&#34;&gt;true&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;30&lt;/span&gt;&lt;span&gt;    &amp;#34;createdAt&amp;#34;: &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;2024-01-15T08:00:00Z&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;31&lt;/span&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;32&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Now, you need to migrate your system to handle these changes seamlessly.&lt;/p&gt;
+&lt;h2 id=&#34;a-solution&#34;&gt;A Solution&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Create a New Topic:&lt;/strong&gt; Establish a new topic dedicated to publishing messages adhering to the updated schema versions.
+Producer publishes messages to the appropriate topic based on the schema used. This allows gradual migration and facilitates parallel operation of old and new consumers.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Update the Producer:&lt;/strong&gt; Modify your producer to generate messages in the new schema format and direct these messages to the newly created topic.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Implement the Adapter Pattern:&lt;/strong&gt; Develop an adapter component responsible for listening to messages in the new topic. The adapter, following the adapter pattern, translates messages from the new format to the old format and then transmits them to the original topic.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Migration of Consumers:&lt;/strong&gt; Gradually migrate your consumers by redirecting them to subscribe to the new topic instead of the old one.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Decommission the Adapter:&lt;/strong&gt; Once all consumers have successfully migrated, decommission the adapter, and remove the old topic from the system.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;img src=&#34;https://iqnev.github.io/images/case_1.jpg&#34; alt=&#34;User event v1&#34; title=&#34;User event v1&#34;&gt;
+&lt;h2 id=&#34;benefits-of-this-approach&#34;&gt;Benefits of this approach&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Backward Compatibility:&lt;/strong&gt; The Adapter ensures backward compatibility by acting as a bridge between the old and new schema formats, allowing existing Consumers to continue processing messages without disruption.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Flexibility:&lt;/strong&gt; Leveraging the adapter pattern provides flexibility in accommodating changes in schema versions or message formats, enabling incremental updates without impacting existing functionality.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Risk Mitigation:&lt;/strong&gt; The adapter pattern serves as a risk mitigation strategy by isolating the impact of schema changes, reducing the risk of disruptions or errors in message processing.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Clear Versioning:&lt;/strong&gt; Versioned topics and a schema registry provide clarity and transparency, making debugging and monitoring easier.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Navigating schema evolution in message queue systems demands a strategic approach to ensure seamless transitions. By adopting the outlined solution, organizations can effectively address the challenges associated with schema updates while preserving operational continuity.&lt;/p&gt;
+&lt;p&gt;The proposed strategy acknowledges the inevitability of schema evolution and provides a structured approach to handle changes efficiently. By leveraging the Adapter Pattern, organizations can bridge the gap between old and new schema formats, facilitating backward compatibility and minimizing disruptions to existing processes.&lt;/p&gt;
+&lt;p&gt;Furthermore, the approach offers flexibility and risk mitigation, allowing for incremental updates and isolating the impact of schema changes. This ensures that system evolution occurs smoothly, with minimal risk to operational stability.&lt;/p&gt;
+</description>
+      <author>Calvin Tran</author>
+      <guid>https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/</guid>
+      <pubDate>Sun, 18 Feb 2024 11:04:18 +0300</pubDate>
+    </item>
     
     <item>
       <title>Turbocharge Java Microservices with Quarkus and GraalVM Native Image</title>

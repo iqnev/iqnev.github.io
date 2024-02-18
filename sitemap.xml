@@ -3,10 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://iqnev.github.io/</loc>
-    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
+    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/</loc>
-    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
+    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/design/</loc>
+    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/categories/design/</loc>
+    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/message-queuing/</loc>
+    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/</loc>
+    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/</loc>
+    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/</loc>
+    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/graalvm/</loc>
     <lastmod>2024-01-07T11:04:18+03:00</lastmod>
@@ -14,16 +32,10 @@
     <loc>https://iqnev.github.io/tags/microservice/</loc>
     <lastmod>2024-01-07T11:04:18+03:00</lastmod>
   </url><url>
-    <loc>https://iqnev.github.io/posts/</loc>
-    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
-  </url><url>
     <loc>https://iqnev.github.io/categories/quarkus/</loc>
     <lastmod>2024-01-07T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/quarkus/</loc>
-    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/</loc>
     <lastmod>2024-01-07T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/posts/graalvm-native-image/</loc>

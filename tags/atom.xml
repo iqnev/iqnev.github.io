@@ -6,8 +6,22 @@
     <description>Recent content in Tags on Codes are a puzzle</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Jan 2024 11:04:18 +0300</lastBuildDate>
+    <lastBuildDate>Sun, 18 Feb 2024 11:04:18 +0300</lastBuildDate>
     <atom:link href="https://iqnev.github.io/tags/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>design</title>
+      <link>https://iqnev.github.io/tags/design/</link>
+      <pubDate>Sun, 18 Feb 2024 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/tags/design/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>message-queuing</title>
+      <link>https://iqnev.github.io/tags/message-queuing/</link>
+      <pubDate>Sun, 18 Feb 2024 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/tags/message-queuing/</guid>
+      <description></description>
+    </item>
     <item>
       <title>graalvm</title>
       <link>https://iqnev.github.io/tags/graalvm/</link>

@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>The Challenge of Evolving Schemas in Message Queues | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:title" content="The Challenge of Evolving Schemas in Message Queues" />
+<meta property="og:description" content="In systems built on message queues like RabbitMQ or Pub/Sub, schema evolution is inevitable. It allows you to adapt to changing needs and add new features, but it can also introduce challenges. When updating schemas, ensuring a smooth transition is crucial to avoid disrupting existing processes and consumers. Let&rsquo;s explore a scenario where your schema undergoes significant changes:
+Initial Payload (Version 1.0):
+1{ 2 &#34;eventType&#34;: &#34;user_created&#34;, 3 &#34;version&#34;: &#34;1.0&#34;, 4 &#34;timestamp&#34;: &#34;2024-01-15T08:00:00Z&#34;, 5 &#34;data&#34;: { 6 &#34;id&#34;: &#34;123456789&#34;, 7 &#34;username&#34;: &#34;john_doe&#34;, 8 &#34;name&#34;: &#34;John Doe&#34;, 9 &#34;email&#34;: &#34;john." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/" /><meta property="og:image" content="https://iqnev.github.io/images/message_queuing.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-02-18T11:04:18+03:00" />
+<meta property="article:modified_time" content="2024-02-18T11:04:18+03:00" />
+
+
+    <meta itemprop="name" content="The Challenge of Evolving Schemas in Message Queues">
+<meta itemprop="description" content="In systems built on message queues like RabbitMQ or Pub/Sub, schema evolution is inevitable. It allows you to adapt to changing needs and add new features, but it can also introduce challenges. When updating schemas, ensuring a smooth transition is crucial to avoid disrupting existing processes and consumers. Let&rsquo;s explore a scenario where your schema undergoes significant changes:
+Initial Payload (Version 1.0):
+1{ 2 &#34;eventType&#34;: &#34;user_created&#34;, 3 &#34;version&#34;: &#34;1.0&#34;, 4 &#34;timestamp&#34;: &#34;2024-01-15T08:00:00Z&#34;, 5 &#34;data&#34;: { 6 &#34;id&#34;: &#34;123456789&#34;, 7 &#34;username&#34;: &#34;john_doe&#34;, 8 &#34;name&#34;: &#34;John Doe&#34;, 9 &#34;email&#34;: &#34;john."><meta itemprop="datePublished" content="2024-02-18T11:04:18+03:00" />
+<meta itemprop="dateModified" content="2024-02-18T11:04:18+03:00" />
+<meta itemprop="wordCount" content="612"><meta itemprop="image" content="https://iqnev.github.io/images/message_queuing.png" />
+<meta itemprop="keywords" content="design,message-queuing," />
+    
+    <link rel="canonical" href="https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "The Challenge of Evolving Schemas in Message Queues",
+      "headline": "The Challenge of Evolving Schemas in Message Queues",
+      "alternativeHeadline": "",
+      "description": "In systems built on message queues like RabbitMQ or Pub\/Sub, schema evolution is inevitable. It allows you to adapt to changing needs and add new features, but it can also introduce challenges. When updating schemas, ensuring a smooth transition is crucial to avoid disrupting existing processes and consumers. Let\u0026rsquo;s explore a scenario where your schema undergoes significant changes:\nInitial Payload (Version 1.0):\n1{ 2 \u0026#34;eventType\u0026#34;: \u0026#34;user_created\u0026#34;, 3 \u0026#34;version\u0026#34;: \u0026#34;1.0\u0026#34;, 4 \u0026#34;timestamp\u0026#34;: \u0026#34;2024-01-15T08:00:00Z\u0026#34;, 5 \u0026#34;data\u0026#34;: { 6 \u0026#34;id\u0026#34;: \u0026#34;123456789\u0026#34;, 7 \u0026#34;username\u0026#34;: \u0026#34;john_doe\u0026#34;, 8 \u0026#34;name\u0026#34;: \u0026#34;John Doe\u0026#34;, 9 \u0026#34;email\u0026#34;: \u0026#34;john.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/the-challenge-of-evolving-schemas-in-message-queues\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2024",
+      "dateCreated": "2024-02-18T11:04:18.00Z",
+      "datePublished": "2024-02-18T11:04:18.00Z",
+      "dateModified": "2024-02-18T11:04:18.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": ["https://iqnev.github.io/images/message_queuing.png"],
+      "url" : "https:\/\/iqnev.github.io\/posts\/the-challenge-of-evolving-schemas-in-message-queues\/",
+      "wordCount" : "612",
+      "genre" : [ "design" , "message-queuing" ],
+      "keywords" : [ "design" , "message-queuing" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">The Challenge of Evolving Schemas in Message Queues</h2>
+      <p>In systems built on message queues like RabbitMQ or Pub/Sub, schema evolution is inevitable.
+It allows you to adapt to changing needs and add new features, but it can also introduce challenges.
+When updating schemas, ensuring a smooth transition is crucial to avoid disrupting existing processes and consumers.
+Let&rsquo;s explore a scenario where your schema undergoes significant changes:</p>
+<p>Initial Payload (Version 1.0):</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>  &#34;eventType&#34;: <span style="color:#fc6a5d">&#34;user_created&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>  &#34;version&#34;: <span style="color:#fc6a5d">&#34;1.0&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  &#34;timestamp&#34;: <span style="color:#fc6a5d">&#34;2024-01-15T08:00:00Z&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>  &#34;data&#34;: {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    &#34;id&#34;: <span style="color:#fc6a5d">&#34;123456789&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    &#34;username&#34;: <span style="color:#fc6a5d">&#34;john_doe&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    &#34;name&#34;: <span style="color:#fc6a5d">&#34;John Doe&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    &#34;email&#34;: <span style="color:#fc6a5d">&#34;john.doe@example.com&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    &#34;age&#34;: <span style="color:#d0bf69">30</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    &#34;gender&#34;: <span style="color:#fc6a5d">&#34;male&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    &#34;address&#34;: {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>      &#34;street&#34;: <span style="color:#fc6a5d">&#34;123 Main St&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>      &#34;city&#34;: <span style="color:#fc6a5d">&#34;Anytown&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>      &#34;state&#34;: <span style="color:#fc6a5d">&#34;CA&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>      &#34;postal_code&#34;: <span style="color:#fc6a5d">&#34;12345&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>      &#34;country&#34;: <span style="color:#fc6a5d">&#34;USA&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    },
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    &#34;phone_numbers&#34;: [
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>      {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>        &#34;type&#34;: <span style="color:#fc6a5d">&#34;home&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>        &#34;number&#34;: <span style="color:#fc6a5d">&#34;123-456-7890&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>      }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>    ],
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    &#34;is_active&#34;: <span style="color:#fc5fa3">true</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>    &#34;registration_date&#34;: <span style="color:#fc6a5d">&#34;2024-01-15T08:00:00Z&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>}
+</span></span></code></pre></div><p>Then, suppose you introduce changes to this JSON structure as follows(Version 2.0):</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>{
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>  &#34;eventType&#34;: <span style="color:#fc6a5d">&#34;user_created&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>  &#34;version&#34;: <span style="color:#fc6a5d">&#34;2.0&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  &#34;timestamp&#34;: <span style="color:#fc6a5d">&#34;2024-01-15T08:00:00Z&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>  &#34;data&#34;: {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    &#34;userId&#34;: <span style="color:#fc6a5d">&#34;123456789&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    &#34;profileDetails&#34;: {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>      &#34;username&#34;: <span style="color:#fc6a5d">&#34;john_doe&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>      &#34;fullName&#34;: <span style="color:#fc6a5d">&#34;John Doe&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>      &#34;email&#34;: <span style="color:#fc6a5d">&#34;john.doe@example.com&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>      &#34;age&#34;: <span style="color:#d0bf69">30</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>      &#34;gender&#34;: <span style="color:#fc6a5d">&#34;male&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    },
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    &#34;contact&#34;: {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>      &#34;address&#34;: {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>        &#34;street&#34;: <span style="color:#fc6a5d">&#34;123 Main St&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>        &#34;city&#34;: <span style="color:#fc6a5d">&#34;Anytown&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>        &#34;state&#34;: <span style="color:#fc6a5d">&#34;CA&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>        &#34;postalCode&#34;: <span style="color:#fc6a5d">&#34;12345&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>        &#34;country&#34;: <span style="color:#fc6a5d">&#34;USA&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>      },
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>      &#34;phoneNumbers&#34;: [
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>        {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>          &#34;type&#34;: <span style="color:#fc6a5d">&#34;home&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>          &#34;number&#34;: <span style="color:#fc6a5d">&#34;123-456-7890&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>      ]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>    },
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>    &#34;isActive&#34;: <span style="color:#fc5fa3">true</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>    &#34;createdAt&#34;: <span style="color:#fc6a5d">&#34;2024-01-15T08:00:00Z&#34;</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>}
+</span></span></code></pre></div><p>Now, you need to migrate your system to handle these changes seamlessly.</p>
+<h2 id="a-solution">A Solution</h2>
+<ol>
+<li>
+<p><strong>Create a New Topic:</strong> Establish a new topic dedicated to publishing messages adhering to the updated schema versions.
+Producer publishes messages to the appropriate topic based on the schema used. This allows gradual migration and facilitates parallel operation of old and new consumers.</p>
+</li>
+<li>
+<p><strong>Update the Producer:</strong> Modify your producer to generate messages in the new schema format and direct these messages to the newly created topic.</p>
+</li>
+<li>
+<p><strong>Implement the Adapter Pattern:</strong> Develop an adapter component responsible for listening to messages in the new topic. The adapter, following the adapter pattern, translates messages from the new format to the old format and then transmits them to the original topic.</p>
+</li>
+<li>
+<p><strong>Migration of Consumers:</strong> Gradually migrate your consumers by redirecting them to subscribe to the new topic instead of the old one.</p>
+</li>
+<li>
+<p><strong>Decommission the Adapter:</strong> Once all consumers have successfully migrated, decommission the adapter, and remove the old topic from the system.</p>
+</li>
+</ol>
+<img src="/images/case_1.jpg" alt="User event v1" title="User event v1">
+<h2 id="benefits-of-this-approach">Benefits of this approach</h2>
+<ul>
+<li>
+<p><strong>Backward Compatibility:</strong> The Adapter ensures backward compatibility by acting as a bridge between the old and new schema formats, allowing existing Consumers to continue processing messages without disruption.</p>
+</li>
+<li>
+<p><strong>Flexibility:</strong> Leveraging the adapter pattern provides flexibility in accommodating changes in schema versions or message formats, enabling incremental updates without impacting existing functionality.</p>
+</li>
+<li>
+<p><strong>Risk Mitigation:</strong> The adapter pattern serves as a risk mitigation strategy by isolating the impact of schema changes, reducing the risk of disruptions or errors in message processing.</p>
+</li>
+<li>
+<p><strong>Clear Versioning:</strong> Versioned topics and a schema registry provide clarity and transparency, making debugging and monitoring easier.</p>
+</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Navigating schema evolution in message queue systems demands a strategic approach to ensure seamless transitions. By adopting the outlined solution, organizations can effectively address the challenges associated with schema updates while preserving operational continuity.</p>
+<p>The proposed strategy acknowledges the inevitability of schema evolution and provides a structured approach to handle changes efficiently. By leveraging the Adapter Pattern, organizations can bridge the gap between old and new schema formats, facilitating backward compatibility and minimizing disruptions to existing processes.</p>
+<p>Furthermore, the approach offers flexibility and risk mitigation, allowing for incremental updates and isolating the impact of schema changes. This ensures that system evolution occurs smoothly, with minimal risk to operational stability.</p>
+
+      
+      <div class="post-date">
+        <span class="g time">February 18, 2024 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/design/">design</a> <a href="https://iqnev.github.io/tags/message-queuing/">message-queuing</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>
