@@ -22,7 +22,7 @@ Initial Payload (Version 1.0):
 Initial Payload (Version 1.0):
 1{ 2 &#34;eventType&#34;: &#34;user_created&#34;, 3 &#34;version&#34;: &#34;1.0&#34;, 4 &#34;timestamp&#34;: &#34;2024-01-15T08:00:00Z&#34;, 5 &#34;data&#34;: { 6 &#34;id&#34;: &#34;123456789&#34;, 7 &#34;username&#34;: &#34;john_doe&#34;, 8 &#34;name&#34;: &#34;John Doe&#34;, 9 &#34;email&#34;: &#34;john."><meta itemprop="datePublished" content="2024-02-18T11:04:18+03:00" />
 <meta itemprop="dateModified" content="2024-02-18T11:04:18+03:00" />
-<meta itemprop="wordCount" content="670"><meta itemprop="image" content="https://iqnev.github.io/images/message_queuing.png" />
+<meta itemprop="wordCount" content="672"><meta itemprop="image" content="https://iqnev.github.io/images/message_queuing.png" />
 <meta itemprop="keywords" content="design,message-queuing," />
     
     <link rel="canonical" href="https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/">
@@ -84,7 +84,7 @@ Initial Payload (Version 1.0):
       },
       "image": ["https://iqnev.github.io/images/message_queuing.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/the-challenge-of-evolving-schemas-in-message-queues\/",
-      "wordCount" : "670",
+      "wordCount" : "672",
       "genre" : [ "design" , "message-queuing" ],
       "keywords" : [ "design" , "message-queuing" ]
   }
@@ -208,6 +208,7 @@ Producer publishes messages to the appropriate topic based on the schema used. T
 <p><strong>Decommission the Adapter:</strong> Once all consumers have successfully migrated, decommission the adapter, and remove the old topic from the system.</p>
 </li>
 </ol>
+<h2 id="implementation-procedure">Implementation Procedure</h2>
 <ul>
 <li>User creation event version 1.</li>
 </ul>

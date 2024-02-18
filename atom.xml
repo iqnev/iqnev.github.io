@@ -102,6 +102,7 @@ Producer publishes messages to the appropriate topic based on the schema used. T
 &lt;p&gt;&lt;strong&gt;Decommission the Adapter:&lt;/strong&gt; Once all consumers have successfully migrated, decommission the adapter, and remove the old topic from the system.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
+&lt;h2 id=&#34;implementation-procedure&#34;&gt;Implementation Procedure&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;User creation event version 1.&lt;/li&gt;
 &lt;/ul&gt;
