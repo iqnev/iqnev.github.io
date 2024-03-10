@@ -3,24 +3,30 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://iqnev.github.io/</loc>
-    <lastmod>2024-03-10T11:10:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/posts/</loc>
-    <lastmod>2024-03-10T11:10:18+03:00</lastmod>
+    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/</loc>
-    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
+    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/design/</loc>
-    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
+    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/design/</loc>
-    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
+    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://iqnev.github.io/tags/message-queuing/</loc>
-    <lastmod>2024-02-18T11:04:18+03:00</lastmod>
+    <loc>https://iqnev.github.io/posts/</loc>
+    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/reactive/</loc>
+    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/</loc>
+    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/why-we-discarded-reactive-systems-architecture-from-our-code/</loc>
+    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/message-queuing/</loc>
     <lastmod>2024-02-18T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/</loc>

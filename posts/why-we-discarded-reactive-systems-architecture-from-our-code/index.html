@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Why we discarded Reactive systems architecture from our code? | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:title" content="Why we discarded Reactive systems architecture from our code?" />
+<meta property="og:description" content="This article explores our decision to move away from reactive architecture in our software project. We&rsquo;ll delve into the core principles of reactive systems, the benefits of non-blocking I/O, and the challenges we faced with a reactive approach.
+Understanding Reactive architecture style Reactive encompasses a set of principles and guidelines aimed at constructing responsive distributed systems and applications, characterized by:
+Responsiveness: Capable of swiftly handling requests, even under heavy loads. Resilience: Able to recover from failures with minimal downtime." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://iqnev.github.io/posts/why-we-discarded-reactive-systems-architecture-from-our-code/" /><meta property="og:image" content="https://iqnev.github.io/images/reactive.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-10T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-03-10T00:00:00+00:00" />
+
+
+    <meta itemprop="name" content="Why we discarded Reactive systems architecture from our code?">
+<meta itemprop="description" content="This article explores our decision to move away from reactive architecture in our software project. We&rsquo;ll delve into the core principles of reactive systems, the benefits of non-blocking I/O, and the challenges we faced with a reactive approach.
+Understanding Reactive architecture style Reactive encompasses a set of principles and guidelines aimed at constructing responsive distributed systems and applications, characterized by:
+Responsiveness: Capable of swiftly handling requests, even under heavy loads. Resilience: Able to recover from failures with minimal downtime."><meta itemprop="datePublished" content="2024-03-10T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2024-03-10T00:00:00+00:00" />
+<meta itemprop="wordCount" content="871"><meta itemprop="image" content="https://iqnev.github.io/images/reactive.png" />
+<meta itemprop="keywords" content="design,reactive," />
+    
+    <link rel="canonical" href="https://iqnev.github.io/posts/why-we-discarded-reactive-systems-architecture-from-our-code/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Why we discarded Reactive systems architecture from our code?",
+      "headline": "Why we discarded Reactive systems architecture from our code?",
+      "alternativeHeadline": "",
+      "description": "This article explores our decision to move away from reactive architecture in our software project. We\u0026rsquo;ll delve into the core principles of reactive systems, the benefits of non-blocking I\/O, and the challenges we faced with a reactive approach.\nUnderstanding Reactive architecture style Reactive encompasses a set of principles and guidelines aimed at constructing responsive distributed systems and applications, characterized by:\nResponsiveness: Capable of swiftly handling requests, even under heavy loads. Resilience: Able to recover from failures with minimal downtime.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/why-we-discarded-reactive-systems-architecture-from-our-code\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2024",
+      "dateCreated": "2024-03-10T00:00:00.00Z",
+      "datePublished": "2024-03-10T00:00:00.00Z",
+      "dateModified": "2024-03-10T00:00:00.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": ["https://iqnev.github.io/images/reactive.png"],
+      "url" : "https:\/\/iqnev.github.io\/posts\/why-we-discarded-reactive-systems-architecture-from-our-code\/",
+      "wordCount" : "871",
+      "genre" : [ "design" , "reactive" ],
+      "keywords" : [ "design" , "reactive" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Why we discarded Reactive systems architecture from our code?</h2>
+      <p>This article explores our decision to move away from reactive architecture in our software project. We&rsquo;ll delve into the core principles of reactive systems, the benefits of non-blocking I/O, and the challenges we faced with a reactive approach.</p>
+<h2 id="understanding-reactive-architecture-style">Understanding Reactive architecture style</h2>
+<p>Reactive encompasses a set of principles and guidelines aimed at constructing responsive distributed systems and applications, characterized by:</p>
+<ol>
+<li><strong>Responsiveness:</strong> Capable of swiftly handling requests, even under heavy loads.</li>
+<li><strong>Resilience:</strong> Able to recover from failures with minimal downtime.</li>
+<li><strong>Elasticity:</strong> Can adapt to changing workloads by scaling resources accordingly.</li>
+<li><strong>Message-Driven:</strong> Utilizes asynchronous messaging to enhance fault tolerance and decouple components.</li>
+</ol>
+<p>One key benefit of reactive systems is their use of non-blocking I/O. This approach avoids blocking threads during I/O operations, allowing a single thread to handle multiple requests concurrently. This can significantly improve system efficiency compared to traditional blocking I/O.
+In traditional multithreading, blocking operations pose significant challenges in optimizing systems (<strong>Figure 1</strong>).
+Greedy applications consuming excessive memory are inefficient and penalize other applications, often necessitating requests for additional resources like memory, CPU, or larger virtual machines.</p>
+<br>
+<img src="/images/traditional-multithreading.jpg" alt="Traditional Multi-threading" title="Traditional Multi-threading">
+<br>
+<p><em>Figure 1 – Traditional Multi-threading</em></p>
+<br>
+<p>I/O operations are integral to modern systems, and efficiently managing them is paramount to prevent greedy behavior.
+Reactive systems employ non-blocking I/O, enabling a low number of OS threads to handle numerous concurrent I/O operations.</p>
+<br>
+<h2 id="reactive-execution-model">Reactive Execution Model</h2>
+<p>Although non-blocking I/O offers substantial benefits, it introduces a novel execution model distinct from traditional frameworks.
+Reactive programming emerged to address this issue, as it mitigates the inefficiency of platform threads idling during blocking operations (<strong>Figure 2</strong>).</p>
+<br>
+<img src="/images/reactive-event-loop.jpg" alt="Reactive Event Loop" title="Reactive Event Loop">
+<br>
+<p><em>Figure 2 – Reactive Event Loop</em></p>
+<br>
+<h2 id="quarkus-and-reactive">Quarkus and Reactive</h2>
+<p>Quarkus leverages a reactive engine powered by Eclipse Vert.x and Netty, facilitating non-blocking I/O interactions.
+Mutiny, the preferred approach for writing reactive code with Quarkus, adopts an event-driven paradigm, wherein reactions are triggered by received events.</p>
+<p><a href="https://smallrye.io/smallrye-mutiny/latest/">Mutiny</a> offers two event-driven and lazy types:</p>
+<ol>
+<li><strong>Uni:</strong> Emits a single event (an item or a failure), suitable for representing asynchronous actions with zero or one result.</li>
+<li><strong>Multi:</strong> Emits multiple events (n items, one failure, or one completion), representing streams of items, potentially unbounded.</li>
+</ol>
+<br>
+<h2 id="challenges-with-reactive">Challenges with Reactive</h2>
+<p>While reactive systems offer benefits, we encountered several challenges during development:</p>
+<ol>
+<li><strong>Paradigm Shift:</strong> Reactive programming necessitates a fundamental shift in developers&rsquo; mindsets, which can be challenging, especially for developers accustomed to imperative programming.
+Unlike auxiliary tools like the Streams API, the reactive approach demands a complete mindset overhaul.</li>
+<li><strong>Code Readability and Understanding:</strong> Reactive code poses difficulties for new developers to comprehend, leading to increased time spent deciphering and understanding it. The complexity introduced by reactive paradigms compounds this issue.</li>
+</ol>
+<br>
+<style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}</style>
+<div><svg width="0" height="0" display="none" xmlns="http://www.w3.org/2000/svg"><symbol id="tip-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"/></symbol><symbol id="note-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></symbol><symbol id="warning-notice" viewBox="0 0 576 512" preserveAspectRatio="xMidYMid meet"><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></symbol><symbol id="info-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></symbol></svg></div><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>&ldquo;Indeed, the ratio of time spent reading versus writing is well over 10 to 1. We are constantly reading old code as part of the effort to write new code. &hellip;[Therefore,] making it easy to read makes it easier to write.&rdquo;
+<strong>― Robert C. Martin, Clean Code: A Handbook of Agile Software Craftsmanship</strong></p></div>
+
+<br>
+<ol start="3">
+<li><strong>Debugging Challenges:</strong> Debugging reactive code proves nearly impossible with standard IDE debuggers due to lambdas encapsulating most code.
+Additionally, the loss of meaningful stack traces during exceptions further hampers debugging efforts.</li>
+<li><strong>Increased Development and Testing Efforts:</strong> The inherent complexity of reactive code can lead to longer development cycles due to the time required for writing, modifying, and testing.</li>
+</ol>
+<br>
+<p>Here&rsquo;s an example of reactive code using Mutiny to illustrate the complexity:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>Multi.createFrom().ticks().every(Duration.ofSeconds(15))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    .onItem().invoke(() - &gt; Multi.createFrom().iterable(configs())
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    .onItem().transform(configuration - &gt; {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  <span style="color:#fc5fa3">try</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#fc5fa3">return</span> Tuple2.of(openAPIConfiguration,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>        RestClientBuilder.newBuilder()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>            .baseUrl(<span style="color:#fc5fa3">new</span> URL(configuration.url()))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>            .build(MyReactiveRestClient.class)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>            .getAPIResponse());
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>  } <span style="color:#fc5fa3">catch</span> (MalformedURLException e) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    log.error(<span style="color:#fc6a5d">&#34;Unable to create url&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>  <span style="color:#fc5fa3">return</span> <span style="color:#fc5fa3">null</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>}).collect().asList().toMulti().onItem().transformToMultiAndConcatenate(tuples - &gt; {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>  AtomicInteger callbackCount = <span style="color:#fc5fa3">new</span> AtomicInteger();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>  <span style="color:#fc5fa3">return</span> Multi.createFrom().emitter(emitter - &gt; Multi.createFrom().iterable(tuples)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>      .subscribe().with(tuple - &gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>          tuple.getItem2().subscribe().with(response - &gt; {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>              emitter.emit(callbackCount.incrementAndGet());
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>  <span style="color:#fc5fa3">if</span> (callbackCount.get() == tuples.size()) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    emitter.complete();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>                    })
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>                ));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>}).subscribe().with(s - &gt; {},
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>Throwable::printStackTrace, () - &gt; doSomethingUponComplete()))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>    .subscribe().with(aLong - &gt; log.info(<span style="color:#fc6a5d">&#34;Tic Tac with iteration: &#34;</span> + aLong));
+</span></span></code></pre></div><br>
+<h2 id="future-outlook-project-loom-and-beyond">Future Outlook-Project Loom and Beyond</h2>
+<p>Project Loom, a recent development in the Java ecosystem, promises to mitigate the issues associated with blocking operations.
+By enabling the creation of thousands of virtual threads without hardware changes, Project Loom could potentially eliminate the need for a reactive approach in many cases.</p>
+<br>
+<div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>&ldquo;Project Loom is going to kill Reactive Programming&rdquo;
+<strong>- Brian Goetz</strong></p></div>
+
+<br>
+<h2 id="conclusion">Conclusion</h2>
+<p>In conclusion, our decision to move away from reactive architecture style a pragmatic approach to our project&rsquo;s long-term maintainability. While reactive systems offer potential benefits, the challenges they presented for our team outweighed those advantages in our specific context.</p>
+<p>Importantly, this shift did not compromise performance. This is a positive outcome, as it demonstrates that a well-designed non-reactive(imperative) architecture can deliver the necessary performance without the complexity associated with reactive architecture in our case.</p>
+<p>As we look towards the future, the focus remains on building a codebase that is not only functional but also easy to understand and maintain for developers of all experience levels. This not only reduces development time but also fosters better collaboration and knowledge sharing within the team.</p>
+<p>In the graph below, the <strong>X-axis</strong> represents the increasing complexity of our codebase as it evolves, while the <strong>Y-axis</strong> depicts the time required for these developmental changes.</p>
+<br>
+<img src="/images/reactive-imperative.jpg" alt="Reactive-Imperative" title="Reactive-Imperative">
+      
+      <div class="post-date">
+        <span class="g time">March 10, 2024 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/design/">design</a> <a href="https://iqnev.github.io/tags/reactive/">reactive</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>

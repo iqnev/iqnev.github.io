@@ -7,11 +7,126 @@
     
     <language>en</language>
     <copyright>Copyright 2024, Calvin Tran</copyright>
-    <lastBuildDate>Sun, 10 Mar 2024 11:10:18 +0300</lastBuildDate>
+    <lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate>
     <generator>Hugo - gohugo.io</generator>
     <docs>http://cyber.harvard.edu/rss/rss.html</docs>
     <atom:link href="https://iqnev.github.io//atom.xml" rel="self" type="application/atom+xml"/>
     
+    
+    <item>
+      <title>Why we discarded Reactive systems architecture from our code?</title>
+      <link>https://iqnev.github.io/posts/why-we-discarded-reactive-systems-architecture-from-our-code/</link>
+      <description>&lt;p&gt;This article explores our decision to move away from reactive architecture in our software project. We&amp;rsquo;ll delve into the core principles of reactive systems, the benefits of non-blocking I/O, and the challenges we faced with a reactive approach.&lt;/p&gt;
+&lt;h2 id=&#34;understanding-reactive-architecture-style&#34;&gt;Understanding Reactive architecture style&lt;/h2&gt;
+&lt;p&gt;Reactive encompasses a set of principles and guidelines aimed at constructing responsive distributed systems and applications, characterized by:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Responsiveness:&lt;/strong&gt; Capable of swiftly handling requests, even under heavy loads.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Resilience:&lt;/strong&gt; Able to recover from failures with minimal downtime.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Elasticity:&lt;/strong&gt; Can adapt to changing workloads by scaling resources accordingly.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Message-Driven:&lt;/strong&gt; Utilizes asynchronous messaging to enhance fault tolerance and decouple components.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;One key benefit of reactive systems is their use of non-blocking I/O. This approach avoids blocking threads during I/O operations, allowing a single thread to handle multiple requests concurrently. This can significantly improve system efficiency compared to traditional blocking I/O.
+In traditional multithreading, blocking operations pose significant challenges in optimizing systems (&lt;strong&gt;Figure 1&lt;/strong&gt;).
+Greedy applications consuming excessive memory are inefficient and penalize other applications, often necessitating requests for additional resources like memory, CPU, or larger virtual machines.&lt;/p&gt;
+&lt;br&gt;
+&lt;img src=&#34;https://iqnev.github.io/images/traditional-multithreading.jpg&#34; alt=&#34;Traditional Multi-threading&#34; title=&#34;Traditional Multi-threading&#34;&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;em&gt;Figure 1 – Traditional Multi-threading&lt;/em&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;p&gt;I/O operations are integral to modern systems, and efficiently managing them is paramount to prevent greedy behavior.
+Reactive systems employ non-blocking I/O, enabling a low number of OS threads to handle numerous concurrent I/O operations.&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;reactive-execution-model&#34;&gt;Reactive Execution Model&lt;/h2&gt;
+&lt;p&gt;Although non-blocking I/O offers substantial benefits, it introduces a novel execution model distinct from traditional frameworks.
+Reactive programming emerged to address this issue, as it mitigates the inefficiency of platform threads idling during blocking operations (&lt;strong&gt;Figure 2&lt;/strong&gt;).&lt;/p&gt;
+&lt;br&gt;
+&lt;img src=&#34;https://iqnev.github.io/images/reactive-event-loop.jpg&#34; alt=&#34;Reactive Event Loop&#34; title=&#34;Reactive Event Loop&#34;&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;em&gt;Figure 2 – Reactive Event Loop&lt;/em&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;quarkus-and-reactive&#34;&gt;Quarkus and Reactive&lt;/h2&gt;
+&lt;p&gt;Quarkus leverages a reactive engine powered by Eclipse Vert.x and Netty, facilitating non-blocking I/O interactions.
+Mutiny, the preferred approach for writing reactive code with Quarkus, adopts an event-driven paradigm, wherein reactions are triggered by received events.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://smallrye.io/smallrye-mutiny/latest/&#34;&gt;Mutiny&lt;/a&gt; offers two event-driven and lazy types:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Uni:&lt;/strong&gt; Emits a single event (an item or a failure), suitable for representing asynchronous actions with zero or one result.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Multi:&lt;/strong&gt; Emits multiple events (n items, one failure, or one completion), representing streams of items, potentially unbounded.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;challenges-with-reactive&#34;&gt;Challenges with Reactive&lt;/h2&gt;
+&lt;p&gt;While reactive systems offer benefits, we encountered several challenges during development:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Paradigm Shift:&lt;/strong&gt; Reactive programming necessitates a fundamental shift in developers&amp;rsquo; mindsets, which can be challenging, especially for developers accustomed to imperative programming.
+Unlike auxiliary tools like the Streams API, the reactive approach demands a complete mindset overhaul.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Code Readability and Understanding:&lt;/strong&gt; Reactive code poses difficulties for new developers to comprehend, leading to increased time spent deciphering and understanding it. The complexity introduced by reactive paradigms compounds this issue.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;br&gt;
+&lt;style type=&#34;text/css&#34;&gt;.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}&lt;/style&gt;
+&lt;div&gt;&lt;svg width=&#34;0&#34; height=&#34;0&#34; display=&#34;none&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34;&gt;&lt;symbol id=&#34;tip-notice&#34; viewBox=&#34;0 0 512 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z&#34;/&gt;&lt;/symbol&gt;&lt;symbol id=&#34;note-notice&#34; viewBox=&#34;0 0 512 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z&#34;/&gt;&lt;/symbol&gt;&lt;symbol id=&#34;warning-notice&#34; viewBox=&#34;0 0 576 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z&#34;/&gt;&lt;/symbol&gt;&lt;symbol id=&#34;info-notice&#34; viewBox=&#34;0 0 512 512&#34; preserveAspectRatio=&#34;xMidYMid meet&#34;&gt;&lt;path d=&#34;M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z&#34;/&gt;&lt;/symbol&gt;&lt;/svg&gt;&lt;/div&gt;&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;&lt;span class=&#34;icon-notice baseline&#34;&gt;&lt;svg&gt;&lt;use href=&#34;#note-notice&#34;&gt;&lt;/use&gt;&lt;/svg&gt;&lt;/span&gt;Note&lt;/p&gt;&lt;p&gt;&amp;ldquo;Indeed, the ratio of time spent reading versus writing is well over 10 to 1. We are constantly reading old code as part of the effort to write new code. &amp;hellip;[Therefore,] making it easy to read makes it easier to write.&amp;rdquo;
+&lt;strong&gt;― Robert C. Martin, Clean Code: A Handbook of Agile Software Craftsmanship&lt;/strong&gt;&lt;/p&gt;&lt;/div&gt;
+
+&lt;br&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Debugging Challenges:&lt;/strong&gt; Debugging reactive code proves nearly impossible with standard IDE debuggers due to lambdas encapsulating most code.
+Additionally, the loss of meaningful stack traces during exceptions further hampers debugging efforts.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Increased Development and Testing Efforts:&lt;/strong&gt; The inherent complexity of reactive code can lead to longer development cycles due to the time required for writing, modifying, and testing.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;br&gt;
+&lt;p&gt;Here&amp;rsquo;s an example of reactive code using Mutiny to illustrate the complexity:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;Multi.createFrom().ticks().every(Duration.ofSeconds(15))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;    .onItem().invoke(() - &amp;gt; Multi.createFrom().iterable(configs())
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;    .onItem().transform(configuration - &amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#fc5fa3&#34;&gt;return&lt;/span&gt; Tuple2.of(openAPIConfiguration,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6&lt;/span&gt;&lt;span&gt;        RestClientBuilder.newBuilder()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7&lt;/span&gt;&lt;span&gt;            .baseUrl(&lt;span style=&#34;color:#fc5fa3&#34;&gt;new&lt;/span&gt; URL(configuration.url()))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8&lt;/span&gt;&lt;span&gt;            .build(MyReactiveRestClient.class)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9&lt;/span&gt;&lt;span&gt;            .getAPIResponse());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;  } &lt;span style=&#34;color:#fc5fa3&#34;&gt;catch&lt;/span&gt; (MalformedURLException e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12&lt;/span&gt;&lt;span&gt;    log.error(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Unable to create url&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14&lt;/span&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;null&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16&lt;/span&gt;&lt;span&gt;}).collect().asList().toMulti().onItem().transformToMultiAndConcatenate(tuples - &amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18&lt;/span&gt;&lt;span&gt;  AtomicInteger callbackCount = &lt;span style=&#34;color:#fc5fa3&#34;&gt;new&lt;/span&gt; AtomicInteger();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;return&lt;/span&gt; Multi.createFrom().emitter(emitter - &amp;gt; Multi.createFrom().iterable(tuples)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20&lt;/span&gt;&lt;span&gt;      .subscribe().with(tuple - &amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21&lt;/span&gt;&lt;span&gt;          tuple.getItem2().subscribe().with(response - &amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22&lt;/span&gt;&lt;span&gt;              emitter.emit(callbackCount.incrementAndGet());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;if&lt;/span&gt; (callbackCount.get() == tuples.size()) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25&lt;/span&gt;&lt;span&gt;    emitter.complete();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26&lt;/span&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27&lt;/span&gt;&lt;span&gt;                    })
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28&lt;/span&gt;&lt;span&gt;                ));
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;30&lt;/span&gt;&lt;span&gt;}).subscribe().with(s - &amp;gt; {},
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;31&lt;/span&gt;&lt;span&gt;Throwable::printStackTrace, () - &amp;gt; doSomethingUponComplete()))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;32&lt;/span&gt;&lt;span&gt;    .subscribe().with(aLong - &amp;gt; log.info(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Tic Tac with iteration: &amp;#34;&lt;/span&gt; + aLong));
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;br&gt;
+&lt;h2 id=&#34;future-outlook-project-loom-and-beyond&#34;&gt;Future Outlook-Project Loom and Beyond&lt;/h2&gt;
+&lt;p&gt;Project Loom, a recent development in the Java ecosystem, promises to mitigate the issues associated with blocking operations.
+By enabling the creation of thousands of virtual threads without hardware changes, Project Loom could potentially eliminate the need for a reactive approach in many cases.&lt;/p&gt;
+&lt;br&gt;
+&lt;div class=&#34;notice note&#34; &gt;
+&lt;p class=&#34;first notice-title&#34;&gt;&lt;span class=&#34;icon-notice baseline&#34;&gt;&lt;svg&gt;&lt;use href=&#34;#note-notice&#34;&gt;&lt;/use&gt;&lt;/svg&gt;&lt;/span&gt;Note&lt;/p&gt;&lt;p&gt;&amp;ldquo;Project Loom is going to kill Reactive Programming&amp;rdquo;
+&lt;strong&gt;- Brian Goetz&lt;/strong&gt;&lt;/p&gt;&lt;/div&gt;
+
+&lt;br&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;In conclusion, our decision to move away from reactive architecture style a pragmatic approach to our project&amp;rsquo;s long-term maintainability. While reactive systems offer potential benefits, the challenges they presented for our team outweighed those advantages in our specific context.&lt;/p&gt;
+&lt;p&gt;Importantly, this shift did not compromise performance. This is a positive outcome, as it demonstrates that a well-designed non-reactive(imperative) architecture can deliver the necessary performance without the complexity associated with reactive architecture in our case.&lt;/p&gt;
+&lt;p&gt;As we look towards the future, the focus remains on building a codebase that is not only functional but also easy to understand and maintain for developers of all experience levels. This not only reduces development time but also fosters better collaboration and knowledge sharing within the team.&lt;/p&gt;
+&lt;p&gt;In the graph below, the &lt;strong&gt;X-axis&lt;/strong&gt; represents the increasing complexity of our codebase as it evolves, while the &lt;strong&gt;Y-axis&lt;/strong&gt; depicts the time required for these developmental changes.&lt;/p&gt;
+&lt;br&gt;
+&lt;img src=&#34;https://iqnev.github.io/images/reactive-imperative.jpg&#34; alt=&#34;Reactive-Imperative&#34; title=&#34;Reactive-Imperative&#34;&gt;</description>
+      <author>Calvin Tran</author>
+      <guid>https://iqnev.github.io/posts/why-we-discarded-reactive-systems-architecture-from-our-code/</guid>
+      <pubDate>Sun, 10 Mar 2024 00:00:00 +0000</pubDate>
+    </item>
     
     <item>
       <title>The Challenge of Evolving Schemas in Message Queues</title>

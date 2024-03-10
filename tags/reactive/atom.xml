@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reactive on Codes are a puzzle</title>
+    <link>https://iqnev.github.io/tags/reactive/</link>
+    <description>Recent content in Reactive on Codes are a puzzle</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://iqnev.github.io/tags/reactive/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why we discarded Reactive systems architecture from our code?</title>
+      <link>https://iqnev.github.io/posts/why-we-discarded-reactive-systems-architecture-from-our-code/</link>
+      <pubDate>Sun, 10 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/posts/why-we-discarded-reactive-systems-architecture-from-our-code/</guid>
+      <description>This article explores our decision to move away from reactive architecture in our software project. We&amp;rsquo;ll delve into the core principles of reactive systems, the benefits of non-blocking I/O, and the challenges we faced with a reactive approach.&#xA;Understanding Reactive architecture style Reactive encompasses a set of principles and guidelines aimed at constructing responsive distributed systems and applications, characterized by:&#xA;Responsiveness: Capable of swiftly handling requests, even under heavy loads. Resilience: Able to recover from failures with minimal downtime.</description>
+    </item>
+  </channel>
+</rss>
