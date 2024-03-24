@@ -26,7 +26,8 @@ This was a dream-come-true opportunity for me, reminiscent of my high school day
 electronics and microcontrollers.&lt;/p&gt;
 &lt;p&gt;Once I started working on the project, however, I quickly realized that the existing system didn&amp;rsquo;t
 meet the business requirement. Delving into the system’s program,
-I found it was written in Earlang(it is a language created by the Ericsson Computer Science Laboratory in the mid-1980s for parallel and distributed computing). Although a renowned
+I found it was written in Earlang(it is a language created by the Ericsson Computer Science
+Laboratory in the mid-1980s for parallel and distributed computing). Although a renowned
 language trusted by top-tier entities like Facebook,
 Amazon, and Google, it wasn&amp;rsquo;t the perfect fit for our project,
 which necessitated operations on various types of devices like: PT camera, PT VMS, Pay station,
@@ -50,10 +51,11 @@ functions:&lt;/p&gt;
 came with several issues and generally did not seem to be a fitting choice.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;In the course of my search, I revisited QT, a software I had familiarized with during my university
+&lt;p&gt;In the course of my research, I revisited Qt, a software I had familiarized with during my
+university
 days. I also had an acquaintance who was proficient in using Qt.&lt;/p&gt;
-&lt;p&gt;Subsequent to crafting and demonstrating a successful QT prototype application to the management, we
-received approval to transition from Earlang to QT.&lt;/p&gt;
+&lt;p&gt;Subsequent to crafting and demonstrating a successful Qt prototype application to the management, we
+received approval to transition from Earlang to Qt.&lt;/p&gt;
 &lt;h2 id=&#34;what-is-qt&#34;&gt;What is Qt?&lt;/h2&gt;
 &lt;p&gt;To shed more light on Qt, it employs C++ code in conjunction with several non-standard extensions.
 Qt is a cross-platform application framework
@@ -94,8 +96,8 @@ platforms like:&lt;/p&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;a href=&#34;https://www.qt.io/&#34;&gt;&lt;img
-  src=&#34;https://iqnev.github.io/images/qt-platform.png&#34;
+&lt;p&gt;&lt;a href=&#34;https://www.Qt.io/&#34;&gt;&lt;img
+  src=&#34;https://iqnev.github.io/images/Qt-platform.png&#34;
   alt=&#34;Qt&#34;
   loading=&#34;lazy&#34;
   decoding=&#34;async&#34;
@@ -107,19 +109,23 @@ platforms like:&lt;/p&gt;
 &lt;h2 id=&#34;rethinking-architecture&#34;&gt;Rethinking Architecture&lt;/h2&gt;
 &lt;p&gt;With Qt in place, we addressed another critical flaw in the project – the underwhelming architecture
 unsuitable for a full Machine-to-Machine (M2M) system.&lt;/p&gt;
-&lt;p&gt;I drafted diagram (&lt;strong&gt;Figure 1&lt;/strong&gt;), and want to show you a multi component architecture was necessitated to
+&lt;p&gt;I drafted diagram (&lt;strong&gt;Figure 1&lt;/strong&gt;), and want to show you a multi component architecture was
+necessitated to
 accommodate the solution&amp;rsquo;s requirements and provide a versatile system.
 A well-planned multi component architecture would provide a future-ready solution catering to the
 customer’s requirements.&lt;/p&gt;
 &lt;img src=&#34;https://iqnev.github.io/images/smart_arch.jpg&#34; alt=&#34;Smart parking architecture&#34; title=&#34;Smart parking architecture&#34;&gt;
 &lt;br&gt;
 &lt;p&gt;&lt;em&gt;Figure 1 – An example of an IIoT Smart parking architecture&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;Regrettably, we were compelled to abandon the initial concepts that had been set in place, due to a lack of understanding and guidance needed to construct such a solution effectively.
-Specifically, this problem arose as a critical advisor to the project was a UI designer!!&lt;/p&gt;
+&lt;p&gt;The graphic(&lt;strong&gt;Figure 1&lt;/strong&gt;) above merely depicts the ideal structure of such a system. Regrettably, we
+encountered a system devoid of fundamental concepts, prompting us to discard the initial
+architecture.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;This issue was exacerbated by the fact that a UI designer served as a crucial advisor to the project!!!&lt;/strong&gt;&lt;/p&gt;
 &lt;img src=&#34;https://iqnev.github.io/images/kidding.png&#34; alt=&#34;Are you kidding me?&#34; title=&#34;Are you kidding me?&#34;&gt;
 &lt;br&gt;
-&lt;p&gt;However, we managed to transition our code from Earlang to Qt and introduce an architectural
+&lt;p&gt;However, we managed to transition our code from Earlang to Qt and introduce a new architectural
 paradigm that set the stage for a more robust solution in the future.&lt;/p&gt;
+&lt;h2 id=&#34;additional&#34;&gt;Additional&lt;/h2&gt;
 &lt;p&gt;An IIoT gateway typically consists of the following components:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Sensors/devices:&lt;/strong&gt; These are installed in parking spaces to detect the presence or absence of a
 vehicle. Common types of sensors include sensors,actuators, video cameras etc. Field sensors or
@@ -137,8 +143,24 @@ parking lot.&lt;/p&gt;
 &lt;p&gt;Drawing from the IPSO Alliance, we implemented the IPSO Smart Objects concept. This approach enabled
 our system to seamlessly integrate and initialize various
 components and create a virtual hardware replica in the Cloud.&lt;/p&gt;
-&lt;p&gt;Fast forward a few months, and we were able to showcase a working prototype in Amsterdam at a
-traffic solutions exhibition. The feedback was overwhelmingly positive.&lt;/p&gt;
+&lt;h2 id=&#34;the-triumphant-unveiling&#34;&gt;The Triumphant Unveiling&lt;/h2&gt;
+&lt;p&gt;After months of dedicated effort, our team proudly unveiled a fully functional prototype at the
+prestigious Traffic Solutions Exhibition in Amsterdam. As we showcased our innovative system to
+industry experts and potential clients, the response was overwhelmingly positive. Attendees were
+captivated by the seamless integration of cutting-edge technologies and the robust architectural
+framework we had meticulously designed.&lt;/p&gt;
+&lt;p&gt;The prototype&amp;rsquo;s ability to seamlessly orchestrate various components, from automats and cameras to
+scanning devices and intuitive user interfaces, garnered widespread acclaim. Visitors marveled at
+the system&amp;rsquo;s versatility, real-time monitoring capabilities, and its potential to revolutionize the
+parking and traffic management landscape.&lt;/p&gt;
+&lt;p&gt;The positive feedback we received not only validated our team&amp;rsquo;s hard work but also reinforced our
+belief in the power of thoughtful planning and unwavering commitment to excellence. It was a
+resounding affirmation that our decision to embrace the right technology and design a future-proof
+architecture had paid off handsomely.&lt;/p&gt;
+&lt;p&gt;As we basked in the success of our triumphant unveiling, we knew that this was merely the beginning
+of an exciting journey. Armed with the invaluable lessons learned and the overwhelming support from
+industry leaders, we were more motivated than ever to continue pushing boundaries and delivering
+innovative solutions that would shape the future of intelligent transportation systems.&lt;/p&gt;
 &lt;h2 id=&#34;key-takeaways&#34;&gt;Key Takeaways&lt;/h2&gt;
 &lt;p&gt;Reflecting on these experiences, some key takeaways emerge:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;For Managers&lt;/strong&gt;&lt;/p&gt;

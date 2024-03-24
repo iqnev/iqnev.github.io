@@ -19,7 +19,7 @@ Story I had the opportunity to dive into the fascinating world of parking and tr
 <meta itemprop="description" content="In this post, we will journey through my personal experiences that underscore the critical role played by apt technology and architecture in project outcomes. We will see why getting these aspects right from the get-go is of paramount importance.
 Story I had the opportunity to dive into the fascinating world of parking and traffic systems – a field ripe with potential for IoT/IIoT solutions. This was a dream-come-true opportunity for me, reminiscent of my high school days tinkering with electronics and microcontrollers."><meta itemprop="datePublished" content="2024-03-23T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2024-03-23T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1078"><meta itemprop="image" content="https://iqnev.github.io/images/smart_parking.png" />
+<meta itemprop="wordCount" content="1267"><meta itemprop="image" content="https://iqnev.github.io/images/smart_parking.png" />
 <meta itemprop="keywords" content="design," />
     
     <link rel="canonical" href="https://iqnev.github.io/posts/the-impact-of-the-right-technology-and-architecture-on-project-success/">
@@ -81,7 +81,7 @@ Story I had the opportunity to dive into the fascinating world of parking and tr
       },
       "image": ["https://iqnev.github.io/images/smart_parking.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/the-impact-of-the-right-technology-and-architecture-on-project-success\/",
-      "wordCount" : "1078",
+      "wordCount" : "1267",
       "genre" : [ "design" ],
       "keywords" : [ "design" ]
   }
@@ -129,7 +129,8 @@ This was a dream-come-true opportunity for me, reminiscent of my high school day
 electronics and microcontrollers.</p>
 <p>Once I started working on the project, however, I quickly realized that the existing system didn&rsquo;t
 meet the business requirement. Delving into the system’s program,
-I found it was written in Earlang(it is a language created by the Ericsson Computer Science Laboratory in the mid-1980s for parallel and distributed computing). Although a renowned
+I found it was written in Earlang(it is a language created by the Ericsson Computer Science
+Laboratory in the mid-1980s for parallel and distributed computing). Although a renowned
 language trusted by top-tier entities like Facebook,
 Amazon, and Google, it wasn&rsquo;t the perfect fit for our project,
 which necessitated operations on various types of devices like: PT camera, PT VMS, Pay station,
@@ -153,10 +154,11 @@ functions:</p>
 came with several issues and generally did not seem to be a fitting choice.</p>
 </li>
 </ol>
-<p>In the course of my search, I revisited QT, a software I had familiarized with during my university
+<p>In the course of my research, I revisited Qt, a software I had familiarized with during my
+university
 days. I also had an acquaintance who was proficient in using Qt.</p>
-<p>Subsequent to crafting and demonstrating a successful QT prototype application to the management, we
-received approval to transition from Earlang to QT.</p>
+<p>Subsequent to crafting and demonstrating a successful Qt prototype application to the management, we
+received approval to transition from Earlang to Qt.</p>
 <h2 id="what-is-qt">What is Qt?</h2>
 <p>To shed more light on Qt, it employs C++ code in conjunction with several non-standard extensions.
 Qt is a cross-platform application framework
@@ -197,8 +199,8 @@ platforms like:</p>
 </ul>
 </li>
 </ol>
-<p><a href="https://www.qt.io/"><img
-  src="/images/qt-platform.png"
+<p><a href="https://www.Qt.io/"><img
+  src="/images/Qt-platform.png"
   alt="Qt"
   loading="lazy"
   decoding="async"
@@ -210,19 +212,23 @@ platforms like:</p>
 <h2 id="rethinking-architecture">Rethinking Architecture</h2>
 <p>With Qt in place, we addressed another critical flaw in the project – the underwhelming architecture
 unsuitable for a full Machine-to-Machine (M2M) system.</p>
-<p>I drafted diagram (<strong>Figure 1</strong>), and want to show you a multi component architecture was necessitated to
+<p>I drafted diagram (<strong>Figure 1</strong>), and want to show you a multi component architecture was
+necessitated to
 accommodate the solution&rsquo;s requirements and provide a versatile system.
 A well-planned multi component architecture would provide a future-ready solution catering to the
 customer’s requirements.</p>
 <img src="/images/smart_arch.jpg" alt="Smart parking architecture" title="Smart parking architecture">
 <br>
 <p><em>Figure 1 – An example of an IIoT Smart parking architecture</em></p>
-<p>Regrettably, we were compelled to abandon the initial concepts that had been set in place, due to a lack of understanding and guidance needed to construct such a solution effectively.
-Specifically, this problem arose as a critical advisor to the project was a UI designer!!</p>
+<p>The graphic(<strong>Figure 1</strong>) above merely depicts the ideal structure of such a system. Regrettably, we
+encountered a system devoid of fundamental concepts, prompting us to discard the initial
+architecture.</p>
+<p><strong>This issue was exacerbated by the fact that a UI designer served as a crucial advisor to the project!!!</strong></p>
 <img src="/images/kidding.png" alt="Are you kidding me?" title="Are you kidding me?">
 <br>
-<p>However, we managed to transition our code from Earlang to Qt and introduce an architectural
+<p>However, we managed to transition our code from Earlang to Qt and introduce a new architectural
 paradigm that set the stage for a more robust solution in the future.</p>
+<h2 id="additional">Additional</h2>
 <p>An IIoT gateway typically consists of the following components:</p>
 <p><strong>Sensors/devices:</strong> These are installed in parking spaces to detect the presence or absence of a
 vehicle. Common types of sensors include sensors,actuators, video cameras etc. Field sensors or
@@ -240,8 +246,24 @@ parking lot.</p>
 <p>Drawing from the IPSO Alliance, we implemented the IPSO Smart Objects concept. This approach enabled
 our system to seamlessly integrate and initialize various
 components and create a virtual hardware replica in the Cloud.</p>
-<p>Fast forward a few months, and we were able to showcase a working prototype in Amsterdam at a
-traffic solutions exhibition. The feedback was overwhelmingly positive.</p>
+<h2 id="the-triumphant-unveiling">The Triumphant Unveiling</h2>
+<p>After months of dedicated effort, our team proudly unveiled a fully functional prototype at the
+prestigious Traffic Solutions Exhibition in Amsterdam. As we showcased our innovative system to
+industry experts and potential clients, the response was overwhelmingly positive. Attendees were
+captivated by the seamless integration of cutting-edge technologies and the robust architectural
+framework we had meticulously designed.</p>
+<p>The prototype&rsquo;s ability to seamlessly orchestrate various components, from automats and cameras to
+scanning devices and intuitive user interfaces, garnered widespread acclaim. Visitors marveled at
+the system&rsquo;s versatility, real-time monitoring capabilities, and its potential to revolutionize the
+parking and traffic management landscape.</p>
+<p>The positive feedback we received not only validated our team&rsquo;s hard work but also reinforced our
+belief in the power of thoughtful planning and unwavering commitment to excellence. It was a
+resounding affirmation that our decision to embrace the right technology and design a future-proof
+architecture had paid off handsomely.</p>
+<p>As we basked in the success of our triumphant unveiling, we knew that this was merely the beginning
+of an exciting journey. Armed with the invaluable lessons learned and the overwhelming support from
+industry leaders, we were more motivated than ever to continue pushing boundaries and delivering
+innovative solutions that would shape the future of intelligent transportation systems.</p>
 <h2 id="key-takeaways">Key Takeaways</h2>
 <p>Reflecting on these experiences, some key takeaways emerge:</p>
 <p><strong>For Managers</strong></p>
