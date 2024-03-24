@@ -164,12 +164,16 @@ innovative solutions that would shape the future of intelligent transportation s
 &lt;h2 id=&#34;key-takeaways&#34;&gt;Key Takeaways&lt;/h2&gt;
 &lt;p&gt;Reflecting on these experiences, some key takeaways emerge:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;For Managers&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;1 .Never entrust critical decisions to people lacking expertise in the relevant area.&lt;/p&gt;
-&lt;ol start=&#34;2&#34;&gt;
-&lt;li&gt;Selecting the right team members for a project is integral to its success.&lt;/li&gt;
-&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Never entrust critical decisions to people lacking expertise in the relevant area.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Selecting the right team members for a project is integral to its success.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;&lt;strong&gt;For Engineers&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Don&amp;rsquo;t allow your existing knowledge of a programming language or concept to cloud your judgement.
 Remember that each tool is suited for solving specific kinds of problems and
@@ -187,7 +191,7 @@ allowed them to create such well-functioning devices.
 &lt;p&gt;Beware of the Dunning-Kruger Effect, where people with little knowledge often overestimate their
 abilities as they don&amp;rsquo;t comprehend the depth of expertise required to master something.&lt;/p&gt;
 &lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;img src=&#34;https://iqnev.github.io/images/dunning-kruger.png&#34; alt=&#34;Dunning Kruger&#34; title=&#34;Dunning Kruger&#34;&gt;
 &lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;The journey through this project has taught me invaluable lessons about the significance of making
