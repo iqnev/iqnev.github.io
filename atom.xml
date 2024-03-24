@@ -7,11 +7,177 @@
     
     <language>en</language>
     <copyright>Copyright 2024, Calvin Tran</copyright>
-    <lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 23 Mar 2024 00:00:00 +0000</lastBuildDate>
     <generator>Hugo - gohugo.io</generator>
     <docs>http://cyber.harvard.edu/rss/rss.html</docs>
     <atom:link href="https://iqnev.github.io//atom.xml" rel="self" type="application/atom+xml"/>
     
+    
+    <item>
+      <title>The impact of the right technology and architecture on project success</title>
+      <link>https://iqnev.github.io/posts/the-impact-of-the-right-technology-and-architecture-on-project-success/</link>
+      <description>&lt;p&gt;In this post, we will journey through my personal experiences that underscore the critical role
+played by apt technology and architecture in project outcomes.
+We will see why getting these aspects right from the get-go is of paramount importance.&lt;/p&gt;
+&lt;h2 id=&#34;story&#34;&gt;Story&lt;/h2&gt;
+&lt;p&gt;I had the opportunity to dive into the fascinating world of parking and traffic systems – a field
+ripe with potential for IoT/IIoT solutions.
+This was a dream-come-true opportunity for me, reminiscent of my high school days tinkering with
+electronics and microcontrollers.&lt;/p&gt;
+&lt;p&gt;Once I started working on the project, however, I quickly realized that the existing system didn&amp;rsquo;t
+meet the business requirement. Delving into the system’s program,
+I found it was written in Earlang(it is a language created by the Ericsson Computer Science Laboratory in the mid-1980s for parallel and distributed computing). Although a renowned
+language trusted by top-tier entities like Facebook,
+Amazon, and Google, it wasn&amp;rsquo;t the perfect fit for our project,
+which necessitated operations on various types of devices like: PT camera, PT VMS, Pay station,
+proximity cards (RFID), Automatic License Plate Recognition (ALPR), Near-field Communication (NFC),
+Dedicated Short-Range Communications (DSRC), Overhead radars, Bluetooth, LCD panel UI realization
+and also
+different communication protocols.&lt;/p&gt;
+&lt;p&gt;My experience with the aforementioned project got me cogitating about a suitable technology that
+could help us navigate our way out of the predicament.&lt;/p&gt;
+&lt;p&gt;Thus, the quest for the ideal technology commenced. It needed to fulfill the following essential
+functions:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Implement drivers for diverse devices.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Implement essential business logic.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Implement a user interface for terminal devices, like LCDs. Although Electron had been in use, it
+came with several issues and generally did not seem to be a fitting choice.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In the course of my search, I revisited QT, a software I had familiarized with during my university
+days. I also had an acquaintance who was proficient in using Qt.&lt;/p&gt;
+&lt;p&gt;Subsequent to crafting and demonstrating a successful QT prototype application to the management, we
+received approval to transition from Earlang to QT.&lt;/p&gt;
+&lt;h2 id=&#34;what-is-qt&#34;&gt;What is Qt?&lt;/h2&gt;
+&lt;p&gt;To shed more light on Qt, it employs C++ code in conjunction with several non-standard extensions.
+Qt is a cross-platform application framework
+renowned for developing software applications with graphical user interfaces (GUIs). Notably, Qt
+provides tools and libraries to fabricate applications across
+desktop, mobile, embedded systems, and web platforms.&lt;/p&gt;
+&lt;p&gt;A feather in Qt&amp;rsquo;s proverbial cap is its comprehensive feature set. It features a powerful set of
+tools for GUI development, cross-platform support, graphics and
+multimedia support, and Qt Quick and QML for building modern UIs.&lt;/p&gt;
+&lt;p&gt;Our decision to switch to Qt was made easier by considering its widespread use globally in popular
+platforms like:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Desktop&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;KDE Plasma&lt;/li&gt;
+&lt;li&gt;LXQt&lt;/li&gt;
+&lt;li&gt;Unity 2D&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Embedded and mobile&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Tesla Model S in-car UI&lt;/li&gt;
+&lt;li&gt;Mercedes&lt;/li&gt;
+&lt;li&gt;webOS&lt;/li&gt;
+&lt;li&gt;MeeGo&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Platforms&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Skype&lt;/li&gt;
+&lt;li&gt;Telegram&lt;/li&gt;
+&lt;li&gt;Teamviewer&lt;/li&gt;
+&lt;li&gt;Wireshark&lt;/li&gt;
+&lt;li&gt;VLC media player&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.qt.io/&#34;&gt;&lt;img
+  src=&#34;https://iqnev.github.io/images/qt-platform.png&#34;
+  alt=&#34;Qt&#34;
+  loading=&#34;lazy&#34;
+  decoding=&#34;async&#34;
+  class=&#34;full-width&#34;
+/&gt;
+
+&lt;/a&gt;&lt;/p&gt;
+&lt;br&gt;
+&lt;h2 id=&#34;rethinking-architecture&#34;&gt;Rethinking Architecture&lt;/h2&gt;
+&lt;p&gt;With Qt in place, we addressed another critical flaw in the project – the underwhelming architecture
+unsuitable for a full Machine-to-Machine (M2M) system.&lt;/p&gt;
+&lt;p&gt;I drafted diagram (&lt;strong&gt;Figure 1&lt;/strong&gt;), and want to show you a multi component architecture was necessitated to
+accommodate the solution&amp;rsquo;s requirements and provide a versatile system.
+A well-planned multi component architecture would provide a future-ready solution catering to the
+customer’s requirements.&lt;/p&gt;
+&lt;img src=&#34;https://iqnev.github.io/images/smart_arch.jpg&#34; alt=&#34;Smart parking architecture&#34; title=&#34;Smart parking architecture&#34;&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;em&gt;Figure 1 – An example of an IIoT Smart parking architecture&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Regrettably, we were compelled to abandon the initial concepts that had been set in place, due to a lack of understanding and guidance needed to construct such a solution effectively.
+Specifically, this problem arose as a critical advisor to the project was a UI designer!!&lt;/p&gt;
+&lt;img src=&#34;https://iqnev.github.io/images/kidding.png&#34; alt=&#34;Are you kidding me?&#34; title=&#34;Are you kidding me?&#34;&gt;
+&lt;br&gt;
+&lt;p&gt;However, we managed to transition our code from Earlang to Qt and introduce an architectural
+paradigm that set the stage for a more robust solution in the future.&lt;/p&gt;
+&lt;p&gt;An IIoT gateway typically consists of the following components:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sensors/devices:&lt;/strong&gt; These are installed in parking spaces to detect the presence or absence of a
+vehicle. Common types of sensors include sensors,actuators, video cameras etc. Field sensors or
+actuators are connected to I/O module masters. These I/O module masters transmit data to the
+on-premises PLC or IPC. The PLC/IPC is then connected to the IIoT gateway, which serves as a bridge
+between the PLC/IPC and the cloud.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Communication network:&lt;/strong&gt; This network carries data between the sensors and the cloud platform.
+Common communication protocols include Wi-Fi, cellular, and Bluetooth Low Energy (BLE).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cloud platform:&lt;/strong&gt; This platform(Parking Guidance System) collects and stores data from the
+sensors, as well as manages the overall system. The cloud platform can also provide real-time
+information to users about parking availability, as well as allow users to reserve parking spaces.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;User interface (UI):&lt;/strong&gt; This is the interface that users interact with to find parking
+information and make reservations. The UI can be a mobile app, a website, or a physical display in a
+parking lot.&lt;/p&gt;
+&lt;p&gt;Drawing from the IPSO Alliance, we implemented the IPSO Smart Objects concept. This approach enabled
+our system to seamlessly integrate and initialize various
+components and create a virtual hardware replica in the Cloud.&lt;/p&gt;
+&lt;p&gt;Fast forward a few months, and we were able to showcase a working prototype in Amsterdam at a
+traffic solutions exhibition. The feedback was overwhelmingly positive.&lt;/p&gt;
+&lt;h2 id=&#34;key-takeaways&#34;&gt;Key Takeaways&lt;/h2&gt;
+&lt;p&gt;Reflecting on these experiences, some key takeaways emerge:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;For Managers&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;1 .Never entrust critical decisions to people lacking expertise in the relevant area.&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;Selecting the right team members for a project is integral to its success.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;For Engineers&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Don&amp;rsquo;t allow your existing knowledge of a programming language or concept to cloud your judgement.
+Remember that each tool is suited for solving specific kinds of problems and
+it&amp;rsquo;s rare for one tool to fit all cases.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Never underestimate the power of well-thought-out architecture. It serves as the project&amp;rsquo;s
+foundation and shapes its future evolutions. So always guess that the Voyager ships are still
+running at million km distance from Earth,
+and were designed in the 70s. Engineers then designed a good foundation (architecture), which has
+allowed them to create such well-functioning devices.
+&lt;a href=&#34;https://www.allaboutcircuits.com/news/voyager-mission-anniversary-computers-command-data-attitude-control/&#34;&gt;The Brains of the Voyager Spacecraft: Command, Data, and Attitude Control Computers&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Beware of the Dunning-Kruger Effect, where people with little knowledge often overestimate their
+abilities as they don&amp;rsquo;t comprehend the depth of expertise required to master something.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;img src=&#34;https://iqnev.github.io/images/dunning-kruger.png&#34; alt=&#34;Dunning Kruger&#34; title=&#34;Dunning Kruger&#34;&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;The journey through this project has taught me invaluable lessons about the significance of making
+well-informed decisions and laying a solid architectural foundation from the very start. As
+engineers and developers, we often get caught up in the excitement of new technologies or familiar
+tools, but it&amp;rsquo;s crucial to step back and critically evaluate whether they truly align with the
+project&amp;rsquo;s requirements.&lt;/p&gt;
+</description>
+      <author>Calvin Tran</author>
+      <guid>https://iqnev.github.io/posts/the-impact-of-the-right-technology-and-architecture-on-project-success/</guid>
+      <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
+    </item>
     
     <item>
       <title>Why we discarded Reactive systems architecture from our code?</title>

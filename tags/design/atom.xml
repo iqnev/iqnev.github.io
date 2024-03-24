@@ -6,8 +6,15 @@
     <description>Recent content in Design on Codes are a puzzle</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 10 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 23 Mar 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://iqnev.github.io/tags/design/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The impact of the right technology and architecture on project success</title>
+      <link>https://iqnev.github.io/posts/the-impact-of-the-right-technology-and-architecture-on-project-success/</link>
+      <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/posts/the-impact-of-the-right-technology-and-architecture-on-project-success/</guid>
+      <description>In this post, we will journey through my personal experiences that underscore the critical role played by apt technology and architecture in project outcomes. We will see why getting these aspects right from the get-go is of paramount importance.&#xA;Story I had the opportunity to dive into the fascinating world of parking and traffic systems – a field ripe with potential for IoT/IIoT solutions. This was a dream-come-true opportunity for me, reminiscent of my high school days tinkering with electronics and microcontrollers.</description>
+    </item>
     <item>
       <title>Why we discarded Reactive systems architecture from our code?</title>
       <link>https://iqnev.github.io/posts/why-we-discarded-reactive-systems-architecture-from-our-code/</link>
