@@ -6,8 +6,29 @@
     <description>Recent content in Tags on Codes are a puzzle</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 Mar 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://iqnev.github.io/tags/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java</title>
+      <link>https://iqnev.github.io/tags/java/</link>
+      <pubDate>Thu, 28 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/tags/java/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>JVM</title>
+      <link>https://iqnev.github.io/tags/jvm/</link>
+      <pubDate>Thu, 28 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/tags/jvm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Virtual Threads</title>
+      <link>https://iqnev.github.io/tags/virtual-threads/</link>
+      <pubDate>Thu, 28 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/tags/virtual-threads/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Design</title>
       <link>https://iqnev.github.io/tags/design/</link>

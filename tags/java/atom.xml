@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on Codes are a puzzle</title>
+    <link>https://iqnev.github.io/tags/java/</link>
+    <description>Recent content in Java on Codes are a puzzle</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 28 Mar 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://iqnev.github.io/tags/java/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Exploring Pinning in JVM&#39;s Virtual Thread Mechanism</title>
+      <link>https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/</link>
+      <pubDate>Thu, 28 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/</guid>
+      <description>Java&amp;rsquo;s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient concurrency management. But understanding their behavior is crucial for optimal performance. This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores techniques to monitor and address it.&#xA;Virtual Threads: A Lightweight Concurrency Approach Java&amp;rsquo;s virtual threads are managed entities that run on top of the underlying operating system threads (carrier threads). They provide a more efficient way to handle concurrency compared to creating numerous OS threads, as they incur lower overhead.</description>
+    </item>
+  </channel>
+</rss>

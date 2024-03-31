@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Exploring Pinning in JVM&#39;s Virtual Thread Mechanism | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:title" content="Exploring Pinning in JVM&#39;s Virtual Thread Mechanism" />
+<meta property="og:description" content="Java&rsquo;s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient concurrency management. But understanding their behavior is crucial for optimal performance. This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores techniques to monitor and address it.
+Virtual Threads: A Lightweight Concurrency Approach Java&rsquo;s virtual threads are managed entities that run on top of the underlying operating system threads (carrier threads). They provide a more efficient way to handle concurrency compared to creating numerous OS threads, as they incur lower overhead." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/" /><meta property="og:image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-03-28T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-03-28T00:00:00+00:00" />
+
+    <meta itemprop="name" content="Exploring Pinning in JVM&#39;s Virtual Thread Mechanism">
+<meta itemprop="description" content="Java&rsquo;s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient concurrency management. But understanding their behavior is crucial for optimal performance. This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores techniques to monitor and address it.
+Virtual Threads: A Lightweight Concurrency Approach Java&rsquo;s virtual threads are managed entities that run on top of the underlying operating system threads (carrier threads). They provide a more efficient way to handle concurrency compared to creating numerous OS threads, as they incur lower overhead."><meta itemprop="datePublished" content="2024-03-28T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2024-03-28T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1244"><meta itemprop="image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png" />
+<meta itemprop="keywords" content="JVM,Virtual Threads,Java," />
+    
+    <link rel="canonical" href="https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Exploring Pinning in JVM\u0027s Virtual Thread Mechanism",
+      "headline": "Exploring Pinning in JVM\u0027s Virtual Thread Mechanism",
+      "alternativeHeadline": "",
+      "description": "Java\u0026rsquo;s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient concurrency management. But understanding their behavior is crucial for optimal performance. This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores techniques to monitor and address it.\nVirtual Threads: A Lightweight Concurrency Approach Java\u0026rsquo;s virtual threads are managed entities that run on top of the underlying operating system threads (carrier threads). They provide a more efficient way to handle concurrency compared to creating numerous OS threads, as they incur lower overhead.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/exploring_pinning_in_jvms_virtual_thread_mechanism\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2024",
+      "dateCreated": "2024-03-28T00:00:00.00Z",
+      "datePublished": "2024-03-28T00:00:00.00Z",
+      "dateModified": "2024-03-28T00:00:00.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": ["https://iqnev.github.io/images/quarkus_blogpost_formallogo.png"],
+      "url" : "https:\/\/iqnev.github.io\/posts\/exploring_pinning_in_jvms_virtual_thread_mechanism\/",
+      "wordCount" : "1244",
+      "genre" : [ "JVM" , "Virtual Threads" , "Java" ],
+      "keywords" : [ "JVM" , "Virtual Threads" , "Java" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Exploring Pinning in JVM&#39;s Virtual Thread Mechanism</h2>
+      <p>Java&rsquo;s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient
+concurrency management. But understanding their behavior is crucial for optimal performance.
+This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores
+techniques to monitor and address it.</p>
+<h2 id="virtual-threads-a-lightweight-concurrency-approach">Virtual Threads: A Lightweight Concurrency Approach</h2>
+<p>Java&rsquo;s virtual threads are managed entities that run on top of the underlying operating system
+threads (carrier threads). They provide a more efficient way to handle concurrency compared to
+creating numerous OS threads, as they incur lower overhead. The JVM maps virtual threads to carrier
+threads dynamically, allowing for better resource utilization.</p>
+<ul>
+<li>
+<p>Managed by the JVM: Unlike OS threads that are directly managed by the operating system, virtual
+threads are created and scheduled by the Java Virtual Machine (JVM). This allows for finer-grained
+control and optimization within the JVM environment.</p>
+</li>
+<li>
+<p>Reduced Overhead: Creating and managing virtual threads incurs significantly lower overhead
+compared to OS threads. This is because the JVM can manage a larger pool of virtual threads
+efficiently, utilizing a smaller number of underlying OS threads.</p>
+</li>
+<li>
+<p>Compatibility with Existing Code: Virtual threads are designed to be seamlessly integrated with
+existing Java code. They can be used alongside traditional OS threads and work within the familiar
+constructs like Executor and ExecutorService for managing concurrent.</p>
+</li>
+</ul>
+<p>The figure below shows the relationship between virtual threads and platform threads:</p>
+<br>
+<img src="/images/virtual_threads.jpg" alt="Virtual threads" title="Virtual threads">
+<br>
+<h2 id="pinning-when-a-virtual-thread-gets-stuck">Pinning: When a Virtual Thread Gets Stuck</h2>
+<p>Pinning occurs when a virtual thread becomes tied to its carrier thread. This essentially means the
+virtual thread cannot be preempted (switched to another carrier thread) while it&rsquo;s in a pinned
+state. Here are common scenarios that trigger pinning:</p>
+<ul>
+<li>Synchronized Blocks and Methods: Executing code within a synchronized block or method leads to
+pinning. This ensures exclusive access to shared resources, preventing data corruption issues.</li>
+</ul>
+<p><strong>Code Example:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">import</span> java.util.concurrent.ExecutorService;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#fc5fa3">import</span> java.util.concurrent.Executors;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">Main</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">main</span>(String[] args) <span style="color:#fc5fa3">throws</span> InterruptedException {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    <span style="color:#fc5fa3">final</span> Counter counter = <span style="color:#fc5fa3">new</span> Counter();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    Runnable task = () -&gt; {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>      <span style="color:#fc5fa3">for</span> (<span style="color:#fc5fa3">int</span> i = 0; i &lt; 1000; i++) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        counter.increment();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>      }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    };
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    Thread thread1 = <span style="color:#fc5fa3">new</span> Thread(task);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>    Thread thread2 = <span style="color:#fc5fa3">new</span> Thread(task);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    thread1.start();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>    thread2.start();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>    thread1.join();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    thread2.join();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    System.out.println(<span style="color:#fc6a5d">&#34;Final counter value: &#34;</span> + counter.getCount());
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span><span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">Counter</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>  <span style="color:#fc5fa3">private</span> <span style="color:#fc5fa3">int</span> count = 0;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">synchronized</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">increment</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>    count++;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">synchronized</span> <span style="color:#fc5fa3">int</span> <span style="color:#41a1c0">getCount</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>    <span style="color:#fc5fa3">return</span> count;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>}
+</span></span></code></pre></div><p>In this example, when a virtual thread enters the <code>synchronized</code> block, it becomes pinned to its
+carrier thread, but this is not always true.
+Java&rsquo;s <code>synchronized</code> keyword alone is not enough to cause thread pinning in virtual
+threads. For thread pinning to occur, there must be a blocking point within a <code>synchronized</code> block
+that causes a virtual thread to trigger park, and ultimately disallows unmounting from its carrier
+thread. Thread pinning could cause a decrease in performance as it would negate the benefits of
+using lightweight/virtual threads.</p>
+<p>Whenever a virtual thread encounters a blocking point, its state is transitioned to <code>PARKING</code>.
+This state transition is indicated by invoking the <code>VirtualThread.park()</code> method:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#6c7986">// JDK core code</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">park</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>  <span style="color:#fc5fa3">assert</span> Thread.currentThread() == <span style="color:#fc5fa3">this</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  <span style="color:#6c7986">// complete immediately if parking permit available or interrupted</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>  <span style="color:#fc5fa3">if</span> (getAndSetParkPermit(<span style="color:#fc5fa3">false</span>) || interrupted)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#fc5fa3">return</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>  <span style="color:#6c7986">// park the thread</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>  setState(PARKING);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>  <span style="color:#fc5fa3">try</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    <span style="color:#fc5fa3">if</span> (!yieldContinuation()) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>      <span style="color:#6c7986">// park on the carrier thread when pinned</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>      parkOnCarrierThread(<span style="color:#fc5fa3">false</span>, 0);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>  } <span style="color:#fc5fa3">finally</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    <span style="color:#fc5fa3">assert</span> (Thread.currentThread() == <span style="color:#fc5fa3">this</span>) &amp;&amp; (state() == RUNNING);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>}
+</span></span></code></pre></div><p>Let&rsquo;s take a look at a code sample to illustrate this concept:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">import</span> java.util.concurrent.ExecutorService;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#fc5fa3">import</span> java.util.concurrent.Executors;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">Main</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">main</span>(String[] args) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    Counter counter = <span style="color:#fc5fa3">new</span> Counter();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    Runnable task = () -&gt; {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>      <span style="color:#fc5fa3">for</span> (<span style="color:#fc5fa3">int</span> i = 0; i &lt; 100; i++) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        counter.increment();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>      }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    };
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    Thread thread1 = Thread.ofVirtual().start(task);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>    Thread thread2 = Thread.ofVirtual().start(task);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    <span style="color:#fc5fa3">try</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>      thread1.join();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>      thread2.join();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>    } <span style="color:#fc5fa3">catch</span> (InterruptedException e) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>      <span style="color:#fc5fa3">throw</span> <span style="color:#fc5fa3">new</span> RuntimeException(e);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>    System.out.println(<span style="color:#fc6a5d">&#34;Final counter value: &#34;</span> + counter.getCount());
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span><span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">Counter</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>  <span style="color:#fc5fa3">private</span> <span style="color:#fc5fa3">int</span> count = 0;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">increment</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>    <span style="color:#fc5fa3">synchronized</span> (<span style="color:#fc5fa3">this</span>) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>      <span style="color:#fc5fa3">try</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>        Thread.sleep(100); <span style="color:#6c7986">// This simulates a blocking call within the synchronized block</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>      } <span style="color:#fc5fa3">catch</span> (InterruptedException e) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>        e.printStackTrace();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>      }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>      count++;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">synchronized</span> <span style="color:#fc5fa3">int</span> <span style="color:#41a1c0">getCount</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span>    <span style="color:#fc5fa3">return</span> count;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span>}
+</span></span></code></pre></div><ul>
+<li>Native Methods/Foreign Functions: Running native methods or foreign functions can also cause
+pinning. The JVM might not be able to efficiently manage the virtual thread&rsquo;s state during these
+operations.</li>
+</ul>
+<br> 
+<h2 id="monitoring-pinning-with--djdktracepinnedthreadsfull">Monitoring Pinning with <code>-Djdk.tracePinnedThreads=full</code></h2>
+<p>The <code>-Djdk.tracePinnedThreads=full</code> flag is a JVM startup argument that provides detailed tracing
+information about virtual thread pinning. When enabled, it logs events like:</p>
+<ul>
+<li>Virtual thread ID involved in pinning</li>
+<li>Carrier thread ID to which the virtual thread is pinned</li>
+<li>Stack trace indicating the code section causing pinning</li>
+</ul>
+<style type="text/css">.notice{--root-color:#444;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#c33;--warning-content:#fee;--info-title:#fb7;--info-content:#fec;--note-title:#6be;--note-content:#e7f2fa;--tip-title:#5a5;--tip-content:#efe}@media (prefers-color-scheme:dark){.notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}}body.dark .notice{--root-color:#ddd;--root-background:#eff;--title-color:#fff;--title-background:#7bd;--warning-title:#800;--warning-content:#400;--info-title:#a50;--info-content:#420;--note-title:#069;--note-content:#023;--tip-title:#363;--tip-content:#121}.notice{padding:18px;line-height:24px;margin-bottom:24px;border-radius:4px;color:var(--root-color);background:var(--root-background)}.notice p:last-child{margin-bottom:0}.notice-title{margin:-18px -18px 12px;padding:4px 18px;border-radius:4px 4px 0 0;font-weight:700;color:var(--title-color);background:var(--title-background)}.notice.warning .notice-title{background:var(--warning-title)}.notice.warning{background:var(--warning-content)}.notice.info .notice-title{background:var(--info-title)}.notice.info{background:var(--info-content)}.notice.note .notice-title{background:var(--note-title)}.notice.note{background:var(--note-content)}.notice.tip .notice-title{background:var(--tip-title)}.notice.tip{background:var(--tip-content)}.icon-notice{display:inline-flex;align-self:center;margin-right:8px}.icon-notice img,.icon-notice svg{height:1em;width:1em;fill:currentColor}.icon-notice img,.icon-notice.baseline svg{top:.125em;position:relative}</style>
+<div><svg width="0" height="0" display="none" xmlns="http://www.w3.org/2000/svg"><symbol id="tip-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"/></symbol><symbol id="note-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zm-248 50c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></symbol><symbol id="warning-notice" viewBox="0 0 576 512" preserveAspectRatio="xMidYMid meet"><path d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/></symbol><symbol id="info-notice" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet"><path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"/></symbol></svg></div><div class="notice note" >
+<p class="first notice-title"><span class="icon-notice baseline"><svg><use href="#note-notice"></use></svg></span>Note</p><p>Use this flag judiciously during debugging sessions only, as it introduces performance overhead.</p></div>
+
+<ol>
+<li>Compile the our demo code:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>javac Main.java
+</span></span></code></pre></div><ol start="2">
+<li>Star the compiled code with the <code>-Djdk.tracePinnedThreads=full</code> flag:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>java -Djdk.tracePinnedThreads=full Main
+</span></span></code></pre></div><ol start="3">
+<li>Observe the output in the console, which shows detailed information about virtual thread
+pinning.:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>Thread[<span style="color:#6c7986">#29,ForkJoinPool-1-worker-1,5,CarrierThreads]</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>java.base/java.lang.VirtualThread<span style="color:#41a1c0">$VThreadContinuation</span>.onPinned(VirtualThread.java:183)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>java.base/jdk.internal.vm.Continuation.onPinned0(Continuation.java:393)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>java.base/java.lang.VirtualThread.parkNanos(VirtualThread.java:621)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>java.base/java.lang.VirtualThread.sleepNanos(VirtualThread.java:791)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>java.base/java.lang.Thread.sleep(Thread.java:507)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>Counter.increment(Main.java:38) &lt;== monitors:1
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>Main.lambda<span style="color:#41a1c0">$main$0</span>(Main.java:13)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>java.base/java.lang.VirtualThread.run(VirtualThread.java:309)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>Final counter value: <span style="color:#d0bf69">200</span>
+</span></span></code></pre></div><br> 
+<h2 id="fixing-pinning-with-reentrant-locks">Fixing Pinning with Reentrant Locks</h2>
+<p>While pinning isn&rsquo;t inherently bad, excessive or long-lived pinning can negatively impact
+performance. Here&rsquo;s how to mitigate pinning using Reentrant locks:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">import</span> java.util.concurrent.ExecutorService;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#fc5fa3">import</span> java.util.concurrent.Executors;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#fc5fa3">import</span> java.util.concurrent.locks.ReentrantLock;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">Main</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">main</span>(String[] args) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    Counter counter = <span style="color:#fc5fa3">new</span> Counter();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    Runnable task = () -&gt; {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>      <span style="color:#fc5fa3">for</span> (<span style="color:#fc5fa3">int</span> i = 0; i &lt; 100; i++) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>        counter.increment();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>      }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    };
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>    Thread thread1 = Thread.ofVirtual().start(task);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    Thread thread2 = Thread.ofVirtual().start(task);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>    <span style="color:#fc5fa3">try</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>      thread1.join();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>      thread2.join();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    } <span style="color:#fc5fa3">catch</span> (InterruptedException e) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>      <span style="color:#fc5fa3">throw</span> <span style="color:#fc5fa3">new</span> RuntimeException(e);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>    System.out.println(<span style="color:#fc6a5d">&#34;Final counter value: &#34;</span> + counter.getCount());
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span><span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">Counter</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>  <span style="color:#fc5fa3">private</span> <span style="color:#fc5fa3">int</span> count = 0;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34</span><span>  <span style="color:#fc5fa3">private</span> <span style="color:#fc5fa3">final</span> ReentrantLock lock = <span style="color:#fc5fa3">new</span> ReentrantLock();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">increment</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37</span><span>    lock.lock();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38</span><span>    <span style="color:#fc5fa3">try</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39</span><span>      Thread.sleep(100); <span style="color:#6c7986">// This simulates a blocking call</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40</span><span>      count++;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41</span><span>    } <span style="color:#fc5fa3">catch</span> (InterruptedException e) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42</span><span>      e.printStackTrace();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43</span><span>    } <span style="color:#fc5fa3">finally</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44</span><span>      lock.unlock();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">int</span> <span style="color:#41a1c0">getCount</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49</span><span>    <span style="color:#fc5fa3">return</span> count;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51</span><span>}
+</span></span></code></pre></div><p>In the updated example, we use a <code>ReentrantLock</code> instead of a <code>synchronized</code> block. The thread can
+acquire the lock and release it immediately after it completes its operation,
+potentially reducing the duration of pinning compared to a <code>synchronized</code> block which might hold the
+lock for a longer period.</p>
+<h2 id="in-conclusion">In Conclusion</h2>
+<p>Java&rsquo;s virtual threads stand as a testimony to the evolution and the capabilities of the language.
+They offer a fresh, lightweight alternative to traditional OS threads, providing a bridge to
+efficient concurrency management. Taking the time to dig deep and understand key concepts such as
+thread pinning can equip developers with the know-how to leverage the full potential of these
+lightweight threads. This knowledge not only prepares developers for leveraging upcoming features
+but also empowers them to resolve complex concurrency control issues more effectively in their
+current projects.</p>
+
+      
+      <div class="post-date">
+        <span class="g time">March 28, 2024 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/jvm/">jvm</a> <a href="https://iqnev.github.io/tags/virtual-threads/">virtual-threads</a> <a href="https://iqnev.github.io/tags/java/">java</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>
