@@ -11,7 +11,7 @@
 <meta property="og:description" content="Java&rsquo;s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient concurrency management. But understanding their behavior is crucial for optimal performance. This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores techniques to monitor and address it.
 Virtual Threads: A Lightweight Concurrency Approach Java&rsquo;s virtual threads are managed entities that run on top of the underlying operating system threads (carrier threads). They provide a more efficient way to handle concurrency compared to creating numerous OS threads, as they incur lower overhead." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/" /><meta property="og:image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png" /><meta property="article:section" content="posts" />
+<meta property="og:url" content="https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/" /><meta property="og:image" content="https://iqnev.github.io/images/vthreads.png" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2024-03-28T00:00:00+00:00" />
 <meta property="article:modified_time" content="2024-03-28T00:00:00+00:00" />
 
@@ -19,7 +19,7 @@ Virtual Threads: A Lightweight Concurrency Approach Java&rsquo;s virtual threads
 <meta itemprop="description" content="Java&rsquo;s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient concurrency management. But understanding their behavior is crucial for optimal performance. This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores techniques to monitor and address it.
 Virtual Threads: A Lightweight Concurrency Approach Java&rsquo;s virtual threads are managed entities that run on top of the underlying operating system threads (carrier threads). They provide a more efficient way to handle concurrency compared to creating numerous OS threads, as they incur lower overhead."><meta itemprop="datePublished" content="2024-03-28T00:00:00+00:00" />
 <meta itemprop="dateModified" content="2024-03-28T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1244"><meta itemprop="image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png" />
+<meta itemprop="wordCount" content="1256"><meta itemprop="image" content="https://iqnev.github.io/images/vthreads.png" />
 <meta itemprop="keywords" content="JVM,Virtual Threads,Java," />
     
     <link rel="canonical" href="https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/">
@@ -79,9 +79,9 @@ Virtual Threads: A Lightweight Concurrency Approach Java&rsquo;s virtual threads
               "height":"32"
           }
       },
-      "image": ["https://iqnev.github.io/images/quarkus_blogpost_formallogo.png"],
+      "image": ["https://iqnev.github.io/images/vthreads.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/exploring_pinning_in_jvms_virtual_thread_mechanism\/",
-      "wordCount" : "1244",
+      "wordCount" : "1256",
       "genre" : [ "JVM" , "Virtual Threads" , "Java" ],
       "keywords" : [ "JVM" , "Virtual Threads" , "Java" ]
   }
@@ -316,8 +316,8 @@ pinning.:</li>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>Final counter value: <span style="color:#d0bf69">200</span>
 </span></span></code></pre></div><br> 
 <h2 id="fixing-pinning-with-reentrant-locks">Fixing Pinning with Reentrant Locks</h2>
-<p>While pinning isn&rsquo;t inherently bad, excessive or long-lived pinning can negatively impact
-performance. Here&rsquo;s how to mitigate pinning using Reentrant locks:</p>
+<p>Pinning is an undesirable scenario which impedes the performance of virtual threads. Reentrant locks serve as an effective tool to counteract pinning.
+Here&rsquo;s how you can use <code>Reentrant</code> locks to mitigate pinning situations:</p>
 <div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">import</span> java.util.concurrent.ExecutorService;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#fc5fa3">import</span> java.util.concurrent.Executors;
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#fc5fa3">import</span> java.util.concurrent.locks.ReentrantLock;
