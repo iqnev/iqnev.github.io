@@ -7,21 +7,35 @@
     <meta name="author" content="Liste - https://iqnev.github.io/">
     <title>Registering Reflection in Quarkus Extensions | Codes are a puzzle</title>
     <meta name="description" content="A minimal hugo theme focus on content">
-    <meta property="og:title" content="Registering Reflection in Quarkus Extensions" />
-<meta property="og:description" content="Quarkus utilizes ahead-of-time (AOT) compilation to build blazing fast native executables. However, AOT works through closed-world analysis which eliminates unused code paths. This can break functionality relying on runtime reflection like dependency injection, bytecode manipulation, and integration with certain libraries.
-Registering for Reflection When building a native executable, GraalVM operates under a closed-world assumption, analyzing the call tree and eliminating unused classes, methods, and fields. To include elements requiring reflective access, explicit registration becomes crucial." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://iqnev.github.io/posts/registering-reflection-in-quarkus-extensions/" /><meta property="og:image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-11-26T14:04:18+03:00" />
-<meta property="article:modified_time" content="2023-11-26T14:04:18+03:00" />
+    <meta property="og:url" content="https://iqnev.github.io/posts/registering-reflection-in-quarkus-extensions/">
+  <meta property="og:site_name" content="Codes are a puzzle">
+  <meta property="og:title" content="Registering Reflection in Quarkus Extensions">
+  <meta property="og:description" content="Quarkus utilizes ahead-of-time (AOT) compilation to build blazing fast native executables. However, AOT works through closed-world analysis which eliminates unused code paths. This can break functionality relying on runtime reflection like dependency injection, bytecode manipulation, and integration with certain libraries.
+Registering for Reflection When building a native executable, GraalVM operates under a closed-world assumption, analyzing the call tree and eliminating unused classes, methods, and fields. To include elements requiring reflective access, explicit registration becomes crucial.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-11-26T14:04:18+03:00">
+    <meta property="article:modified_time" content="2023-11-26T14:04:18+03:00">
+    <meta property="article:tag" content="Development">
+    <meta property="article:tag" content="Quarkus">
+    <meta property="article:tag" content="Extension">
+    <meta property="article:tag" content="GraalVM">
+    <meta property="og:image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png">
 
-    <meta itemprop="name" content="Registering Reflection in Quarkus Extensions">
-<meta itemprop="description" content="Quarkus utilizes ahead-of-time (AOT) compilation to build blazing fast native executables. However, AOT works through closed-world analysis which eliminates unused code paths. This can break functionality relying on runtime reflection like dependency injection, bytecode manipulation, and integration with certain libraries.
-Registering for Reflection When building a native executable, GraalVM operates under a closed-world assumption, analyzing the call tree and eliminating unused classes, methods, and fields. To include elements requiring reflective access, explicit registration becomes crucial."><meta itemprop="datePublished" content="2023-11-26T14:04:18+03:00" />
-<meta itemprop="dateModified" content="2023-11-26T14:04:18+03:00" />
-<meta itemprop="wordCount" content="736"><meta itemprop="image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png" />
-<meta itemprop="keywords" content="Development,Quarkus,Extension,GraalVM," />
     
+  <meta itemprop="name" content="Registering Reflection in Quarkus Extensions">
+  <meta itemprop="description" content="Quarkus utilizes ahead-of-time (AOT) compilation to build blazing fast native executables. However, AOT works through closed-world analysis which eliminates unused code paths. This can break functionality relying on runtime reflection like dependency injection, bytecode manipulation, and integration with certain libraries.
+Registering for Reflection When building a native executable, GraalVM operates under a closed-world assumption, analyzing the call tree and eliminating unused classes, methods, and fields. To include elements requiring reflective access, explicit registration becomes crucial.">
+  <meta itemprop="datePublished" content="2023-11-26T14:04:18+03:00">
+  <meta itemprop="dateModified" content="2023-11-26T14:04:18+03:00">
+  <meta itemprop="wordCount" content="736">
+  <meta itemprop="image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png">
+  <meta itemprop="keywords" content="Development,Quarkus,Extension,GraalVM">
+    
+  
+
+
     <link rel="canonical" href="https://iqnev.github.io/posts/registering-reflection-in-quarkus-extensions/">
     <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">

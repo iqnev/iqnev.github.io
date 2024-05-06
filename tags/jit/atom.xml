@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JIT on Codes are a puzzle</title>
+    <link>https://iqnev.github.io/tags/jit/</link>
+    <description>Recent content in JIT on Codes are a puzzle</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 06 May 2024 11:04:18 +0300</lastBuildDate>
+    <atom:link href="https://iqnev.github.io/tags/jit/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Exploring Graal: Next-Generation JIT Compilation for Java</title>
+      <link>https://iqnev.github.io/posts/exploring_graal_next_generation_jit_compilation_for_java/</link>
+      <pubDate>Mon, 06 May 2024 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/posts/exploring_graal_next_generation_jit_compilation_for_java/</guid>
+      <description>The Graal compiler is a radical leap forward in dynamic, Just-In-Time (JIT) compilation technology. Heralded as a significant factor behind Java&amp;rsquo;s impressive performance, the role and function of JIT compilation within the Java Virtual Machine (JVM) architecture often perplexes many practitioners due to its complex and rather opaque nature.&#xA;What is a JIT compiler? When you execute the javac command or use the IDE, your Java program is converted from Java source code into JVM bytecode.</description>
+    </item>
+  </channel>
+</rss>

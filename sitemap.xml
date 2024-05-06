@@ -3,10 +3,31 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://iqnev.github.io/</loc>
-    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-05-06T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/</loc>
-    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-05-06T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/compiler/</loc>
+    <lastmod>2024-05-06T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/exploring_graal_next_generation_jit_compilation_for_java/</loc>
+    <lastmod>2024-05-06T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/categories/graalvm/</loc>
+    <lastmod>2024-05-06T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/graalvm/</loc>
+    <lastmod>2024-05-06T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/jit/</loc>
+    <lastmod>2024-05-06T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/</loc>
+    <lastmod>2024-05-06T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/</loc>
+    <lastmod>2024-05-06T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/</loc>
     <lastmod>2024-03-28T00:00:00+00:00</lastmod>
@@ -18,12 +39,6 @@
     <lastmod>2024-03-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/jvm/</loc>
-    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/posts/</loc>
-    <lastmod>2024-03-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/</loc>
     <lastmod>2024-03-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/virtual-threads/</loc>
@@ -49,9 +64,6 @@
   </url><url>
     <loc>https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/</loc>
     <lastmod>2024-02-18T11:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/graalvm/</loc>
-    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/microservice/</loc>
     <lastmod>2024-01-07T11:04:18+03:00</lastmod>

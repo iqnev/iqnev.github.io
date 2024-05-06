@@ -7,23 +7,35 @@
     <meta name="author" content="Liste - https://iqnev.github.io/">
     <title>The Challenge of Evolving Schemas in Message Queues | Codes are a puzzle</title>
     <meta name="description" content="A minimal hugo theme focus on content">
-    <meta property="og:title" content="The Challenge of Evolving Schemas in Message Queues" />
-<meta property="og:description" content="In systems built on message queues like RabbitMQ or Pub/Sub, schema evolution is inevitable. It allows you to adapt to changing needs and add new features, but it can also introduce challenges. When updating schemas, ensuring a smooth transition is crucial to avoid disrupting existing processes and consumers. Let&rsquo;s explore a scenario where your schema undergoes significant changes:
+    <meta property="og:url" content="https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/">
+  <meta property="og:site_name" content="Codes are a puzzle">
+  <meta property="og:title" content="The Challenge of Evolving Schemas in Message Queues">
+  <meta property="og:description" content="In systems built on message queues like RabbitMQ or Pub/Sub, schema evolution is inevitable. It allows you to adapt to changing needs and add new features, but it can also introduce challenges. When updating schemas, ensuring a smooth transition is crucial to avoid disrupting existing processes and consumers. Let’s explore a scenario where your schema undergoes significant changes:
 Initial Payload (Version 1.0):
-1{ 2 &#34;eventType&#34;: &#34;user_created&#34;, 3 &#34;version&#34;: &#34;1.0&#34;, 4 &#34;timestamp&#34;: &#34;2024-01-15T08:00:00Z&#34;, 5 &#34;data&#34;: { 6 &#34;id&#34;: &#34;123456789&#34;, 7 &#34;username&#34;: &#34;john_doe&#34;, 8 &#34;name&#34;: &#34;John Doe&#34;, 9 &#34;email&#34;: &#34;john." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/" /><meta property="og:image" content="https://iqnev.github.io/images/message_queuing.png" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2024-02-18T11:04:18+03:00" />
-<meta property="article:modified_time" content="2024-02-18T11:04:18+03:00" />
+1{ 2 &#34;eventType&#34;: &#34;user_created&#34;, 3 &#34;version&#34;: &#34;1.0&#34;, 4 &#34;timestamp&#34;: &#34;2024-01-15T08:00:00Z&#34;, 5 &#34;data&#34;: { 6 &#34;id&#34;: &#34;123456789&#34;, 7 &#34;username&#34;: &#34;john_doe&#34;, 8 &#34;name&#34;: &#34;John Doe&#34;, 9 &#34;email&#34;: &#34;john.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-02-18T11:04:18+03:00">
+    <meta property="article:modified_time" content="2024-02-18T11:04:18+03:00">
+    <meta property="article:tag" content="Design">
+    <meta property="article:tag" content="Message-Queuing">
+    <meta property="og:image" content="https://iqnev.github.io/images/message_queuing.png">
 
-    <meta itemprop="name" content="The Challenge of Evolving Schemas in Message Queues">
-<meta itemprop="description" content="In systems built on message queues like RabbitMQ or Pub/Sub, schema evolution is inevitable. It allows you to adapt to changing needs and add new features, but it can also introduce challenges. When updating schemas, ensuring a smooth transition is crucial to avoid disrupting existing processes and consumers. Let&rsquo;s explore a scenario where your schema undergoes significant changes:
-Initial Payload (Version 1.0):
-1{ 2 &#34;eventType&#34;: &#34;user_created&#34;, 3 &#34;version&#34;: &#34;1.0&#34;, 4 &#34;timestamp&#34;: &#34;2024-01-15T08:00:00Z&#34;, 5 &#34;data&#34;: { 6 &#34;id&#34;: &#34;123456789&#34;, 7 &#34;username&#34;: &#34;john_doe&#34;, 8 &#34;name&#34;: &#34;John Doe&#34;, 9 &#34;email&#34;: &#34;john."><meta itemprop="datePublished" content="2024-02-18T11:04:18+03:00" />
-<meta itemprop="dateModified" content="2024-02-18T11:04:18+03:00" />
-<meta itemprop="wordCount" content="672"><meta itemprop="image" content="https://iqnev.github.io/images/message_queuing.png" />
-<meta itemprop="keywords" content="design,message-queuing," />
     
+  <meta itemprop="name" content="The Challenge of Evolving Schemas in Message Queues">
+  <meta itemprop="description" content="In systems built on message queues like RabbitMQ or Pub/Sub, schema evolution is inevitable. It allows you to adapt to changing needs and add new features, but it can also introduce challenges. When updating schemas, ensuring a smooth transition is crucial to avoid disrupting existing processes and consumers. Let&rsquo;s explore a scenario where your schema undergoes significant changes:
+Initial Payload (Version 1.0):
+1{ 2 &#34;eventType&#34;: &#34;user_created&#34;, 3 &#34;version&#34;: &#34;1.0&#34;, 4 &#34;timestamp&#34;: &#34;2024-01-15T08:00:00Z&#34;, 5 &#34;data&#34;: { 6 &#34;id&#34;: &#34;123456789&#34;, 7 &#34;username&#34;: &#34;john_doe&#34;, 8 &#34;name&#34;: &#34;John Doe&#34;, 9 &#34;email&#34;: &#34;john.">
+  <meta itemprop="datePublished" content="2024-02-18T11:04:18+03:00">
+  <meta itemprop="dateModified" content="2024-02-18T11:04:18+03:00">
+  <meta itemprop="wordCount" content="672">
+  <meta itemprop="image" content="https://iqnev.github.io/images/message_queuing.png">
+  <meta itemprop="keywords" content="Design,Message-Queuing">
+    
+  
+
+
     <link rel="canonical" href="https://iqnev.github.io/posts/the-challenge-of-evolving-schemas-in-message-queues/">
     <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">

@@ -7,21 +7,34 @@
     <meta name="author" content="Liste - https://iqnev.github.io/">
     <title>Exploring Pinning in JVM&#39;s Virtual Thread Mechanism | Codes are a puzzle</title>
     <meta name="description" content="A minimal hugo theme focus on content">
-    <meta property="og:title" content="Exploring Pinning in JVM&#39;s Virtual Thread Mechanism" />
-<meta property="og:description" content="Java&rsquo;s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient concurrency management. But understanding their behavior is crucial for optimal performance. This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores techniques to monitor and address it.
-Virtual Threads: A Lightweight Concurrency Approach Java&rsquo;s virtual threads are managed entities that run on top of the underlying operating system threads (carrier threads). They provide a more efficient way to handle concurrency compared to creating numerous OS threads, as they incur lower overhead." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/" /><meta property="og:image" content="https://iqnev.github.io/images/vthreads.png" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2024-03-28T00:00:00+00:00" />
-<meta property="article:modified_time" content="2024-03-28T00:00:00+00:00" />
+    <meta property="og:url" content="https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/">
+  <meta property="og:site_name" content="Codes are a puzzle">
+  <meta property="og:title" content="Exploring Pinning in JVM&#39;s Virtual Thread Mechanism">
+  <meta property="og:description" content="Java’s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient concurrency management. But understanding their behavior is crucial for optimal performance. This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores techniques to monitor and address it.
+Virtual Threads: A Lightweight Concurrency Approach Java’s virtual threads are managed entities that run on top of the underlying operating system threads (carrier threads). They provide a more efficient way to handle concurrency compared to creating numerous OS threads, as they incur lower overhead.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-03-28T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-03-28T00:00:00+00:00">
+    <meta property="article:tag" content="JVM">
+    <meta property="article:tag" content="Virtual Threads">
+    <meta property="article:tag" content="Java">
+    <meta property="og:image" content="https://iqnev.github.io/images/vthreads.png">
 
-    <meta itemprop="name" content="Exploring Pinning in JVM&#39;s Virtual Thread Mechanism">
-<meta itemprop="description" content="Java&rsquo;s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient concurrency management. But understanding their behavior is crucial for optimal performance. This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores techniques to monitor and address it.
-Virtual Threads: A Lightweight Concurrency Approach Java&rsquo;s virtual threads are managed entities that run on top of the underlying operating system threads (carrier threads). They provide a more efficient way to handle concurrency compared to creating numerous OS threads, as they incur lower overhead."><meta itemprop="datePublished" content="2024-03-28T00:00:00+00:00" />
-<meta itemprop="dateModified" content="2024-03-28T00:00:00+00:00" />
-<meta itemprop="wordCount" content="1256"><meta itemprop="image" content="https://iqnev.github.io/images/vthreads.png" />
-<meta itemprop="keywords" content="JVM,Virtual Threads,Java," />
     
+  <meta itemprop="name" content="Exploring Pinning in JVM&#39;s Virtual Thread Mechanism">
+  <meta itemprop="description" content="Java&rsquo;s virtual threads offer a lightweight alternative to traditional OS threads, enabling efficient concurrency management. But understanding their behavior is crucial for optimal performance. This blog post dives into pinning, a scenario that can impact virtual thread execution, and explores techniques to monitor and address it.
+Virtual Threads: A Lightweight Concurrency Approach Java&rsquo;s virtual threads are managed entities that run on top of the underlying operating system threads (carrier threads). They provide a more efficient way to handle concurrency compared to creating numerous OS threads, as they incur lower overhead.">
+  <meta itemprop="datePublished" content="2024-03-28T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-03-28T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1256">
+  <meta itemprop="image" content="https://iqnev.github.io/images/vthreads.png">
+  <meta itemprop="keywords" content="JVM,Virtual Threads,Java">
+    
+  
+
+
     <link rel="canonical" href="https://iqnev.github.io/posts/exploring_pinning_in_jvms_virtual_thread_mechanism/">
     <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">

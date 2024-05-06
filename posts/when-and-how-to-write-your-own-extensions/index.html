@@ -7,21 +7,34 @@
     <meta name="author" content="Liste - https://iqnev.github.io/">
     <title>Extending Quarkus: When and How to Write Your Own Extensions | Codes are a puzzle</title>
     <meta name="description" content="A minimal hugo theme focus on content">
-    <meta property="og:title" content="Extending Quarkus: When and How to Write Your Own Extensions" />
-<meta property="og:description" content="Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&rsquo;s crucial to understand when it&#39; s necessary and how to do it effectively.
-When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/" /><meta property="og:image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-10-08T21:29:18+03:00" />
-<meta property="article:modified_time" content="2023-10-08T21:29:18+03:00" />
+    <meta property="og:url" content="https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/">
+  <meta property="og:site_name" content="Codes are a puzzle">
+  <meta property="og:title" content="Extending Quarkus: When and How to Write Your Own Extensions">
+  <meta property="og:description" content="Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it’s crucial to understand when it&#39; s necessary and how to do it effectively.
+When to Create a Quarkus Extension Complex Integrations: If you’re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-10-08T21:29:18+03:00">
+    <meta property="article:modified_time" content="2023-10-08T21:29:18+03:00">
+    <meta property="article:tag" content="Development">
+    <meta property="article:tag" content="Quarkus">
+    <meta property="article:tag" content="Extension">
+    <meta property="og:image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png">
 
-    <meta itemprop="name" content="Extending Quarkus: When and How to Write Your Own Extensions">
-<meta itemprop="description" content="Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&rsquo;s crucial to understand when it&#39; s necessary and how to do it effectively.
-When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management."><meta itemprop="datePublished" content="2023-10-08T21:29:18+03:00" />
-<meta itemprop="dateModified" content="2023-10-08T21:29:18+03:00" />
-<meta itemprop="wordCount" content="1076"><meta itemprop="image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png" />
-<meta itemprop="keywords" content="Development,Quarkus,Extension," />
     
+  <meta itemprop="name" content="Extending Quarkus: When and How to Write Your Own Extensions">
+  <meta itemprop="description" content="Quarkus, with its innovative extension framework, offers developers a powerful way to integrate various technologies seamlessly into their applications. These extensions simplify configuration, enable dependency injection, and optimize performance, making it an attractive option for Java developers. However, before diving into creating your own Quarkus extension, it&rsquo;s crucial to understand when it&#39; s necessary and how to do it effectively.
+When to Create a Quarkus Extension Complex Integrations: If you&rsquo;re working with complex frameworks like ORM mappers, reactive clients, or data access libraries, creating an extension can help manage the intricacies of configuration and dependency management.">
+  <meta itemprop="datePublished" content="2023-10-08T21:29:18+03:00">
+  <meta itemprop="dateModified" content="2023-10-08T21:29:18+03:00">
+  <meta itemprop="wordCount" content="1076">
+  <meta itemprop="image" content="https://iqnev.github.io/images/quarkus_blogpost_formallogo.png">
+  <meta itemprop="keywords" content="Development,Quarkus,Extension">
+    
+  
+
+
     <link rel="canonical" href="https://iqnev.github.io/posts/when-and-how-to-write-your-own-extensions/">
     <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
     <link rel="dns-prefetch" href="https://www.google-analytics.com">

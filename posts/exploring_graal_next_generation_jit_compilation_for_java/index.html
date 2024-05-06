@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Exploring Graal: Next-Generation JIT Compilation for Java | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:url" content="https://iqnev.github.io/posts/exploring_graal_next_generation_jit_compilation_for_java/">
+  <meta property="og:site_name" content="Codes are a puzzle">
+  <meta property="og:title" content="Exploring Graal: Next-Generation JIT Compilation for Java">
+  <meta property="og:description" content="The Graal compiler is a radical leap forward in dynamic, Just-In-Time (JIT) compilation technology. Heralded as a significant factor behind Java’s impressive performance, the role and function of JIT compilation within the Java Virtual Machine (JVM) architecture often perplexes many practitioners due to its complex and rather opaque nature.
+What is a JIT compiler? When you execute the javac command or use the IDE, your Java program is converted from Java source code into JVM bytecode.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-05-06T11:04:18+03:00">
+    <meta property="article:modified_time" content="2024-05-06T11:04:18+03:00">
+    <meta property="article:tag" content="JIT">
+    <meta property="article:tag" content="GraalVM">
+    <meta property="article:tag" content="Compiler">
+    <meta property="og:image" content="https://iqnev.github.io/images/graalvm-logo.png">
+
+    
+  <meta itemprop="name" content="Exploring Graal: Next-Generation JIT Compilation for Java">
+  <meta itemprop="description" content="The Graal compiler is a radical leap forward in dynamic, Just-In-Time (JIT) compilation technology. Heralded as a significant factor behind Java&rsquo;s impressive performance, the role and function of JIT compilation within the Java Virtual Machine (JVM) architecture often perplexes many practitioners due to its complex and rather opaque nature.
+What is a JIT compiler? When you execute the javac command or use the IDE, your Java program is converted from Java source code into JVM bytecode.">
+  <meta itemprop="datePublished" content="2024-05-06T11:04:18+03:00">
+  <meta itemprop="dateModified" content="2024-05-06T11:04:18+03:00">
+  <meta itemprop="wordCount" content="1313">
+  <meta itemprop="image" content="https://iqnev.github.io/images/graalvm-logo.png">
+  <meta itemprop="keywords" content="JIT,GraalVM,Compiler">
+    
+  
+
+
+    <link rel="canonical" href="https://iqnev.github.io/posts/exploring_graal_next_generation_jit_compilation_for_java/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Exploring Graal: Next-Generation JIT Compilation for Java",
+      "headline": "Exploring Graal: Next-Generation JIT Compilation for Java",
+      "alternativeHeadline": "",
+      "description": "The Graal compiler is a radical leap forward in dynamic, Just-In-Time (JIT) compilation technology. Heralded as a significant factor behind Java\u0026rsquo;s impressive performance, the role and function of JIT compilation within the Java Virtual Machine (JVM) architecture often perplexes many practitioners due to its complex and rather opaque nature.\nWhat is a JIT compiler? When you execute the javac command or use the IDE, your Java program is converted from Java source code into JVM bytecode.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/exploring_graal_next_generation_jit_compilation_for_java\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2024",
+      "dateCreated": "2024-05-06T11:04:18.00Z",
+      "datePublished": "2024-05-06T11:04:18.00Z",
+      "dateModified": "2024-05-06T11:04:18.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": ["https://iqnev.github.io/images/graalvm-logo.png"],
+      "url" : "https:\/\/iqnev.github.io\/posts\/exploring_graal_next_generation_jit_compilation_for_java\/",
+      "wordCount" : "1313",
+      "genre" : [ "JIT" , "graalvm" , "compiler" ],
+      "keywords" : [ "JIT" , "graalvm" , "compiler" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Exploring Graal: Next-Generation JIT Compilation for Java</h2>
+      <p>The Graal compiler is a radical leap forward in dynamic, Just-In-Time (JIT) compilation technology.
+Heralded as a significant factor behind Java&rsquo;s impressive performance, the role and function of JIT
+compilation within the Java Virtual Machine (JVM) architecture often perplexes many practitioners
+due to its complex and rather opaque nature.</p>
+<h2 id="what-is-a-jit-compiler">What is a JIT compiler?</h2>
+<p>When you execute the javac command or use the IDE, your Java program is converted from Java source
+code into JVM bytecode. This
+process creates a binary representation of your Java program - a format much simpler and more
+compact than the original source code.</p>
+<p>Classical processors found in your computer or server, however, are incapable of executing JVM
+bytecode directly. This necessitates the JVM to interpret the bytecode.</p>
+<img src="/images/jit-compiler.jpg" alt="How a just-in-time (JIT) compiler works" title="How a just-in-time (JIT) compiler works">
+<br>
+<p><em>Figure 1 – How a just-in-time (JIT) compiler works</em></p>
+<p>Interpreters can often underperform compared to native code running on an actual processor, which
+motivates the JVM to invoke another compiler at runtime - the JIT compiler. The JIT compiler
+translates your bytecode into machine code that your processor can run directly. This sophisticated
+compiler executes a range of advanced optimizations to generate high-quality machine code.</p>
+<p>This bytecode acts as an intermediate layer, enabling Java applications to run on various operating
+systems with different processor architectures. The JVM itself is a software program that interprets
+this bytecode instruction by instruction.</p>
+<h2 id="the-graal-jit-compiler--its-written-in-java">The Graal JIT Compiler – It’s Written in Java</h2>
+<p>The OpenJDK implementation of the JVM contains two conventional JIT-compilers – the Client
+Compiler (C1) and the Server Compiler (C2 or Opto). The Client Compiler is optimized for faster
+operation and less optimized code output, making it ideal for desktop applications where extended
+JIT-compilation pauses can interrupt user experience. Conversely, the Server Compiler is engineered
+to spend more time producing highly optimized code, making it suitable for long-running server
+applications.</p>
+<p>The two compilers can be used in tandem through &ldquo;tiered compilation&rdquo;. Initially, the code is
+compiled through C1, followed by C2 if execution frequency justifies the additional compilation
+time.</p>
+<p>Developed in C++, C2, despite its high-performance characteristics, has inherent downsides. C++ is
+an unsafe language; therefore, errors in the C2 module could cause the entire VM to crash. The
+complexity and rigidity of the inherited C++ code have also resulted in its maintenance and
+extendibility becoming a significant challenge.</p>
+<p>Unique to Graal, this JIT-compiler is developed in Java. The compiler&rsquo;s main requirement is
+accepting JVM bytecode and outputting machine code – a high-level operation that doesn’t require a
+system-level language like C or C++.</p>
+<p>Graal being written in Java offers several advantages:</p>
+<ul>
+<li>
+<p><strong>Improved safety:</strong> Java&rsquo;s garbage collection and managed memory approach eliminate the risk of
+memory-related crashes from the JIT compiler itself.</p>
+</li>
+<li>
+<p><strong>Easier maintenance and extension:</strong> The Java codebase is more approachable for developers to
+contribute to and extend the capabilities of the JIT compiler.</p>
+</li>
+<li>
+<p><strong>Portability:</strong> Java&rsquo;s platform independence translates to the Graal JIT compiler potentially
+working
+on any platform with a Java Virtual Machine.</p>
+</li>
+</ul>
+<h2 id="the-jvm-compiler-interfacejvmci">The JVM Compiler Interface(JVMCI)</h2>
+<p>The JVM Compiler Interface (JVMCI) is an innovative feature and a new interface in the JVM (JEP
+243: <a href="https://openjdk.org/jeps/243)">https://openjdk.org/jeps/243)</a>.
+Much like the Java annotation processing API, the JVMCI also permits the integration of a custom
+Java JIT compiler.</p>
+<p>The JVMCI interface comprises a pure function from byte to <code>byte[]</code> :</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">interface</span> <span style="color:#5dd8ff">JVMCICompiler</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>  <span style="color:#fc5fa3">byte</span>[] <span style="color:#41a1c0">compileMethod</span>(<span style="color:#fc5fa3">byte</span>[] bytecode);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>}
+</span></span></code></pre></div><p>This doesn&rsquo;t capture the full complexity of real-life scenarios.</p>
+<p>In practical applications, we frequently need additional information such as the number of local
+variables, the stack size, and data gathered from profiling in the interpreter to better understand
+how the code is performing. Hence, the interface takes a more complex input. Instead of just
+bytecode, it accepts a <code>CompilationRequest</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">interface</span> <span style="color:#5dd8ff">JVMCICompiler</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>  <span style="color:#fc5fa3">int</span> INVOCATION_ENTRY_BCI = -1;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>  CompilationRequestResult <span style="color:#41a1c0">compileMethod</span>(CompilationRequest request);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>}
+</span></span></code></pre></div><p><a href="https://github.com/graalvm/labs-openjdk/blob/378138863fe29bae72f34eb8e3af8ab7c457baa6/src/jdk.internal.vm.ci/share/classes/jdk/vm/ci/runtime/JVMCICompiler.java#L35">https://github.com/graalvm/labs-openjdk/blob/378138863fe29bae72f34eb8e3af8ab7c457baa6/src/jdk.internal.vm.ci/share/classes/jdk/vm/ci/runtime/JVMCICompiler.java#L35</a></p>
+<p>A <code>CompilationRequest</code> encapsulates more comprehensive information, such as which JavaMethod is
+intended for compilation, and potentially much more data needed by the compiler.</p>
+<p><a href="https://github.com/graalvm/labs-openjdk/blob/master/src/jdk.internal.vm.ci/share/classes/jdk/vm/ci/code/CompilationRequest.java">https://github.com/graalvm/labs-openjdk/blob/master/src/jdk.internal.vm.ci/share/classes/jdk/vm/ci/code/CompilationRequest.java</a></p>
+<p>This approach has the benefit of providing all necessary details to the custom JIT-compiler in a
+more organized and contextual manner. To create a new JIT-compiler for the JVM, one must implement
+the <code>JVMCICompiler</code> interface.</p>
+<h2 id="ideal-graph">Ideal Graph</h2>
+<p>An aspect where Graal truly shines in terms of performing sophisticated code optimization is in its
+use of a unique data structure: the program-dependence-graph, or colloquially, an &ldquo;Ideal Graph&rdquo;.</p>
+<p>The program-dependence-graph is a directed graph that presents a visual representation of the
+dependencies between individual operations, essentially laying out the matrix of dependencies
+between different parts of your Java code.</p>
+<p>Let&rsquo;s illustrate this concept with a simple example of adding two local variables, <code>x</code> and <code>y</code>.
+The program-dependence-graph for this operation in Graal&rsquo;s context would involve three nodes and two
+edges:</p>
+<ul>
+<li>
+<p><strong>Nodes:</strong></p>
+<ul>
+<li><code>Load(x)</code> and <code>Load(y)</code>: These nodes represent the operations of loading the values of
+variables <code>x</code> and <code>y</code> from memory into registers within the processor.</li>
+<li><code>Add</code>: This node embodies the operation of adding the values loaded from <code>x</code> and <code>y</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Edges:</strong></p>
+<ul>
+<li>Two edges would be drawn from the <code>Load(x)</code> and <code>Load(y)</code> nodes to the Add node. These
+directional paths convey the data flow. They signify that the values loaded from <code>x</code> and <code>y</code>
+are the inputs to the addition operation.</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>      +---------&gt;+---------&gt;+
+</span></span><span style="display:flex;"><span>      | Load(x)  | Load(y)  |
+</span></span><span style="display:flex;"><span>      +---------&gt;+---------&gt;+
+</span></span><span style="display:flex;"><span>                 |
+</span></span><span style="display:flex;"><span>                 v
+</span></span><span style="display:flex;"><span>              +-----+
+</span></span><span style="display:flex;"><span>              | Add |
+</span></span><span style="display:flex;"><span>              +-----+
+</span></span></code></pre></div><p>In this illustration, the arrows represent the data flow between the nodes. The <code>Load(x)</code> and <code>Load(y)</code>
+nodes feed their loaded values into the Add node, which performs the addition operation. This visual
+representation helps Graal identify potential optimizations based on the dependencies between these
+operations.</p>
+<p>This graph-based architecture provides the Graal compiler with a clear visible landscape of
+dependencies and scheduling in the code it compiles. The program-dependence-graph not only maps the
+flow of data and relationships between operations but also offers a canvas for Gaal to manipulate
+these relationships. Each node on the graph is a clear candidate for specific optimizations, while
+the edges indicate where alterations would propagate changes elsewhere in the code - both aspects
+influence how Graal optimizes your program&rsquo;s performance.</p>
+<p>Visualizing and analyzing this graph can be achieved through a tool called
+the <code>IdealGraphVisualizer</code>,
+or IGV. This tool is invaluable in understanding the intricacies of Graal&rsquo;s code optimization
+capabilities. It allows you to pinpoint how specific parts of your code are being analyzed,
+modified, and optimized, providing valuable insights for further code enhancements.</p>
+<p>Let&rsquo;s consider a simple Java program that performs a complex operation in a loop:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">Demo</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span> <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">main</span>(String[] args) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>        <span style="color:#fc5fa3">for</span> (<span style="color:#fc5fa3">int</span> i = 0; i &lt; 1_000_000; i++) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>            System.err.println(complexOperation(i, i + 2));
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> <span style="color:#fc5fa3">int</span> <span style="color:#41a1c0">complexOperation</span>(<span style="color:#fc5fa3">int</span> a, <span style="color:#fc5fa3">int</span> b) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>        <span style="color:#fc5fa3">return</span> ((a + b)-a) / 2;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>}
+</span></span></code></pre></div><p>When compiled with Graal, the Ideal Graph for this program would look something like this(<strong>Figure 2</strong>).</p>
+<img src="/images/graal-graph.png" alt="Graal Graphs" title="Graal Graphs">
+<br>
+<p><em>Figure 2 – Graal Graphs</em></p>
+<p>Therefore, along with its method level optimizations and overall code performance improvements, this
+graph-based representation constitutes the key to understanding the power of the Graal compiler in
+optimizing your Java applications</p>
+<h2 id="in-conclusion">In Conclusion</h2>
+<p>The Graal JIT compiler represents a significant leap forward in Java performance optimization. Its unique characteristic of being written in Java itself offers a compelling alternative to traditional C-based compilers. This not only enhances safety and maintainability but also paves the way for a more dynamic and adaptable JIT compilation landscape.</p>
+<p>The introduction of the JVM Compiler Interface (JVMCI) further amplifies this potential. By allowing the development of custom JIT compilers in Java, JVMCI opens doors for further experimentation and innovation. This could lead to the creation of specialized compilers targeting specific needs or architectures, ultimately pushing the boundaries of Java performance optimization.</p>
+<p>In essence, Graal and JVMCI represent a paradigm shift in JIT compilation within the Java ecosystem. They lay the foundation for a future where JIT compilation can be customized, extended, and continuously improved, leading to even more performant and versatile Java applications.</p>
+
+      
+      <div class="post-date">
+        <span class="g time">May 6, 2024 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/jit/">jit</a> <a href="https://iqnev.github.io/tags/graalvm/">graalvm</a> <a href="https://iqnev.github.io/tags/compiler/">compiler</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>

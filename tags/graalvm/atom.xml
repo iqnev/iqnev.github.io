@@ -4,10 +4,17 @@
     <title>GraalVM on Codes are a puzzle</title>
     <link>https://iqnev.github.io/tags/graalvm/</link>
     <description>Recent content in GraalVM on Codes are a puzzle</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Jan 2024 11:04:18 +0300</lastBuildDate>
+    <lastBuildDate>Mon, 06 May 2024 11:04:18 +0300</lastBuildDate>
     <atom:link href="https://iqnev.github.io/tags/graalvm/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Exploring Graal: Next-Generation JIT Compilation for Java</title>
+      <link>https://iqnev.github.io/posts/exploring_graal_next_generation_jit_compilation_for_java/</link>
+      <pubDate>Mon, 06 May 2024 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/posts/exploring_graal_next_generation_jit_compilation_for_java/</guid>
+      <description>The Graal compiler is a radical leap forward in dynamic, Just-In-Time (JIT) compilation technology. Heralded as a significant factor behind Java&amp;rsquo;s impressive performance, the role and function of JIT compilation within the Java Virtual Machine (JVM) architecture often perplexes many practitioners due to its complex and rather opaque nature.&#xA;What is a JIT compiler? When you execute the javac command or use the IDE, your Java program is converted from Java source code into JVM bytecode.</description>
+    </item>
     <item>
       <title>Turbocharge Java Microservices with Quarkus and GraalVM Native Image</title>
       <link>https://iqnev.github.io/posts/graalvm-native-image/</link>
