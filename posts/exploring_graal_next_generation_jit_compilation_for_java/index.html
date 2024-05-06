@@ -207,10 +207,10 @@ bytecode, it accepts a <code>CompilationRequest</code>:</p>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>  CompilationRequestResult <span style="color:#41a1c0">compileMethod</span>(CompilationRequest request);
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>}
-</span></span></code></pre></div><p><a href="https://github.com/graalvm/labs-openjdk/blob/378138863fe29bae72f34eb8e3af8ab7c457baa6/src/jdk.internal.vm.ci/share/classes/jdk/vm/ci/runtime/JVMCICompiler.java#L35">https://github.com/graalvm/labs-openjdk/blob/378138863fe29bae72f34eb8e3af8ab7c457baa6/src/jdk.internal.vm.ci/share/classes/jdk/vm/ci/runtime/JVMCICompiler.java#L35</a></p>
+</span></span></code></pre></div><p><a href="https://github.com/graalvm/labs-openjdk/blob/378138863fe29bae72f34eb8e3af8ab7c457baa6/src/jdk.internal.vm.ci/share/classes/jdk/vm/ci/runtime/JVMCICompiler.java#L35">JVMCICompiler.java</a></p>
 <p>A <code>CompilationRequest</code> encapsulates more comprehensive information, such as which JavaMethod is
 intended for compilation, and potentially much more data needed by the compiler.</p>
-<p><a href="https://github.com/graalvm/labs-openjdk/blob/master/src/jdk.internal.vm.ci/share/classes/jdk/vm/ci/code/CompilationRequest.java">https://github.com/graalvm/labs-openjdk/blob/master/src/jdk.internal.vm.ci/share/classes/jdk/vm/ci/code/CompilationRequest.java</a></p>
+<p><a href="https://github.com/graalvm/labs-openjdk/blob/master/src/jdk.internal.vm.ci/share/classes/jdk/vm/ci/code/CompilationRequest.java">CompilationRequest.java</a></p>
 <p>This approach has the benefit of providing all necessary details to the custom JIT-compiler in a
 more organized and contextual manner. To create a new JIT-compiler for the JVM, one must implement
 the <code>JVMCICompiler</code> interface.</p>
