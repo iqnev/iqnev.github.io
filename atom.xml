@@ -20,6 +20,16 @@
 Heralded as a significant factor behind Java&amp;rsquo;s impressive performance, the role and function of JIT
 compilation within the Java Virtual Machine (JVM) architecture often perplexes many practitioners
 due to its complex and rather opaque nature.&lt;/p&gt;
+&lt;style&gt;
+.zoom {
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(2.0); /* Zoom when hovered */
+}
+&lt;/style&gt;
 &lt;h2 id=&#34;what-is-a-jit-compiler&#34;&gt;What is a JIT compiler?&lt;/h2&gt;
 &lt;p&gt;When you execute the javac command or use the IDE, your Java program is converted from Java source
 code into JVM bytecode. This
@@ -27,7 +37,7 @@ process creates a binary representation of your Java program - a format much sim
 compact than the original source code.&lt;/p&gt;
 &lt;p&gt;Classical processors found in your computer or server, however, are incapable of executing JVM
 bytecode directly. This necessitates the JVM to interpret the bytecode.&lt;/p&gt;
-&lt;img src=&#34;https://iqnev.github.io/images/jit-compiler.jpg&#34; alt=&#34;How a just-in-time (JIT) compiler works&#34; title=&#34;How a just-in-time (JIT) compiler works&#34;&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/jit-compiler.jpg&#34; alt=&#34;How a just-in-time (JIT) compiler works&#34; title=&#34;How a just-in-time (JIT) compiler works&#34;&gt;
 &lt;br&gt;
 &lt;p&gt;&lt;em&gt;Figure 1 – How a just-in-time (JIT) compiler works&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Interpreters can often underperform compared to native code running on an actual processor, which
@@ -161,7 +171,7 @@ modified, and optimized, providing valuable insights for further code enhancemen
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;}
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When compiled with Graal, the Ideal Graph for this program would look something like this(&lt;strong&gt;Figure 2&lt;/strong&gt;).&lt;/p&gt;
-&lt;img src=&#34;https://iqnev.github.io/images/graal-graph.png&#34; alt=&#34;Graal Graphs&#34; title=&#34;Graal Graphs&#34;&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/graal-graph.png&#34; alt=&#34;Graal Graphs&#34; title=&#34;Graal Graphs&#34;&gt;
 &lt;br&gt;
 &lt;p&gt;&lt;em&gt;Figure 2 – Graal Graphs&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Therefore, along with its method level optimizations and overall code performance improvements, this
