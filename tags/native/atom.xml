@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>GraalVM on Codes are a puzzle</title>
-    <link>https://iqnev.github.io/categories/graalvm/</link>
-    <description>Recent content in GraalVM on Codes are a puzzle</description>
+    <title>Native on Codes are a puzzle</title>
+    <link>https://iqnev.github.io/tags/native/</link>
+    <description>Recent content in Native on Codes are a puzzle</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 15 May 2024 11:04:18 +0300</lastBuildDate>
-    <atom:link href="https://iqnev.github.io/categories/graalvm/atom.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://iqnev.github.io/tags/native/atom.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Enhancing Performance with Static Analysis, Image Initialization and Heap Snapshotting</title>
       <link>https://iqnev.github.io/posts/enhancing_performance_with_static_analysis_image_initialization_and_heap_snapshotting/</link>
       <pubDate>Wed, 15 May 2024 11:04:18 +0300</pubDate>
       <guid>https://iqnev.github.io/posts/enhancing_performance_with_static_analysis_image_initialization_and_heap_snapshotting/</guid>
       <description>From monolithic structures to the world of distributed systems, application development has come a long way. The massive adoption of cloud computing and microservice architecture has significantly altered the approach to how server applications are created and deployed. Instead of giant application servers, we now have independent, individually deployed services that spring into action as and when needed.&#xA;However, a new player on the block that can impact this smooth functioning might be &amp;lsquo;cold starts.</description>
-    </item>
-    <item>
-      <title>Exploring Graal: Next-Generation JIT Compilation for Java</title>
-      <link>https://iqnev.github.io/posts/exploring_graal_next_generation_jit_compilation_for_java/</link>
-      <pubDate>Mon, 06 May 2024 11:04:18 +0300</pubDate>
-      <guid>https://iqnev.github.io/posts/exploring_graal_next_generation_jit_compilation_for_java/</guid>
-      <description>The Graal compiler is a radical leap forward in dynamic, Just-In-Time (JIT) compilation technology. Heralded as a significant factor behind Java&amp;rsquo;s impressive performance, the role and function of JIT compilation within the Java Virtual Machine (JVM) architecture often perplexes many practitioners due to its complex and rather opaque nature.&#xA;What is a JIT compiler? When you execute the javac command or use the IDE, your Java program is converted from Java source code into JVM bytecode.</description>
     </item>
   </channel>
 </rss>

@@ -6,8 +6,15 @@
     <description>Recent content in Compiler on Codes are a puzzle</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 06 May 2024 11:04:18 +0300</lastBuildDate>
+    <lastBuildDate>Wed, 15 May 2024 11:04:18 +0300</lastBuildDate>
     <atom:link href="https://iqnev.github.io/tags/compiler/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Enhancing Performance with Static Analysis, Image Initialization and Heap Snapshotting</title>
+      <link>https://iqnev.github.io/posts/enhancing_performance_with_static_analysis_image_initialization_and_heap_snapshotting/</link>
+      <pubDate>Wed, 15 May 2024 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/posts/enhancing_performance_with_static_analysis_image_initialization_and_heap_snapshotting/</guid>
+      <description>From monolithic structures to the world of distributed systems, application development has come a long way. The massive adoption of cloud computing and microservice architecture has significantly altered the approach to how server applications are created and deployed. Instead of giant application servers, we now have independent, individually deployed services that spring into action as and when needed.&#xA;However, a new player on the block that can impact this smooth functioning might be &amp;lsquo;cold starts.</description>
+    </item>
     <item>
       <title>Exploring Graal: Next-Generation JIT Compilation for Java</title>
       <link>https://iqnev.github.io/posts/exploring_graal_next_generation_jit_compilation_for_java/</link>
