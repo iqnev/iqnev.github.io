@@ -6,8 +6,15 @@
     <description>Recent content in Compiler on Codes are a puzzle</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 15 May 2024 11:04:18 +0300</lastBuildDate>
+    <lastBuildDate>Sun, 26 May 2024 11:04:18 +0300</lastBuildDate>
     <atom:link href="https://iqnev.github.io/tags/compiler/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Memory Management in GraalVM Native Image</title>
+      <link>https://iqnev.github.io/posts/memory_management_in_graalvm_native_image/</link>
+      <pubDate>Sun, 26 May 2024 11:04:18 +0300</pubDate>
+      <guid>https://iqnev.github.io/posts/memory_management_in_graalvm_native_image/</guid>
+      <description>Memory management is a crucial component of computer software development, tasked with the effective allocation, utilization, and release of memory in applications. Its importance lies in enhancing software performance and ensuring system stability.&#xA;Garbage Collection Garbage collection (GC) is pivotal in contemporary programming languages such as Java and Go. It autonomously detects and recycles unused memory, thereby alleviating the need for developers to manually manage memory. The concept of GC originally emerged in the LISP programming language in the late 1950s, marking the introduction of automated memory management.</description>
+    </item>
     <item>
       <title>Enhancing Performance with Static Analysis, Image Initialization and Heap Snapshotting</title>
       <link>https://iqnev.github.io/posts/enhancing_performance_with_static_analysis_image_initialization_and_heap_snapshotting/</link>

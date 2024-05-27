@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Memory Management in GraalVM Native Image | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:url" content="https://iqnev.github.io/posts/memory_management_in_graalvm_native_image/">
+  <meta property="og:site_name" content="Codes are a puzzle">
+  <meta property="og:title" content="Memory Management in GraalVM Native Image">
+  <meta property="og:description" content="Memory management is a crucial component of computer software development, tasked with the effective allocation, utilization, and release of memory in applications. Its importance lies in enhancing software performance and ensuring system stability.
+Garbage Collection Garbage collection (GC) is pivotal in contemporary programming languages such as Java and Go. It autonomously detects and recycles unused memory, thereby alleviating the need for developers to manually manage memory. The concept of GC originally emerged in the LISP programming language in the late 1950s, marking the introduction of automated memory management.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-05-26T11:04:18+03:00">
+    <meta property="article:modified_time" content="2024-05-26T11:04:18+03:00">
+    <meta property="article:tag" content="Native">
+    <meta property="article:tag" content="GraalVM">
+    <meta property="article:tag" content="Compiler">
+    <meta property="article:tag" content="Memory Management">
+    <meta property="og:image" content="https://iqnev.github.io/images/graalvm-common.png">
+
+    
+  <meta itemprop="name" content="Memory Management in GraalVM Native Image">
+  <meta itemprop="description" content="Memory management is a crucial component of computer software development, tasked with the effective allocation, utilization, and release of memory in applications. Its importance lies in enhancing software performance and ensuring system stability.
+Garbage Collection Garbage collection (GC) is pivotal in contemporary programming languages such as Java and Go. It autonomously detects and recycles unused memory, thereby alleviating the need for developers to manually manage memory. The concept of GC originally emerged in the LISP programming language in the late 1950s, marking the introduction of automated memory management.">
+  <meta itemprop="datePublished" content="2024-05-26T11:04:18+03:00">
+  <meta itemprop="dateModified" content="2024-05-26T11:04:18+03:00">
+  <meta itemprop="wordCount" content="1790">
+  <meta itemprop="image" content="https://iqnev.github.io/images/graalvm-common.png">
+  <meta itemprop="keywords" content="Native,GraalVM,Compiler,Memory Management">
+    
+  
+
+
+    <link rel="canonical" href="https://iqnev.github.io/posts/memory_management_in_graalvm_native_image/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Memory Management in GraalVM Native Image",
+      "headline": "Memory Management in GraalVM Native Image",
+      "alternativeHeadline": "",
+      "description": "Memory management is a crucial component of computer software development, tasked with the effective allocation, utilization, and release of memory in applications. Its importance lies in enhancing software performance and ensuring system stability.\nGarbage Collection Garbage collection (GC) is pivotal in contemporary programming languages such as Java and Go. It autonomously detects and recycles unused memory, thereby alleviating the need for developers to manually manage memory. The concept of GC originally emerged in the LISP programming language in the late 1950s, marking the introduction of automated memory management.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/memory_management_in_graalvm_native_image\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2024",
+      "dateCreated": "2024-05-26T11:04:18.00Z",
+      "datePublished": "2024-05-26T11:04:18.00Z",
+      "dateModified": "2024-05-26T11:04:18.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": ["https://iqnev.github.io/images/graalvm-common.png"],
+      "url" : "https:\/\/iqnev.github.io\/posts\/memory_management_in_graalvm_native_image\/",
+      "wordCount" : "1790",
+      "genre" : [ "native" , "graalvm" , "compiler" , "memory management" ],
+      "keywords" : [ "native" , "graalvm" , "compiler" , "memory management" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Memory Management in GraalVM Native Image</h2>
+      <style>
+.zoom {
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(2.0); /* Zoom when hovered */
+}
+</style>
+<p>Memory management is a crucial component of computer software development, tasked with the effective
+allocation, utilization, and release of memory in applications. Its importance lies in enhancing
+software performance and ensuring system stability.</p>
+<h2 id="garbage-collection">Garbage Collection</h2>
+<p>Garbage collection (GC) is pivotal in contemporary programming languages such as Java and Go. It
+autonomously detects and recycles unused memory, thereby alleviating the need for developers to
+manually manage memory. The concept of GC originally emerged in the LISP programming language in the
+late 1950s, marking the introduction of automated memory management.</p>
+<p>Key advantages of automated memory management include:</p>
+<ul>
+<li>Prevention of memory leaks and efficient memory utilization.</li>
+<li>Simplified development processes and enhanced program stability.</li>
+</ul>
+<p>Understanding the nature of &ldquo;garbage&rdquo; in memory and identifying reclaimable space is essential. In
+the next several chapter we will first explore the fundamentals of garbage collection.</p>
+<h3 id="reference-counting-algorithm-george-e-collins-1966">Reference Counting Algorithm [George E. Collins 1966]</h3>
+<p>The Reference Counting Algorithm assigns a field in the object&rsquo;s header to track its reference
+count. This count increases with each new reference and decreases when a reference is removed. When
+the count reaches zero, the object is eligible for garbage collection.</p>
+<p>Consider the following code:</p>
+<p>First create a <code>String</code> with value <code>demo</code> which is referenced by <code>d</code>  (<strong>Figure 1</strong>).</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>String d = <span style="color:#fc5fa3">new</span> String(<span style="color:#fc6a5d">&#34;demo&#34;</span>);
+</span></span></code></pre></div><br>
+<img class="zoom" src="/images/gc_01.png" alt="Reference Counting" title="Reference Counting">
+<p><em>Figure 1 – After a String is created</em></p>
+<p>Then, set <code>d</code> to <code>null</code>. The reference count of <code>demo</code> is zero. In the Reference Counting algorithm,
+the memory for <code>demo</code> is to be reclaimed (<strong>Figure 2</strong>).</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>d =<span style="color:#fc5fa3">null</span>; <span style="color:#6c7986">// Reference count of &#39;demo&#39; becomes zero, prompting garbage collection.</span>
+</span></span></code></pre></div><br>
+<img class="zoom" src="/images/gc_02.png" alt="Reference Counting" title="Reference Counting">
+<p><em>Figure 2 – When the reference is nullified</em></p>
+<p>The Reference Counting Algorithm operates during program execution, avoiding <strong>Stop-The-World</strong>
+events, which halt the program temporarily for garbage collection. However, its major drawback is
+the inability to handle circular references (<strong>Figure 3</strong>).</p>
+<p>For example:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">CircularReferenceDemo</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>  <span style="color:#fc5fa3">public</span> CircularReferenceDemo reference;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  <span style="color:#fc5fa3">private</span> String name;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#41a1c0">CircularReferenceDemo</span>(String name) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    <span style="color:#fc5fa3">this</span>.name = name;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">setReference</span>(CircularReferenceDemo ref) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    <span style="color:#fc5fa3">this</span>.reference = ref;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">main</span>(String[] args) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    CircularReferenceDemo objA = <span style="color:#fc5fa3">new</span> CircularReferenceDemo(<span style="color:#fc6a5d">&#34;Ref_A&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    CircularReferenceDemo objB = <span style="color:#fc5fa3">new</span> CircularReferenceDemo(<span style="color:#fc6a5d">&#34;Ref_B&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    objA.setReference(objB);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    objB.setReference(objA);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    objA = <span style="color:#fc5fa3">null</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>    objB = <span style="color:#fc5fa3">null</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>}
+</span></span></code></pre></div><p>Here, despite nullifying external references, the mutual references between <code>objA</code> and <code>objB</code>
+prevent their garbage collection.</p>
+<br>
+<img class="zoom" src="/images/gc_03.png" alt="Reference Counting" title="Reference Counting">
+<p><em>Figure 3 – Circular References</em></p>
+<p>We can see that both objects can no longer be accessed. However, they are referenced by each other,
+and thus their reference count will never be zero. Consequently, the GC collector will never be
+notified to garbage collect them by using the Reference Counting algorithm.</p>
+<p>This algorithm is practically implemented in C++ through the use of <code>std::shared_ptr</code>. Designed to
+manage the lifecycle of dynamically allocated objects, <code>std::shared_ptr</code> automates the increment and
+decrement of reference counts as pointers to the object are created or destroyed.
+This smart pointer is part of the C++ Standard Library, providing robust memory management
+capabilities that significantly diminish the risks associated with manual memory handling.
+Whenever a <code>std::shared_ptr</code> is copied, the internal reference count of the managed object
+increases, reflecting the new reference. Conversely, when a <code>std::shared_ptr</code> is destructed, goes out
+of scope, or is reassigned to a different object, the reference count decreases. The allocated
+memory is automatically reclaimed and the object is destroyed when its reference count reaches zero,
+effectively preventing memory leaks by ensuring no object remains allocated without necessity.</p>
+<h3 id="reachability-analysis-algorithm-1978">Reachability Analysis Algorithm [1978]</h3>
+<p>The Reachability Analysis Algorithm begins at GC roots, traversing through the object graph. Objects
+that cannot be reached from these roots are deemed unrecoverable and are targeted for collection.</p>
+<p>As shown in the image below, the objects in blue circle should be kept alive and the objects in
+gray circle can be recycled (<strong>Figure 4</strong>).</p>
+<br>
+<img class="zoom" src="/images/gc_04.png" alt="Reachability Analysis" title="Reachability Analysis">
+<p><em>Figure 4 – Memory leak</em></p>
+<p>This method effectively resolves the issue of circular references inherent in the Reference Counting
+Algorithm. Objects unreachable from the GC roots are categorized for collection.</p>
+<p>Typically, Java objects considered as GC roots include:</p>
+<ul>
+<li>Local variables within the current method scope.</li>
+<li>Active Java threads.</li>
+<li>Static fields from classes.</li>
+<li>JNI references from native code.</li>
+</ul>
+<h2 id="overview-of-graalvm-native-image">Overview of GraalVM Native Image</h2>
+<p>GraalVM offers an ahead-of-time (AOT) compiler, which translates Java applications into standalone
+executable binaries known as GraalVM Native Images. Developed by Oracle Labs, these binaries
+encapsulate application and library classes, and runtime components like the GC, allowing operations
+without a Java Runtime Environment (JRE).</p>
+<p>The process involves static analysis to determine reachable components, initialization through
+executed blocks, and finalizing by creating a snapshot of the application state for subsequent
+machine code translation.</p>
+<h2 id="fundamentals-of-the-substrate-vm">Fundamentals of the Substrate VM</h2>
+<p>The Substrate VM stands as an integral part of the GraalVM suite, orchestrated by Oracle Labs. It&rsquo;s
+an enhanced JVM that not only supports ahead-of-time (AOT) compilation but also facilitates the
+execution of languages beyond Java, such as JavaScript, Python, Ruby, and even native languages like
+C and C++. At its core, Substrate VM serves as a sophisticated framework that allows GraalVM to
+compile Java applications into standalone native binaries. These binaries do not rely on a
+conventional Java Virtual Machine (JVM) for their execution, which streamlines deployment and
+operational processes.</p>
+<p>One of the cardinal features of Substrate VM is its specialized garbage collector, which is
+fine-tuned for applications requiring low latency and minimal memory footprint. This garbage
+collector is adept at handling the unique memory layout and operational model distinct to native
+images, which differ considerably from traditional Java applications running on a standard JVM. The
+absence of a Just-In-Time (JIT) compiler in Substrate VM native images is a strategic choice that
+aids in minimizing the overall size of the executable. This is because it eliminates the necessity
+to include the JIT compiler and associated metadata, which are substantial in size and complexity.</p>
+<p>Furthermore, while GraalVM is developed using Java, this introduces certain constraints,
+particularly in terms of native memory access. Such restrictions are primarily due to security
+concerns and the need to maintain compatibility across various platforms. However, accessing native
+memory is essential for optimal garbage collection operations. To address this, Substrate VM employs
+a suite of specialized interfaces that facilitate safe and efficient interactions with native
+memory. These interfaces are part of the broader GraalVM architecture and enable Substrate VM to
+effectively manage memory in a manner akin to lower-level languages like C, all while retaining the
+safety and manageability of Java.</p>
+<p>In practice, these capabilities make Substrate VM an extremely versatile tool that enhances the
+functionality and efficiency of applications compiled with GraalVM. By allowing developers to
+leverage a broader range of programming languages and compile them into efficient native binaries,
+Substrate VM pushes the boundaries of what can be achieved with traditional Java development
+environments. This makes it an invaluable asset for modern software development projects that demand
+high performance, reduced resource consumption, and versatile language support.</p>
+<p>Noteworthy elements of Substrate VM include:</p>
+<ul>
+<li>
+<p>Simplified memory access via interfaces like <code>Pointer</code> <a href="https://www.graalvm.org/sdk/javadoc/org/graalvm/word/Pointer.html">Interface Pointer</a> for raw memory operations and <code>WordBase</code>
+<a href="https://www.graalvm.org/sdk/javadoc/org/graalvm/word/WordBase.html">Interface WordBase</a>
+for handling word-sized values.</p>
+</li>
+<li>
+<p>Division of the heap into pre-initialized segments containing immutable objects and runtime
+segments for dynamic object allocation (<strong>Figure 4</strong>).</p>
+</li>
+</ul>
+<br>
+<img class="zoom" src="/images/gc_05.png" alt="Memory Management in Native Image" title="Memory Management in Native Image">
+<p><em>Figure 5 – Memory Management in Native Image</em></p>
+<p>At runtime, the so-called image heap in Substrate VM contains objects created during the image build
+process. This section of the heap is pre-initialized with data from the executable binary&rsquo;s data
+section and is readily accessible upon application startup. The objects residing in the image heap
+are considered immortal; hence, references within these objects are treated as root pointers by the
+garbage collector. However, the GC only scans parts of the image heap for root pointers,
+specifically those that are not marked as read-only.</p>
+<p>During the build process, objects designated as read-only are placed in a specific read-only section
+of the image heap. Since these objects will never hold references to objects allocated at runtime,
+they contain no root pointers, allowing the GC to bypass them during scans. Similarly, objects that
+solely consist of primitive data or arrays of primitive types also lack root pointers. This
+attribute further streamlines the garbage collection process, as these objects can be omitted from
+GC scans.</p>
+<p>In contrast, the Java heap is designated for holding ordinary objects that are created dynamically
+during runtime. This portion of the heap is subject to regular garbage collection to reclaim space
+occupied by objects that are no longer in use. It is structured as a generational heap with
+mechanisms for aging, facilitating efficient memory management over time.</p>
+<p>This division between the pre-initialized, immortal image heap and the dynamically managed Java heap
+enables Substrate VM to optimize memory usage and garbage collection efficiency, catering to both
+static and dynamic aspects of application memory requirements.</p>
+<h2 id="heap-chunk">Heap Chunk</h2>
+<p>In Substrate VM&rsquo;s heap model, the memory is systematically organized into structures known as heap
+chunks. These chunks, typically sized at 1024KB by default, form a continuous segment of virtual
+memory that is solely allocated to object storage. The organizational structure of these chunks is a
+linked list where the tail chunk represents the most recently added segment. Such a model
+facilitates efficient memory allocation and object management.</p>
+<p>These heap chunks are further categorized into two types: aligned and unaligned. Aligned heap chunks
+are capable of holding multiple objects continuously. This alignment allows for simpler mapping of
+objects to their respective parent heap chunks, making memory management more intuitive and
+efficient. In scenarios where object promotion is necessary-typically, during garbage collection and
+memory optimization- an object is moved from its original placement in a parent heap chunk to a
+target heap chunk located in a designated &ldquo;old to-space.&rdquo; This migration is part of the generational
+heap management strategy that helps in optimizing the garbage collection process by segregating
+young from old objects, thereby reducing the overhead during GC cycles.</p>
+<h2 id="garbage-collectors-in-native-image">Garbage Collectors in Native Image</h2>
+<p>GraalVM Native Image supports various GCs tailored to different needs:</p>
+<ul>
+<li>
+<p><strong>Serial GC:</strong> Default low-footprint collector suitable for single-threaded applications.</p>
+</li>
+<li>
+<p><strong>G1 Garbage Collector:</strong> Designed for multi-threaded applications with large heap sizes,
+enhancing flexibility in generation management.</p>
+</li>
+<li>
+<p><strong>Epsilon GC:</strong> A minimalistic collector that handles allocation but lacks reclamation, best used
+for short-lived applications where full heap utilization is predictable.</p>
+</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>In conclusion, Substrate VM effectively optimizes memory management within GraalVM by incorporating
+advanced techniques like specialized garbage collection and structured heap management. These
+features, including heap chunks and separate memory segments for image and Java heaps, streamline
+garbage collection and improve application performance. As Substrate VM supports a variety of
+programming languages and compiles them into efficient native binaries, it showcases how modern JVM
+frameworks can extend beyond traditional boundaries to enhance execution efficiency and robustness
+in diverse application environments. This approach sets a high standard for future developments in
+virtual machine technology and application deployment.</p>
+
+      
+      <div class="post-date">
+        <span class="g time">May 26, 2024 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/native/">native</a> <a href="https://iqnev.github.io/tags/graalvm/">graalvm</a> <a href="https://iqnev.github.io/tags/compiler/">compiler</a> <a href="https://iqnev.github.io/tags/memory-management/">memory-management</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>
