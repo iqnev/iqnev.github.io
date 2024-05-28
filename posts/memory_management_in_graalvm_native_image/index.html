@@ -29,7 +29,7 @@ Garbage Collection Garbage collection (GC) is pivotal in contemporary programmin
 Garbage Collection Garbage collection (GC) is pivotal in contemporary programming languages such as Java and Go. It autonomously detects and recycles unused memory, thereby alleviating the need for developers to manually manage memory. The concept of GC originally emerged in the LISP programming language in the late 1950s, marking the introduction of automated memory management.">
   <meta itemprop="datePublished" content="2024-05-26T11:04:18+03:00">
   <meta itemprop="dateModified" content="2024-05-26T11:04:18+03:00">
-  <meta itemprop="wordCount" content="1790">
+  <meta itemprop="wordCount" content="1791">
   <meta itemprop="image" content="https://iqnev.github.io/images/graalvm-common.png">
   <meta itemprop="keywords" content="Native,GraalVM,Compiler,Memory Management">
     
@@ -95,7 +95,7 @@ Garbage Collection Garbage collection (GC) is pivotal in contemporary programmin
       },
       "image": ["https://iqnev.github.io/images/graalvm-common.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/memory_management_in_graalvm_native_image\/",
-      "wordCount" : "1790",
+      "wordCount" : "1791",
       "genre" : [ "native" , "graalvm" , "compiler" , "memory management" ],
       "keywords" : [ "native" , "graalvm" , "compiler" , "memory management" ]
   }
@@ -156,8 +156,7 @@ late 1950s, marking the introduction of automated memory management.</p>
 <li>Prevention of memory leaks and efficient memory utilization.</li>
 <li>Simplified development processes and enhanced program stability.</li>
 </ul>
-<p>Understanding the nature of &ldquo;garbage&rdquo; in memory and identifying reclaimable space is essential. In
-the next several chapter we will first explore the fundamentals of garbage collection.</p>
+<p>Understanding the nature of &ldquo;garbage&rdquo; in memory and identifying reclaimable space is essential. In the upcoming chapters, we will start by exploring the fundamental principles of garbage collection.</p>
 <h3 id="reference-counting-algorithm-george-e-collins-1966">Reference Counting Algorithm [George E. Collins 1966]</h3>
 <p>The Reference Counting Algorithm assigns a field in the object&rsquo;s header to track its reference
 count. This count increases with each new reference and decreases when a reference is removed. When
@@ -283,7 +282,7 @@ for handling word-sized values.</p>
 </li>
 <li>
 <p>Division of the heap into pre-initialized segments containing immutable objects and runtime
-segments for dynamic object allocation (<strong>Figure 4</strong>).</p>
+segments for dynamic object allocation (<strong>Figure 5</strong>).</p>
 </li>
 </ul>
 <br>

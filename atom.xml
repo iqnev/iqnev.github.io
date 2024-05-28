@@ -39,8 +39,7 @@ late 1950s, marking the introduction of automated memory management.&lt;/p&gt;
 &lt;li&gt;Prevention of memory leaks and efficient memory utilization.&lt;/li&gt;
 &lt;li&gt;Simplified development processes and enhanced program stability.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Understanding the nature of &amp;ldquo;garbage&amp;rdquo; in memory and identifying reclaimable space is essential. In
-the next several chapter we will first explore the fundamentals of garbage collection.&lt;/p&gt;
+&lt;p&gt;Understanding the nature of &amp;ldquo;garbage&amp;rdquo; in memory and identifying reclaimable space is essential. In the upcoming chapters, we will start by exploring the fundamental principles of garbage collection.&lt;/p&gt;
 &lt;h3 id=&#34;reference-counting-algorithm-george-e-collins-1966&#34;&gt;Reference Counting Algorithm [George E. Collins 1966]&lt;/h3&gt;
 &lt;p&gt;The Reference Counting Algorithm assigns a field in the object&amp;rsquo;s header to track its reference
 count. This count increases with each new reference and decreases when a reference is removed. When
@@ -166,7 +165,7 @@ for handling word-sized values.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Division of the heap into pre-initialized segments containing immutable objects and runtime
-segments for dynamic object allocation (&lt;strong&gt;Figure 4&lt;/strong&gt;).&lt;/p&gt;
+segments for dynamic object allocation (&lt;strong&gt;Figure 5&lt;/strong&gt;).&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;br&gt;
