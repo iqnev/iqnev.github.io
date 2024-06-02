@@ -3,10 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://iqnev.github.io/</loc>
-    <lastmod>2024-05-26T11:04:18+03:00</lastmod>
+    <lastmod>2024-06-02T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/</loc>
-    <lastmod>2024-05-26T11:04:18+03:00</lastmod>
+    <lastmod>2024-06-02T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/development/</loc>
+    <lastmod>2024-06-02T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/harnessing_automatic_setup_and_integration_with_quarkus_dev_services_for_efficient_development/</loc>
+    <lastmod>2024-06-02T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/</loc>
+    <lastmod>2024-06-02T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/quarkus/</loc>
+    <lastmod>2024-06-02T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/categories/quarkus/</loc>
+    <lastmod>2024-06-02T11:04:18+03:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/</loc>
+    <lastmod>2024-06-02T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/compiler/</loc>
     <lastmod>2024-05-26T11:04:18+03:00</lastmod>
@@ -24,12 +42,6 @@
     <lastmod>2024-05-26T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/native/</loc>
-    <lastmod>2024-05-26T11:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/posts/</loc>
-    <lastmod>2024-05-26T11:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/</loc>
     <lastmod>2024-05-26T11:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/posts/enhancing_performance_with_static_analysis_image_initialization_and_heap_snapshotting/</loc>
@@ -80,12 +92,6 @@
     <loc>https://iqnev.github.io/tags/microservice/</loc>
     <lastmod>2024-01-07T11:04:18+03:00</lastmod>
   </url><url>
-    <loc>https://iqnev.github.io/tags/quarkus/</loc>
-    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/categories/quarkus/</loc>
-    <lastmod>2024-01-07T11:04:18+03:00</lastmod>
-  </url><url>
     <loc>https://iqnev.github.io/posts/graalvm-native-image/</loc>
     <lastmod>2024-01-07T11:04:18+03:00</lastmod>
   </url><url>
@@ -100,9 +106,6 @@
   </url><url>
     <loc>https://iqnev.github.io/posts/unveiling-challenges-with-named/</loc>
     <lastmod>2023-12-09T11:04:18+03:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/development/</loc>
-    <lastmod>2023-11-26T14:04:18+03:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/extension/</loc>
     <lastmod>2023-11-26T14:04:18+03:00</lastmod>

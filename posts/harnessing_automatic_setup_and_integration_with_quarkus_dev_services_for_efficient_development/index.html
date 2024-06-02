@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:url" content="https://iqnev.github.io/posts/harnessing_automatic_setup_and_integration_with_quarkus_dev_services_for_efficient_development/">
+  <meta property="og:site_name" content="Codes are a puzzle">
+  <meta property="og:title" content="Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development">
+  <meta property="og:description" content="Prime 2024 Concluded Successfully!!
+The organizers of Prime 2024 have once again gone to great lengths to offer a diverse range of topics, ensuring there’s something for everyone.
+However, today’s article isn’t triggered by one of Michael Simons’ lectures on “The Evolution of Integration Testing within Spring and Quarkus” although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer clear of, but that’s for another day.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-06-02T11:04:18+03:00">
+    <meta property="article:modified_time" content="2024-06-02T11:04:18+03:00">
+    <meta property="article:tag" content="Development">
+    <meta property="article:tag" content="Quarkus">
+    <meta property="og:image" content="https://iqnev.github.io/images/quarkus_logo_1.png">
+
+    
+  <meta itemprop="name" content="Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development">
+  <meta itemprop="description" content="Prime 2024 Concluded Successfully!!
+The organizers of Prime 2024 have once again gone to great lengths to offer a diverse range of topics, ensuring there’s something for everyone.
+However, today’s article isn’t triggered by one of Michael Simons’ lectures on “The Evolution of Integration Testing within Spring and Quarkus” although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer clear of, but that’s for another day.">
+  <meta itemprop="datePublished" content="2024-06-02T11:04:18+03:00">
+  <meta itemprop="dateModified" content="2024-06-02T11:04:18+03:00">
+  <meta itemprop="wordCount" content="1260">
+  <meta itemprop="image" content="https://iqnev.github.io/images/quarkus_logo_1.png">
+  <meta itemprop="keywords" content="Development,Quarkus">
+    
+  
+
+
+    <link rel="canonical" href="https://iqnev.github.io/posts/harnessing_automatic_setup_and_integration_with_quarkus_dev_services_for_efficient_development/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development",
+      "headline": "Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development",
+      "alternativeHeadline": "",
+      "description": "Prime 2024 Concluded Successfully!!\nThe organizers of Prime 2024 have once again gone to great lengths to offer a diverse range of topics, ensuring there\u0026rsquo;s something for everyone.\nHowever, today\u0026rsquo;s article isn\u0026rsquo;t triggered by one of Michael Simons\u0026rsquo; lectures on \u0026ldquo;The Evolution of Integration Testing within Spring and Quarkus\u0026rdquo; although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer clear of, but that’s for another day.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/harnessing_automatic_setup_and_integration_with_quarkus_dev_services_for_efficient_development\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2024",
+      "dateCreated": "2024-06-02T11:04:18.00Z",
+      "datePublished": "2024-06-02T11:04:18.00Z",
+      "dateModified": "2024-06-02T11:04:18.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": ["https://iqnev.github.io/images/quarkus_logo_1.png"],
+      "url" : "https:\/\/iqnev.github.io\/posts\/harnessing_automatic_setup_and_integration_with_quarkus_dev_services_for_efficient_development\/",
+      "wordCount" : "1260",
+      "genre" : [ "development" , "quarkus" ],
+      "keywords" : [ "development" , "quarkus" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development</h2>
+      <style>
+.zoom {
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(2.0); /* Zoom when hovered */
+}
+</style>
+<p>Prime 2024 Concluded Successfully!!</p>
+<p>The organizers of Prime 2024 have once again gone to great lengths to offer a diverse range of
+topics, ensuring there&rsquo;s something for everyone.</p>
+<p>However, today&rsquo;s article isn&rsquo;t triggered by one of Michael Simons&rsquo; lectures on <strong>&ldquo;The Evolution of
+Integration Testing within Spring and Quarkus&rdquo;</strong> although it was highly insightful. He explored
+integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer
+clear of, but that’s for another day.</p>
+<p>The author clearly emphasized that the issues he highlighted are effectively addressed in Quarkus
+through the utilization of Dev Services (<strong>Figure 1</strong>).</p>
+<br>
+<img class="zoom" src="/images/jprime-image.jpg" alt="JPrime" title="JPrime">
+<p><em>Figure 1 – JPrime 2024</em></p>
+<p>It was remarkable to see the amazement it sparked among the newcomers in the
+audience. Let me delve deeper into Quarkus Dev Services.</p>
+<h2 id="quarkus-dev-services">Quarkus Dev Services</h2>
+<p>In Quarkus, Dev Services facilitate the automatic provisioning of unconfigured services in both
+development and testing modes. Essentially, if you include an extension without configuring it,
+Quarkus will automatically initiate the relevant service- often utilizing Testcontainers in the
+background- and configure your application to use this service efficiently.</p>
+<ol>
+<li><strong>Automatic Service Detection and Launch</strong></li>
+</ol>
+<p>Quarkus Dev Services automates the detection and launching of necessary services like databases,
+message brokers, and other back-end services. It does this by tapping into the application’s
+dependencies specified in <code>pom.xml</code> or <code>build.gradle</code>. For instance, adding a database driver
+automatically triggers Dev Services to spin up a corresponding containerized instance of that
+database if it&rsquo;s not already running.</p>
+<p>The technology used here primarily involves Testcontainers, which allows the creation of
+lightweight, throwaway instances of common databases, Selenium web browsers, or anything else that
+can run in a Docker container.</p>
+<ol start="2">
+<li><strong>Dynamic Configuration Injection</strong></li>
+</ol>
+<p>Once the required services are instantiated, Quarkus Dev Services dynamically injects the relevant
+service connection details into the application&rsquo;s configuration at runtime. This is done without any
+manual intervention, using a feature known as Continuous Testing that reroutes the standard
+database, or other service URLs, to the auto-provisioned Testcontainers. Configuration properties
+such as URLs, user credentials, and other operational parameters are seamlessly set, allowing the
+application to interact with these services as though they were manually configured</p>
+<ol start="3">
+<li><strong>Service-Specific Behaviors</strong></li>
+</ol>
+<p>Dev Services is tailored for various types of services:</p>
+<ul>
+<li>
+<p><strong>Databases:</strong> Automatically provides a running database tailored to your application&rsquo;s needs.
+Whether
+it&rsquo;s PostgreSQL, MySQL, MongoDB, or any other supported database, Dev Services ensures that a
+corresponding Testcontainer is available during development.</p>
+</li>
+<li>
+<p><strong>Messaging Systems:</strong> For applications that use messaging systems like Kafka or AMQP, Quarkus Dev
+Services starts the necessary brokers, again using Docker, and connects them with the application.</p>
+</li>
+<li>
+<p><strong>Custom Dev Services:</strong> Developers can extend the functionality by creating custom Quarkus
+extensions that leverage the Dev Services framework. This allows for tailored setups that are
+project-specific, offering even greater flexibility and control.</p>
+</li>
+</ul>
+<ol start="4">
+<li><strong>Network Handling and Service Isolation</strong></li>
+</ol>
+<p>Each service spun up by Quarkus Dev Services runs in its isolated environment. This is crucial for
+ensuring that there are no port conflicts, data residue, or security issues between different
+development tests. Despite this isolation, services are networked appropriately using Docker,
+ensuring that they can communicate with each other as needed, imitating a real-world deployment
+atmosphere.</p>
+<ol start="5">
+<li><strong>Lifecycle Management</strong></li>
+</ol>
+<p>Quarkus manages the complete lifecycle of these dynamically provisioned services. When you start
+your application in development mode, the necessary services are started up automatically. When you
+stop the Quarkus application, these services are also terminated. This management includes handling
+data persistency as required, allowing developers to pick up right where they left off without any
+setup delays.</p>
+<h2 id="example-usage">Example Usage</h2>
+<p>Consider you’re using a PostgreSQL database with Quarkus. If no existing PostgreSQL configuration is
+detected, Quarkus will kickstart a PostgreSQL Docker container and connect your application
+automatically.</p>
+<p>These services are enabled by default in development and test modes but can be disabled if necessary
+via the application.properties:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span>quarkus.datasource.devservices.enabled=<span style="color:#fc6a5d">false</span>
+</span></span></code></pre></div><p>Let&rsquo;s expand on the scenario where Quarkus is using a PostgreSQL database and how the Dev Services
+facilitate this with minimum fuss.</p>
+<p>If Quarkus detects that no PostgreSQL configuration is active (not running or not configured
+explicitly), it will automatically start up a PostgreSQL container using Docker. This is set up
+behind the scenes through Dev Services.</p>
+<p>To interact with the database through an ORM layer, consider using Quarkus Panache, which simplifies
+Hibernate ORM operations. Here’s how to set up your environment:</p>
+<ol>
+<li>Add Dependencies</li>
+</ol>
+<p>Firstly, include the necessary dependencies in your <code>pom.xml</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>&lt;dependency&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>   &lt;groupId&gt;io.quarkus&lt;/groupId&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>   &lt;artifactId&gt;quarkus-hibernate-orm-panache&lt;/artifactId&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>&lt;/dependency&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>&lt;dependency&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>   &lt;groupId&gt;io.quarkus&lt;/groupId&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>   &lt;artifactId&gt;quarkus-jdbc-postgresql&lt;/artifactId&gt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span>&lt;/dependency&gt;
+</span></span></code></pre></div><ol start="2">
+<li>Define the Entity</li>
+</ol>
+<p>Next, define your entity, such as <code>CityEntity</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>@Entity
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>@Table(name = <span style="color:#fc6a5d">&#34;cities&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">CityEntity</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>  @Id
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>  @GeneratedValue(strategy = GenerationType.IDENTITY)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>  <span style="color:#fc5fa3">private</span> Long id;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>  <span style="color:#fc5fa3">private</span> String name;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>  @Column(name = <span style="color:#fc6a5d">&#34;public_id&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>  <span style="color:#fc5fa3">private</span> String publicId;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>  @OneToOne
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>  <span style="color:#fc5fa3">private</span> StateEntity state;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>  @Column(nullable = <span style="color:#fc5fa3">false</span>, name = <span style="color:#fc6a5d">&#34;created_at&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>  <span style="color:#fc5fa3">private</span> Instant createdAt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>  @Column(nullable = <span style="color:#fc5fa3">false</span>, name = <span style="color:#fc6a5d">&#34;last_modified&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>  <span style="color:#fc5fa3">private</span> Instant lastModified;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>  @PrePersist
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>  <span style="color:#fc5fa3">protected</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">onCreate</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    createdAt = Instant.now();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>    lastModified = createdAt;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>  @PreUpdate
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>  <span style="color:#fc5fa3">protected</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">onUpdate</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>    lastModified = Instant.now();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33</span><span>}
+</span></span></code></pre></div><ol start="3">
+<li>Create the Repository</li>
+</ol>
+<p>Implement the repository which will directly interact with the database:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>@ApplicationScoped
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">CityRepository</span> <span style="color:#fc5fa3">implements</span> PanacheRepository&lt;CityEntity&gt; {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>}
+</span></span></code></pre></div><ol start="4">
+<li>Service Layer</li>
+</ol>
+<p>Define the service layer that utilizes the repository:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>@ApplicationScoped
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">CityServiceImpl</span> <span style="color:#fc5fa3">implements</span> CityService {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  @Inject
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>  CityRepository cityRepository;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>  @Override
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">long</span> <span style="color:#41a1c0">countCities</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    <span style="color:#fc5fa3">return</span> cityRepository.count();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">interface</span> <span style="color:#5dd8ff">CityService</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>  <span style="color:#fc5fa3">long</span> <span style="color:#41a1c0">countCities</span>();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>}
+</span></span></code></pre></div><ol start="5">
+<li>Resource Endpoint</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>@Path(<span style="color:#fc6a5d">&#34;/cities&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>@Tag(name = <span style="color:#fc6a5d">&#34;City Resource&#34;</span>, description = <span style="color:#fc6a5d">&#34;City APIs&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">CityResource</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>  @Inject
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>  CityService cityService;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>  @GET
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>  @Path(<span style="color:#fc6a5d">&#34;/count&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>  @Operation(summary = <span style="color:#fc6a5d">&#34;Get the total number of cities&#34;</span>, description = <span style="color:#fc6a5d">&#34;Returns the total count of cities in the system.&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>  @APIResponse(responseCode = <span style="color:#fc6a5d">&#34;200&#34;</span>, description = <span style="color:#fc6a5d">&#34;Successful response&#34;</span>, content = @Content(mediaType = <span style="color:#fc6a5d">&#34;application/json&#34;</span>, schema = @Schema(implementation = Long.class)))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">long</span> <span style="color:#41a1c0">count</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    <span style="color:#fc5fa3">return</span> cityService.countCities();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>}
+</span></span></code></pre></div><p>When you run your Quarkus application (<code>mvn quarkus:dev</code>), observe the automatic startup of the
+PostgreSQL container (<strong>Figure 2</strong>). This seamless integration exemplifies the power of Quarkus
+Dev Services, making development and testing significantly simpler by automating the configuration
+and connection setup to external services needed for your application.</p>
+<br>
+<img class="zoom" src="/images/quarkus-dev-services-1.jpg" alt="Application logs" title="Application logs">
+<p><em>Figure 2 – Application logs</em></p>
+<h2 id="platform-dev-services">Platform Dev Services</h2>
+<p>Quarkus Dev Services streamline the development and testing phases by handling the configuration and
+management of various services, allowing developers to focus more on the actual application. Quarkus
+supports a wide range of Dev Services, including:</p>
+<ul>
+<li>AMQP</li>
+<li>Apicurio Registry</li>
+<li>Databases</li>
+<li>Kafka</li>
+<li>Keycloak</li>
+<li>Kubernetes</li>
+<li>MongoDB</li>
+<li>RabbitMQ</li>
+<li>Pulsar</li>
+<li>Redis</li>
+<li>Vault</li>
+<li>Infinispan</li>
+<li>Elasticsearch</li>
+<li>Observability</li>
+<li>Neo4j</li>
+<li>WireMock</li>
+<li>Microcks</li>
+<li>Keycloak</li>
+<li>and many more, each designed to enhance your development environment seamlessly</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Quarkus Dev Services represents a paradigm shift in how developers approach setting up and
+integrating external services during the development and testing phases. The automation of
+environment setup not only accelerates the development process but also reduces the potential for
+configuration errors, making it easier for teams to focus on creating robust, feature-rich
+applications.</p>
+<p>One of the standout advantages of Quarkus Dev Services is the emphasis on developer productivity. By
+removing the need to manually manage service dependencies, developers can immediately begin work on
+business logic and application features. This streamlined workflow is particularly beneficial in
+microservices architectures where multiple services might require simultaneous development and
+integration</p>
+<p>In conclusion, embracing Quarkus Dev Services could significantly impact your development team&rsquo;s
+effectiveness and project outcomes. The simplicity and power of Quarkus encourage experimentation,
+quicker iterations, and ultimately a faster development cycle. This kind of technological leverage
+is what modern businesses need to thrive in the digital era.</p>
+
+      
+      <div class="post-date">
+        <span class="g time">June 2, 2024 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/development/">development</a> <a href="https://iqnev.github.io/tags/quarkus/">quarkus</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>

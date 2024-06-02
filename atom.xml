@@ -7,11 +7,260 @@
     
     <language>en</language>
     <copyright>Copyright 2024, Calvin Tran</copyright>
-    <lastBuildDate>Sun, 26 May 2024 11:04:18 +0300</lastBuildDate>
+    <lastBuildDate>Sun, 02 Jun 2024 11:04:18 +0300</lastBuildDate>
     <generator>Hugo - gohugo.io</generator>
     <docs>http://cyber.harvard.edu/rss/rss.html</docs>
     <atom:link href="https://iqnev.github.io//atom.xml" rel="self" type="application/atom+xml"/>
     
+    
+    <item>
+      <title>Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development</title>
+      <link>https://iqnev.github.io/posts/harnessing_automatic_setup_and_integration_with_quarkus_dev_services_for_efficient_development/</link>
+      <description>&lt;style&gt;
+.zoom {
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(2.0); /* Zoom when hovered */
+}
+&lt;/style&gt;
+&lt;p&gt;Prime 2024 Concluded Successfully!!&lt;/p&gt;
+&lt;p&gt;The organizers of Prime 2024 have once again gone to great lengths to offer a diverse range of
+topics, ensuring there&amp;rsquo;s something for everyone.&lt;/p&gt;
+&lt;p&gt;However, today&amp;rsquo;s article isn&amp;rsquo;t triggered by one of Michael Simons&amp;rsquo; lectures on &lt;strong&gt;&amp;ldquo;The Evolution of
+Integration Testing within Spring and Quarkus&amp;rdquo;&lt;/strong&gt; although it was highly insightful. He explored
+integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer
+clear of, but that’s for another day.&lt;/p&gt;
+&lt;p&gt;The author clearly emphasized that the issues he highlighted are effectively addressed in Quarkus
+through the utilization of Dev Services (&lt;strong&gt;Figure 1&lt;/strong&gt;).&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/jprime-image.jpg&#34; alt=&#34;JPrime&#34; title=&#34;JPrime&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 1 – JPrime 2024&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;It was remarkable to see the amazement it sparked among the newcomers in the
+audience. Let me delve deeper into Quarkus Dev Services.&lt;/p&gt;
+&lt;h2 id=&#34;quarkus-dev-services&#34;&gt;Quarkus Dev Services&lt;/h2&gt;
+&lt;p&gt;In Quarkus, Dev Services facilitate the automatic provisioning of unconfigured services in both
+development and testing modes. Essentially, if you include an extension without configuring it,
+Quarkus will automatically initiate the relevant service- often utilizing Testcontainers in the
+background- and configure your application to use this service efficiently.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Automatic Service Detection and Launch&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Quarkus Dev Services automates the detection and launching of necessary services like databases,
+message brokers, and other back-end services. It does this by tapping into the application’s
+dependencies specified in &lt;code&gt;pom.xml&lt;/code&gt; or &lt;code&gt;build.gradle&lt;/code&gt;. For instance, adding a database driver
+automatically triggers Dev Services to spin up a corresponding containerized instance of that
+database if it&amp;rsquo;s not already running.&lt;/p&gt;
+&lt;p&gt;The technology used here primarily involves Testcontainers, which allows the creation of
+lightweight, throwaway instances of common databases, Selenium web browsers, or anything else that
+can run in a Docker container.&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Dynamic Configuration Injection&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Once the required services are instantiated, Quarkus Dev Services dynamically injects the relevant
+service connection details into the application&amp;rsquo;s configuration at runtime. This is done without any
+manual intervention, using a feature known as Continuous Testing that reroutes the standard
+database, or other service URLs, to the auto-provisioned Testcontainers. Configuration properties
+such as URLs, user credentials, and other operational parameters are seamlessly set, allowing the
+application to interact with these services as though they were manually configured&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Service-Specific Behaviors&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Dev Services is tailored for various types of services:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Databases:&lt;/strong&gt; Automatically provides a running database tailored to your application&amp;rsquo;s needs.
+Whether
+it&amp;rsquo;s PostgreSQL, MySQL, MongoDB, or any other supported database, Dev Services ensures that a
+corresponding Testcontainer is available during development.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Messaging Systems:&lt;/strong&gt; For applications that use messaging systems like Kafka or AMQP, Quarkus Dev
+Services starts the necessary brokers, again using Docker, and connects them with the application.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Custom Dev Services:&lt;/strong&gt; Developers can extend the functionality by creating custom Quarkus
+extensions that leverage the Dev Services framework. This allows for tailored setups that are
+project-specific, offering even greater flexibility and control.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Network Handling and Service Isolation&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Each service spun up by Quarkus Dev Services runs in its isolated environment. This is crucial for
+ensuring that there are no port conflicts, data residue, or security issues between different
+development tests. Despite this isolation, services are networked appropriately using Docker,
+ensuring that they can communicate with each other as needed, imitating a real-world deployment
+atmosphere.&lt;/p&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;&lt;strong&gt;Lifecycle Management&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Quarkus manages the complete lifecycle of these dynamically provisioned services. When you start
+your application in development mode, the necessary services are started up automatically. When you
+stop the Quarkus application, these services are also terminated. This management includes handling
+data persistency as required, allowing developers to pick up right where they left off without any
+setup delays.&lt;/p&gt;
+&lt;h2 id=&#34;example-usage&#34;&gt;Example Usage&lt;/h2&gt;
+&lt;p&gt;Consider you’re using a PostgreSQL database with Quarkus. If no existing PostgreSQL configuration is
+detected, Quarkus will kickstart a PostgreSQL Docker container and connect your application
+automatically.&lt;/p&gt;
+&lt;p&gt;These services are enabled by default in development and test modes but can be disabled if necessary
+via the application.properties:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-properties&#34; data-lang=&#34;properties&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;quarkus.datasource.devservices.enabled=&lt;span style=&#34;color:#fc6a5d&#34;&gt;false&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Let&amp;rsquo;s expand on the scenario where Quarkus is using a PostgreSQL database and how the Dev Services
+facilitate this with minimum fuss.&lt;/p&gt;
+&lt;p&gt;If Quarkus detects that no PostgreSQL configuration is active (not running or not configured
+explicitly), it will automatically start up a PostgreSQL container using Docker. This is set up
+behind the scenes through Dev Services.&lt;/p&gt;
+&lt;p&gt;To interact with the database through an ORM layer, consider using Quarkus Panache, which simplifies
+Hibernate ORM operations. Here’s how to set up your environment:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Add Dependencies&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Firstly, include the necessary dependencies in your &lt;code&gt;pom.xml&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;&amp;lt;dependency&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;   &amp;lt;groupId&amp;gt;io.quarkus&amp;lt;/groupId&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;   &amp;lt;artifactId&amp;gt;quarkus-hibernate-orm-panache&amp;lt;/artifactId&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4&lt;/span&gt;&lt;span&gt;&amp;lt;/dependency&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5&lt;/span&gt;&lt;span&gt;&amp;lt;dependency&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;6&lt;/span&gt;&lt;span&gt;   &amp;lt;groupId&amp;gt;io.quarkus&amp;lt;/groupId&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;7&lt;/span&gt;&lt;span&gt;   &amp;lt;artifactId&amp;gt;quarkus-jdbc-postgresql&amp;lt;/artifactId&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;8&lt;/span&gt;&lt;span&gt;&amp;lt;/dependency&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;Define the Entity&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Next, define your entity, such as &lt;code&gt;CityEntity&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;@Entity
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;@Table(name = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;cities&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;CityEntity&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5&lt;/span&gt;&lt;span&gt;  @Id
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6&lt;/span&gt;&lt;span&gt;  @GeneratedValue(strategy = GenerationType.IDENTITY)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;private&lt;/span&gt; Long id;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;private&lt;/span&gt; String name;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;  @Column(name = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;public_id&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;private&lt;/span&gt; String publicId;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14&lt;/span&gt;&lt;span&gt;  @OneToOne
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;private&lt;/span&gt; StateEntity state;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17&lt;/span&gt;&lt;span&gt;  @Column(nullable = &lt;span style=&#34;color:#fc5fa3&#34;&gt;false&lt;/span&gt;, name = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;created_at&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;private&lt;/span&gt; Instant createdAt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20&lt;/span&gt;&lt;span&gt;  @Column(nullable = &lt;span style=&#34;color:#fc5fa3&#34;&gt;false&lt;/span&gt;, name = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;last_modified&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;private&lt;/span&gt; Instant lastModified;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23&lt;/span&gt;&lt;span&gt;  @PrePersist
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#41a1c0&#34;&gt;onCreate&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;25&lt;/span&gt;&lt;span&gt;    createdAt = Instant.now();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;26&lt;/span&gt;&lt;span&gt;    lastModified = createdAt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;27&lt;/span&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;28&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;29&lt;/span&gt;&lt;span&gt;  @PreUpdate
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;30&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#41a1c0&#34;&gt;onUpdate&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;31&lt;/span&gt;&lt;span&gt;    lastModified = Instant.now();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;32&lt;/span&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;33&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;Create the Repository&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Implement the repository which will directly interact with the database:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;@ApplicationScoped
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;CityRepository&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;implements&lt;/span&gt; PanacheRepository&amp;lt;CityEntity&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;Service Layer&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Define the service layer that utilizes the repository:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;@ApplicationScoped
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;CityServiceImpl&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;implements&lt;/span&gt; CityService {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4&lt;/span&gt;&lt;span&gt;  @Inject
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5&lt;/span&gt;&lt;span&gt;  CityRepository cityRepository;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7&lt;/span&gt;&lt;span&gt;  @Override
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;long&lt;/span&gt; &lt;span style=&#34;color:#41a1c0&#34;&gt;countCities&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#fc5fa3&#34;&gt;return&lt;/span&gt; cityRepository.count();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;interface&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;CityService&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;long&lt;/span&gt; &lt;span style=&#34;color:#41a1c0&#34;&gt;countCities&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;Resource Endpoint&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;@Path(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;/cities&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;@Tag(name = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;City Resource&amp;#34;&lt;/span&gt;, description = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;City APIs&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;CityResource&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5&lt;/span&gt;&lt;span&gt;  @Inject
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6&lt;/span&gt;&lt;span&gt;  CityService cityService;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8&lt;/span&gt;&lt;span&gt;  @GET
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9&lt;/span&gt;&lt;span&gt;  @Path(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;/count&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;  @Operation(summary = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Get the total number of cities&amp;#34;&lt;/span&gt;, description = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Returns the total count of cities in the system.&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;  @APIResponse(responseCode = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;200&amp;#34;&lt;/span&gt;, description = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Successful response&amp;#34;&lt;/span&gt;, content = @Content(mediaType = &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;application/json&amp;#34;&lt;/span&gt;, schema = @Schema(implementation = Long.class)))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;long&lt;/span&gt; &lt;span style=&#34;color:#41a1c0&#34;&gt;count&lt;/span&gt;() {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#fc5fa3&#34;&gt;return&lt;/span&gt; cityService.countCities();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14&lt;/span&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When you run your Quarkus application (&lt;code&gt;mvn quarkus:dev&lt;/code&gt;), observe the automatic startup of the
+PostgreSQL container (&lt;strong&gt;Figure 2&lt;/strong&gt;). This seamless integration exemplifies the power of Quarkus
+Dev Services, making development and testing significantly simpler by automating the configuration
+and connection setup to external services needed for your application.&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/quarkus-dev-services-1.jpg&#34; alt=&#34;Application logs&#34; title=&#34;Application logs&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 2 – Application logs&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&#34;platform-dev-services&#34;&gt;Platform Dev Services&lt;/h2&gt;
+&lt;p&gt;Quarkus Dev Services streamline the development and testing phases by handling the configuration and
+management of various services, allowing developers to focus more on the actual application. Quarkus
+supports a wide range of Dev Services, including:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AMQP&lt;/li&gt;
+&lt;li&gt;Apicurio Registry&lt;/li&gt;
+&lt;li&gt;Databases&lt;/li&gt;
+&lt;li&gt;Kafka&lt;/li&gt;
+&lt;li&gt;Keycloak&lt;/li&gt;
+&lt;li&gt;Kubernetes&lt;/li&gt;
+&lt;li&gt;MongoDB&lt;/li&gt;
+&lt;li&gt;RabbitMQ&lt;/li&gt;
+&lt;li&gt;Pulsar&lt;/li&gt;
+&lt;li&gt;Redis&lt;/li&gt;
+&lt;li&gt;Vault&lt;/li&gt;
+&lt;li&gt;Infinispan&lt;/li&gt;
+&lt;li&gt;Elasticsearch&lt;/li&gt;
+&lt;li&gt;Observability&lt;/li&gt;
+&lt;li&gt;Neo4j&lt;/li&gt;
+&lt;li&gt;WireMock&lt;/li&gt;
+&lt;li&gt;Microcks&lt;/li&gt;
+&lt;li&gt;Keycloak&lt;/li&gt;
+&lt;li&gt;and many more, each designed to enhance your development environment seamlessly&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Quarkus Dev Services represents a paradigm shift in how developers approach setting up and
+integrating external services during the development and testing phases. The automation of
+environment setup not only accelerates the development process but also reduces the potential for
+configuration errors, making it easier for teams to focus on creating robust, feature-rich
+applications.&lt;/p&gt;
+&lt;p&gt;One of the standout advantages of Quarkus Dev Services is the emphasis on developer productivity. By
+removing the need to manually manage service dependencies, developers can immediately begin work on
+business logic and application features. This streamlined workflow is particularly beneficial in
+microservices architectures where multiple services might require simultaneous development and
+integration&lt;/p&gt;
+&lt;p&gt;In conclusion, embracing Quarkus Dev Services could significantly impact your development team&amp;rsquo;s
+effectiveness and project outcomes. The simplicity and power of Quarkus encourage experimentation,
+quicker iterations, and ultimately a faster development cycle. This kind of technological leverage
+is what modern businesses need to thrive in the digital era.&lt;/p&gt;
+</description>
+      <author>Calvin Tran</author>
+      <guid>https://iqnev.github.io/posts/harnessing_automatic_setup_and_integration_with_quarkus_dev_services_for_efficient_development/</guid>
+      <pubDate>Sun, 02 Jun 2024 11:04:18 +0300</pubDate>
+    </item>
     
     <item>
       <title>Memory Management in GraalVM Native Image</title>

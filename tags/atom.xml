@@ -6,8 +6,22 @@
     <description>Recent content in Tags on Codes are a puzzle</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 26 May 2024 11:04:18 +0300</lastBuildDate>
+    <lastBuildDate>Sun, 02 Jun 2024 11:04:18 +0300</lastBuildDate>
     <atom:link href="https://iqnev.github.io/tags/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Development</title>
+      <link>https://iqnev.github.io/tags/development/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/tags/development/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Quarkus</title>
+      <link>https://iqnev.github.io/tags/quarkus/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/tags/quarkus/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Compiler</title>
       <link>https://iqnev.github.io/tags/compiler/</link>
@@ -93,13 +107,6 @@
       <description></description>
     </item>
     <item>
-      <title>Quarkus</title>
-      <link>https://iqnev.github.io/tags/quarkus/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://iqnev.github.io/tags/quarkus/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>Cdi</title>
       <link>https://iqnev.github.io/tags/cdi/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -118,13 +125,6 @@
       <link>https://iqnev.github.io/tags/java-ee/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://iqnev.github.io/tags/java-ee/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Development</title>
-      <link>https://iqnev.github.io/tags/development/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://iqnev.github.io/tags/development/</guid>
       <description></description>
     </item>
     <item>
