@@ -13,7 +13,7 @@
       <link>https://iqnev.github.io/posts/harnessing_automatic_setup_and_integration_with_quarkus_dev_services_for_efficient_development/</link>
       <pubDate>Sun, 02 Jun 2024 11:04:18 +0300</pubDate>
       <guid>https://iqnev.github.io/posts/harnessing_automatic_setup_and_integration_with_quarkus_dev_services_for_efficient_development/</guid>
-      <description>JPrime 2024 concluded successfully!!&#xA;The organizers of JPrime 2024 have once again gone to great lengths to offer a diverse range of topics, ensuring there&amp;rsquo;s something for everyone.&#xA;However, today&amp;rsquo;s article isn&amp;rsquo;t triggered by one of Michael Simons&amp;rsquo; lectures on &amp;ldquo;The Evolution of Integration Testing within Spring and Quarkus&amp;rdquo; although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer clear of, but that’s for another day.</description>
+      <description>JPrime 2024 concluded successfully!!&#xA;The organizers of JPrime 2024 have once again gone to great lengths to offer a diverse range of topics, ensuring there&amp;rsquo;s something for everyone.&#xA;However, today&amp;rsquo;s article isn&amp;rsquo;t triggered by one of Michael Simons&amp;rsquo; lectures on &amp;ldquo;The Evolution of Integration Testing within Spring and Quarkus&amp;rdquo; although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot.&#xA;The author clearly emphasized that the issues he highlighted are effectively addressed in Quarkus through the utilization of Dev Services (Figure 1).</description>
     </item>
     <item>
       <title>Turbocharge Java Microservices with Quarkus and GraalVM Native Image</title>

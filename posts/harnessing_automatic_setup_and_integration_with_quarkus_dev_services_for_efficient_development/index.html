@@ -12,7 +12,8 @@
   <meta property="og:title" content="Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development">
   <meta property="og:description" content="JPrime 2024 concluded successfully!!
 The organizers of JPrime 2024 have once again gone to great lengths to offer a diverse range of topics, ensuring there’s something for everyone.
-However, today’s article isn’t triggered by one of Michael Simons’ lectures on “The Evolution of Integration Testing within Spring and Quarkus” although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer clear of, but that’s for another day.">
+However, today’s article isn’t triggered by one of Michael Simons’ lectures on “The Evolution of Integration Testing within Spring and Quarkus” although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot.
+The author clearly emphasized that the issues he highlighted are effectively addressed in Quarkus through the utilization of Dev Services (Figure 1).">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -26,10 +27,11 @@ However, today’s article isn’t triggered by one of Michael Simons’ lecture
   <meta itemprop="name" content="Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development">
   <meta itemprop="description" content="JPrime 2024 concluded successfully!!
 The organizers of JPrime 2024 have once again gone to great lengths to offer a diverse range of topics, ensuring there’s something for everyone.
-However, today’s article isn’t triggered by one of Michael Simons’ lectures on “The Evolution of Integration Testing within Spring and Quarkus” although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer clear of, but that’s for another day.">
+However, today’s article isn’t triggered by one of Michael Simons’ lectures on “The Evolution of Integration Testing within Spring and Quarkus” although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot.
+The author clearly emphasized that the issues he highlighted are effectively addressed in Quarkus through the utilization of Dev Services (Figure 1).">
   <meta itemprop="datePublished" content="2024-06-02T11:04:18+03:00">
   <meta itemprop="dateModified" content="2024-06-02T11:04:18+03:00">
-  <meta itemprop="wordCount" content="1260">
+  <meta itemprop="wordCount" content="1310">
   <meta itemprop="image" content="https://iqnev.github.io/images/quarkus_logo_1.png">
   <meta itemprop="keywords" content="Development,Quarkus">
     
@@ -58,7 +60,7 @@ However, today’s article isn’t triggered by one of Michael Simons’ lecture
       "name": "Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development",
       "headline": "Harnessing Automatic Setup and Integration with Quarkus Dev Services for Efficient Development",
       "alternativeHeadline": "",
-      "description": "JPrime 2024 concluded successfully!!\nThe organizers of JPrime 2024 have once again gone to great lengths to offer a diverse range of topics, ensuring there\u0026rsquo;s something for everyone.\nHowever, today\u0026rsquo;s article isn\u0026rsquo;t triggered by one of Michael Simons\u0026rsquo; lectures on \u0026ldquo;The Evolution of Integration Testing within Spring and Quarkus\u0026rdquo; although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer clear of, but that’s for another day.",
+      "description": "JPrime 2024 concluded successfully!!\nThe organizers of JPrime 2024 have once again gone to great lengths to offer a diverse range of topics, ensuring there\u0026rsquo;s something for everyone.\nHowever, today\u0026rsquo;s article isn\u0026rsquo;t triggered by one of Michael Simons\u0026rsquo; lectures on \u0026ldquo;The Evolution of Integration Testing within Spring and Quarkus\u0026rdquo; although it was highly insightful. He explored integration testing strategies, focusing on the setup in Spring Boot.\nThe author clearly emphasized that the issues he highlighted are effectively addressed in Quarkus through the utilization of Dev Services (Figure 1).",
       "inLanguage": "en-us",
       "isFamilyFriendly": "true",
       "mainEntityOfPage": {
@@ -95,7 +97,7 @@ However, today’s article isn’t triggered by one of Michael Simons’ lecture
       },
       "image": ["https://iqnev.github.io/images/quarkus_logo_1.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/harnessing_automatic_setup_and_integration_with_quarkus_dev_services_for_efficient_development\/",
-      "wordCount" : "1260",
+      "wordCount" : "1310",
       "genre" : [ "development" , "quarkus" ],
       "keywords" : [ "development" , "quarkus" ]
   }
@@ -148,15 +150,16 @@ However, today’s article isn’t triggered by one of Michael Simons’ lecture
 topics, ensuring there&rsquo;s something for everyone.</p>
 <p>However, today&rsquo;s article isn&rsquo;t triggered by one of Michael Simons&rsquo; lectures on <strong>&ldquo;The Evolution of
 Integration Testing within Spring and Quarkus&rdquo;</strong> although it was highly insightful. He explored
-integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer
-clear of, but that’s for another day.</p>
+integration testing strategies, focusing on the setup in Spring Boot.</p>
 <p>The author clearly emphasized that the issues he highlighted are effectively addressed in Quarkus
-through the utilization of Dev Services (<strong>Figure 1</strong>).</p>
+through the utilization of Dev Services (<strong>Figure 1</strong>).
+This highlights another reason why I view Spring Boot with skepticism for certain applications—its
+complexities are starkly contrasted by the streamlined solutions in Quarkus, particularly with the
+use of Dev Services.
 <br>
-<img class="zoom" src="/images/jprime-image.jpg" alt="JPrime" title="JPrime">
+<img class="zoom" src="/images/jprime-image.jpg" alt="JPrime" title="JPrime"></p>
 <p><em>Figure 1 – JPrime 2024</em></p>
-<p>It was remarkable to see the amazement it sparked among the newcomers in the
-audience. Let me delve deeper into Quarkus Dev Services.</p>
+<p>It was remarkable to witness the astonishment Dev Services sparked among the new attendees. However, it&rsquo;s important to note that Dev Services is not a recent feature in Quarkus; it has been an integral part of the framework for quite some time. Let’s delve deeper into Quarkus Dev Services and explore its enduring benefits.</p>
 <h2 id="quarkus-dev-services">Quarkus Dev Services</h2>
 <p>In Quarkus, Dev Services facilitate the automatic provisioning of unconfigured services in both
 development and testing modes. Essentially, if you include an extension without configuring it,

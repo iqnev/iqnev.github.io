@@ -31,15 +31,16 @@
 topics, ensuring there&amp;rsquo;s something for everyone.&lt;/p&gt;
 &lt;p&gt;However, today&amp;rsquo;s article isn&amp;rsquo;t triggered by one of Michael Simons&amp;rsquo; lectures on &lt;strong&gt;&amp;ldquo;The Evolution of
 Integration Testing within Spring and Quarkus&amp;rdquo;&lt;/strong&gt; although it was highly insightful. He explored
-integration testing strategies, focusing on the setup in Spring Boot— a topic I personally steer
-clear of, but that’s for another day.&lt;/p&gt;
+integration testing strategies, focusing on the setup in Spring Boot.&lt;/p&gt;
 &lt;p&gt;The author clearly emphasized that the issues he highlighted are effectively addressed in Quarkus
-through the utilization of Dev Services (&lt;strong&gt;Figure 1&lt;/strong&gt;).&lt;/p&gt;
+through the utilization of Dev Services (&lt;strong&gt;Figure 1&lt;/strong&gt;).
+This highlights another reason why I view Spring Boot with skepticism for certain applications—its
+complexities are starkly contrasted by the streamlined solutions in Quarkus, particularly with the
+use of Dev Services.
 &lt;br&gt;
-&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/jprime-image.jpg&#34; alt=&#34;JPrime&#34; title=&#34;JPrime&#34;&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/jprime-image.jpg&#34; alt=&#34;JPrime&#34; title=&#34;JPrime&#34;&gt;&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;Figure 1 – JPrime 2024&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;It was remarkable to see the amazement it sparked among the newcomers in the
-audience. Let me delve deeper into Quarkus Dev Services.&lt;/p&gt;
+&lt;p&gt;It was remarkable to witness the astonishment Dev Services sparked among the new attendees. However, it&amp;rsquo;s important to note that Dev Services is not a recent feature in Quarkus; it has been an integral part of the framework for quite some time. Let’s delve deeper into Quarkus Dev Services and explore its enduring benefits.&lt;/p&gt;
 &lt;h2 id=&#34;quarkus-dev-services&#34;&gt;Quarkus Dev Services&lt;/h2&gt;
 &lt;p&gt;In Quarkus, Dev Services facilitate the automatic provisioning of unconfigured services in both
 development and testing modes. Essentially, if you include an extension without configuring it,
