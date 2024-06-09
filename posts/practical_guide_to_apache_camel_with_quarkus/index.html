@@ -28,7 +28,7 @@ Introduction to Apache Camel - Brief Overview Before we dive into the practical 
 Introduction to Apache Camel - Brief Overview Before we dive into the practical use case, let’s briefly introduce Apache Camel.">
   <meta itemprop="datePublished" content="2024-06-09T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-06-09T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1278">
+  <meta itemprop="wordCount" content="1308">
   <meta itemprop="image" content="https://iqnev.github.io/images/apache-camel-logo-1.png">
   <meta itemprop="keywords" content="Quarkus,Etl,Camel">
     
@@ -94,7 +94,7 @@ Introduction to Apache Camel - Brief Overview Before we dive into the practical 
       },
       "image": ["https://iqnev.github.io/images/apache-camel-logo-1.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/practical_guide_to_apache_camel_with_quarkus\/",
-      "wordCount" : "1278",
+      "wordCount" : "1308",
       "genre" : [ "quarkus" , "etl" , "camel" ],
       "keywords" : [ "quarkus" , "etl" , "camel" ]
   }
@@ -213,6 +213,8 @@ The SQL component supports performing SQL queries, inserts, updates, and deletes
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>        <span style="color:#6c7986">// your code here</span>
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    }
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9</span><span>The used of <span style="color:#960050">`</span>@ApplicationScoped<span style="color:#960050">`</span> annotation is not mandatory here but I prefer to indicate that the <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">is</span> a CDI bean and should be managed by the CDI container.
 </span></span></code></pre></div><p>As I mentioned above, we will use the Camel SQL component to interact with the databases. We need to configure the Camel SQL component to connect
 to the source and target databases. We will use the Quarkus Agroal extension to configure the data sources. The Agroal extension provides a
 connection pool for the data sources. We will configure the data sources in the <code>application.properties</code> file.</p>
