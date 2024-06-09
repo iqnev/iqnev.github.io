@@ -62,10 +62,6 @@ these communications (&lt;strong&gt;Figure 1&lt;/strong&gt;).&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;I consider to stop here for now about the introduction to Apache Camel. Now let&amp;rsquo;s show you how to create a simple ETL application between two databases using Apache Camel.&lt;/p&gt;
-&lt;h2 id=&#34;the-use-case-creating-a-simple-etl-application&#34;&gt;The Use Case: Creating a Simple ETL Application&lt;/h2&gt;
-&lt;p&gt;Let&amp;rsquo;s assume we have a highly loaded system where one critical component is the database. We may need to extract, transform, and load (ETL) data for various purposes such as training machine
-learning models, generating reports, or simply accessing parts of the data. Performing these operations on the operational database can cause significant load. To avoid this, we can use Apache Camel
-to extract the necessary data, transform it as needed, and load it into a separate database.&lt;/p&gt;
 &lt;h3 id=&#34;problem-statement&#34;&gt;Problem Statement&lt;/h3&gt;
 &lt;p&gt;Let&amp;rsquo;s assume we have a highly loaded system where one critical component is the database. At some point, we need to deal with this data outside of the usual operational
 cases - training ML models, generating exports, graphs, or we simply need some part of the data. Of course, this would burden our operational database even more, and for
