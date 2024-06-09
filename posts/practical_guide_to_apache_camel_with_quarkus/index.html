@@ -188,7 +188,7 @@ this operation at a time when our system is not too loaded (e.g., nighttime).</p
 <p>The solution is shown in the diagram below (<strong>Figure 2</strong>). We will use Apache Camel to create a simple ETL application between two databases. The application will extract data from a source
 database, transform it, and load it into a target database. We can introduce different strategies to implement this solution, focusing on how to extract the data from the
 source database. I assume that the criteria for selecting the data will be based on the modification date of the record. This strategy provides an opportunity to extract
-only the data that has been modified.</p>
+the data that has been modified, too.</p>
 <br>
 <img class="zoom" src="/images/apache-camel-syncer.jpg" alt="Syncing Data Between Two Databases Using Apache Camel" title="Syncing Data Between Two Databases Using Apache Camel">
 <p><em>Figure 2 – Syncing Data Between Two Databases Using Apache Camel</em></p>

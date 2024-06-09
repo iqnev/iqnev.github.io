@@ -72,7 +72,7 @@ this operation at a time when our system is not too loaded (e.g., nighttime).&lt
 &lt;p&gt;The solution is shown in the diagram below (&lt;strong&gt;Figure 2&lt;/strong&gt;). We will use Apache Camel to create a simple ETL application between two databases. The application will extract data from a source
 database, transform it, and load it into a target database. We can introduce different strategies to implement this solution, focusing on how to extract the data from the
 source database. I assume that the criteria for selecting the data will be based on the modification date of the record. This strategy provides an opportunity to extract
-only the data that has been modified.&lt;/p&gt;
+the data that has been modified, too.&lt;/p&gt;
 &lt;br&gt;
 &lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/apache-camel-syncer.jpg&#34; alt=&#34;Syncing Data Between Two Databases Using Apache Camel&#34; title=&#34;Syncing Data Between Two Databases Using Apache Camel&#34;&gt;
 &lt;p&gt;&lt;em&gt;Figure 2 – Syncing Data Between Two Databases Using Apache Camel&lt;/em&gt;&lt;/p&gt;
