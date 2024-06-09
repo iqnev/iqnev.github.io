@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Apache Camel on Codes are a puzzle</title>
+    <link>https://iqnev.github.io/categories/apache-camel/</link>
+    <description>Recent content in Apache Camel on Codes are a puzzle</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 09 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://iqnev.github.io/categories/apache-camel/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Practical Guide to Apache Camel with Quarkus: Building an ETL Application</title>
+      <link>https://iqnev.github.io/posts/practical_guide_to_apache_camel_with_quarkus/</link>
+      <pubDate>Sun, 09 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/posts/practical_guide_to_apache_camel_with_quarkus/</guid>
+      <description>I am excited to introduce a series of articles about Apache Camel. In this first post, rather than delving deeply into the complexities of Apache Camel, I will present a practical use case to showcase its capabilities. Specifically, you&amp;rsquo;ll learn how to create a simple Extract, Transform, and Load (ETL) application between two databases using Apache Camel.&#xA;Introduction to Apache Camel - Brief Overview Before we dive into the practical use case, let&amp;rsquo;s briefly introduce Apache Camel.</description>
+    </item>
+  </channel>
+</rss>

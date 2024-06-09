@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Practical Guide to Apache Camel with Quarkus: Building an ETL Application | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:url" content="https://iqnev.github.io/posts/practical_guide_to_apache_camel_with_quarkus/">
+  <meta property="og:site_name" content="Codes are a puzzle">
+  <meta property="og:title" content="Practical Guide to Apache Camel with Quarkus: Building an ETL Application">
+  <meta property="og:description" content="I am excited to introduce a series of articles about Apache Camel. In this first post, rather than delving deeply into the complexities of Apache Camel, I will present a practical use case to showcase its capabilities. Specifically, you’ll learn how to create a simple Extract, Transform, and Load (ETL) application between two databases using Apache Camel.
+Introduction to Apache Camel - Brief Overview Before we dive into the practical use case, let’s briefly introduce Apache Camel.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-06-09T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-06-09T00:00:00+00:00">
+    <meta property="article:tag" content="Quarkus">
+    <meta property="article:tag" content="Etl">
+    <meta property="article:tag" content="Camel">
+    <meta property="og:image" content="https://iqnev.github.io/images/apache-camel-logo-1.png">
+
+    
+  <meta itemprop="name" content="Practical Guide to Apache Camel with Quarkus: Building an ETL Application">
+  <meta itemprop="description" content="I am excited to introduce a series of articles about Apache Camel. In this first post, rather than delving deeply into the complexities of Apache Camel, I will present a practical use case to showcase its capabilities. Specifically, you’ll learn how to create a simple Extract, Transform, and Load (ETL) application between two databases using Apache Camel.
+Introduction to Apache Camel - Brief Overview Before we dive into the practical use case, let’s briefly introduce Apache Camel.">
+  <meta itemprop="datePublished" content="2024-06-09T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-06-09T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1363">
+  <meta itemprop="image" content="https://iqnev.github.io/images/apache-camel-logo-1.png">
+  <meta itemprop="keywords" content="Quarkus,Etl,Camel">
+    
+  
+
+
+    <link rel="canonical" href="https://iqnev.github.io/posts/practical_guide_to_apache_camel_with_quarkus/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Practical Guide to Apache Camel with Quarkus: Building an ETL Application",
+      "headline": "Practical Guide to Apache Camel with Quarkus: Building an ETL Application",
+      "alternativeHeadline": "",
+      "description": "I am excited to introduce a series of articles about Apache Camel. In this first post, rather than delving deeply into the complexities of Apache Camel, I will present a practical use case to showcase its capabilities. Specifically, you\u0026rsquo;ll learn how to create a simple Extract, Transform, and Load (ETL) application between two databases using Apache Camel.\nIntroduction to Apache Camel - Brief Overview Before we dive into the practical use case, let\u0026rsquo;s briefly introduce Apache Camel.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/practical_guide_to_apache_camel_with_quarkus\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2024",
+      "dateCreated": "2024-06-09T00:00:00.00Z",
+      "datePublished": "2024-06-09T00:00:00.00Z",
+      "dateModified": "2024-06-09T00:00:00.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": ["https://iqnev.github.io/images/apache-camel-logo-1.png"],
+      "url" : "https:\/\/iqnev.github.io\/posts\/practical_guide_to_apache_camel_with_quarkus\/",
+      "wordCount" : "1363",
+      "genre" : [ "quarkus" , "etl" , "camel" ],
+      "keywords" : [ "quarkus" , "etl" , "camel" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Practical Guide to Apache Camel with Quarkus: Building an ETL Application</h2>
+      <style>
+.zoom {
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(2.0); /* Zoom when hovered */
+}
+</style>
+<p>I am excited to introduce a series of articles about Apache Camel. In this first post, rather than delving deeply into the complexities of Apache Camel,
+I will present a practical use case to showcase its capabilities. Specifically, you&rsquo;ll learn how to create a simple Extract, Transform, and Load (ETL)
+application between two databases using Apache Camel.</p>
+<h2 id="introduction-to-apache-camel---brief-overview">Introduction to Apache Camel - Brief Overview</h2>
+<p>Before we dive into the practical use case, let&rsquo;s briefly introduce Apache Camel. Apache Camel is an open-source integration framework that leverages Enterprise Integration Patterns (EIP) to
+facilitate the integration of various systems.</p>
+<p>In today&rsquo;s world, numerous systems of different types coexist. Some may be legacy systems, while others are new. These systems often need to interact and integrate with each other, which can be
+challenging due to differing implementations and message formats. One solution is to write custom code to bridge these differences, but this can lead to tight coupling and maintenance difficulties.</p>
+<p>Instead, Apache Camel offers an additional layer to mediate the differences between systems, resulting in loose coupling and easier maintenance. Camel uses an API (or declarative Java Domain Specific Language)
+to configure routing and mediation rules based on EIP.</p>
+<h3 id="enterprise-integration-patterns-eip">Enterprise Integration Patterns (EIP)</h3>
+<p>To understand Apache Camel, it&rsquo;s important to grasp &ldquo;Enterprise Integration Patterns&rdquo; (EIP). The book &ldquo;Enterprise Integration Patterns&rdquo; describes a set of patterns for designing large, component-based systems where
+components can run in the same process or on different machines. The key idea is that systems should be message-oriented, with components communicating via messages. The patterns provide a toolkit for implementing
+these communications (<strong>Figure 1</strong>).</p>
+<br>
+<img class="zoom" src="/images/basic_lements_of_an_integration_solution.jpg" alt="Basic Elements of an Integration Solution" title="Basic Elements of an Integration Solution">
+<p><em>Figure 1 – Basic Elements of an Integration Solution (enterpriseintegrationpatterns.com)</em></p>
+<h2 id="key-terminologies-in-apache-camel">Key Terminologies in Apache Camel</h2>
+<ul>
+<li>
+<p><strong>EndPoint:</strong> An endpoint is a channel through which messages are sent and received. It serves as the interface between a component and the outside world.</p>
+</li>
+<li>
+<p><strong>Message:</strong> A message is a data structure used for communication between systems, consisting of a header and a body. The header contains metadata, and the body contains the actual data.</p>
+</li>
+<li>
+<p><strong>Channel:</strong> A channel connects two endpoints, facilitating the sending and receiving of messages.</p>
+</li>
+<li>
+<p><strong>Router:</strong> A router directs messages from one endpoint to another, determining the message path.</p>
+</li>
+<li>
+<p><strong>Translator:</strong> A translator converts messages from one format to another.</p>
+</li>
+</ul>
+<p>I consider to stop here for now. In the next article, I now let&rsquo;s show you how to create a simple ETL application between two databases using Apache Camel.</p>
+<h2 id="the-use-case-creating-a-simple-etl-application">The Use Case: Creating a Simple ETL Application</h2>
+<p>Let&rsquo;s assume we have a highly loaded system where one critical component is the database. We may need to extract, transform, and load (ETL) data for various purposes such as training machine
+learning models, generating reports, or simply accessing parts of the data. Performing these operations on the operational database can cause significant load. To avoid this, we can use Apache Camel
+to extract the necessary data, transform it as needed, and load it into a separate database.</p>
+<h3 id="problem-statement">Problem Statement</h3>
+<p>Let&rsquo;s assume we have a highly loaded system where one critical component is the database. At some point, we need to deal with this data outside of the usual operational
+cases - training ML models, generating exports, graphs, or we simply need some part of the data. Of course, this would burden our operational database even more, and for
+this purpose, it would be optimal to have a mechanism with which we can extract the necessary data, transform it into the form we need, and store it in another database - other
+than the operational one. With this strategy, we solve the problems of excessive potential overloading of our operational base. Moreover, with such a mechanism, we can perform
+this operation at a time when our system is not too loaded (e.g., nighttime).</p>
+<h2 id="solution-overview">Solution Overview</h2>
+<p>The solution is shown in the diagram below (<strong>Figure 2</strong>). We will use Apache Camel to create a simple ETL application between two databases. The application will extract data from a source
+database, transform it, and load it into a target database. We can introduce different strategies to implement this solution, focusing on how to extract the data from the
+source database. I assume that the criteria for selecting the data will be based on the modification date of the record. This strategy provides an opportunity to extract
+only the data that has been modified.</p>
+<br>
+<img class="zoom" src="/images/apache-camel-syncer.jpg" alt="Syncing Data Between Two Databases Using Apache Camel" title="Syncing Data Between Two Databases Using Apache Camel">
+<p><em>Figure 2 – Syncing Data Between Two Databases Using Apache Camel</em></p>
+<p>Source and target databases will have the following table structure:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">CREATE</span> <span style="color:#fc5fa3">TABLE</span> <span style="color:#fc5fa3">IF</span> <span style="color:#fc5fa3">NOT</span> <span style="color:#fc5fa3">EXISTS</span> <span style="color:#fc5fa3">user</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    id            <span style="color:#d0a8ff">serial</span> <span style="color:#fc5fa3">PRIMARY</span> <span style="color:#fc5fa3">KEY</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    username      <span style="color:#d0a8ff">VARCHAR</span>(<span style="color:#d0bf69">50</span>)  <span style="color:#fc5fa3">NOT</span> <span style="color:#fc5fa3">NULL</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>    password      <span style="color:#d0a8ff">VARCHAR</span>(<span style="color:#d0bf69">50</span>)  <span style="color:#fc5fa3">NOT</span> <span style="color:#fc5fa3">NULL</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    email         <span style="color:#d0a8ff">VARCHAR</span>(<span style="color:#d0bf69">255</span>) <span style="color:#fc5fa3">NOT</span> <span style="color:#fc5fa3">NULL</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>    created_at    <span style="color:#fc5fa3">timestamp</span> <span style="color:#fc5fa3">default</span> now()::<span style="color:#fc5fa3">timestamp</span> <span style="color:#fc5fa3">without</span> time <span style="color:#fc5fa3">zone</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span>    last_modified <span style="color:#fc5fa3">TIMESTAMP</span> <span style="color:#fc5fa3">DEFAULT</span> now()::<span style="color:#fc5fa3">timestamp</span> <span style="color:#fc5fa3">without</span> time <span style="color:#fc5fa3">zone</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9</span><span>);
+</span></span></code></pre></div><p>In the target database, we&rsquo;ll transform the username to uppercase before inserting it.</p>
+<p>We&rsquo;ll use Camel Quarkus extensions for various Camel components. Specifically, we&rsquo;ll use the Camel SQL component to interact with the databases.
+The SQL component supports performing SQL queries, inserts, updates, and deletes.</p>
+<p>First, create a class that extends <code>RouteBuilder</code> and override the <code>configure</code> method:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>@ApplicationScoped
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">UserRoute</span> <span style="color:#fc5fa3">extends</span> RouteBuilder {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    @Override
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">configure</span>() <span style="color:#fc5fa3">throws</span> Exception {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>        <span style="color:#6c7986">// your code here</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>}
+</span></span></code></pre></div><p>As I mentioned above, we will use the Camel SQL component to interact with the databases. We need to configure the Camel SQL component to connect
+to the source and target databases. We will use the Quarkus Agroal extension to configure the data sources. The Agroal extension provides a
+connection pool for the data sources. We will configure the data sources in the <code>application.properties</code> file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#6c7986">#</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#6c7986"># Source Database Configuration</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>quarkus.datasource.source_db.db-kind=<span style="color:#fc6a5d">postgresql</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>quarkus.datasource.source_db.jdbc.url=<span style="color:#fc6a5d">jdbc:postgresql://localhost:5001/demo</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>quarkus.datasource.source_db.username=<span style="color:#fc6a5d">test</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>quarkus.datasource.source_db.password=<span style="color:#fc6a5d">password1</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span><span style="color:#6c7986">#</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span><span style="color:#6c7986">#</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span><span style="color:#6c7986"># Target Database Configuration</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>quarkus.datasource.target_db.db-kind=<span style="color:#fc6a5d">postgresql</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>quarkus.datasource.target_db.jdbc.url=<span style="color:#fc6a5d">jdbc:postgresql://localhost:6001/demo</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>quarkus.datasource.target_db.username=<span style="color:#fc6a5d">test</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>quarkus.datasource.target_db.password=<span style="color:#fc6a5d">password1</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span><span style="color:#6c7986">#</span>
+</span></span></code></pre></div><p>Now we can configure the Camel SQL component to connect to the source and target databases. We will use the <code>sql</code> component to create a SQL endpoint for the source and
+target databases.</p>
+<p>The SQL component uses the following endpoint URI notation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">sql</span>:<span style="color:#fc5fa3">select</span> * <span style="color:#fc5fa3">from</span> <span style="color:#fc5fa3">table</span> <span style="color:#fc5fa3">where</span> id=# <span style="color:#fc5fa3">order</span> <span style="color:#fc5fa3">by</span> name[?<span style="color:#fc5fa3">options</span>]
+</span></span></code></pre></div><p>But we need mechanism to run the operation automatically. We will use the <code>timer</code> component to trigger the ETL process every seconds. The <code>timer</code> component is used to
+generate message exchanges when a timer fires. The timer component uses the following endpoint URI notation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>timer:name[?options]
+</span></span></code></pre></div><p>In our route we use configuration as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span> from(<span style="color:#fc6a5d">&#34;timer://userSync?delay={{etl.timer.delay}}&amp;period={{etl.timer.period}}&#34;</span>)
+</span></span></code></pre></div><p>The <code>{{etl.timer.delay}}</code> and <code>{{etl.timer.period}}</code> are the configuration values that we will define in the <code>application.properties</code> file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-properties" data-lang="properties"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>etl.timer.period=<span style="color:#fc6a5d">10000</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>etl.timer.delay=<span style="color:#fc6a5d">1000</span>
+</span></span></code></pre></div><p>In order to transform the data before inserting it into the target database, we need to provide our translator:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>.process(exchange -&gt; {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#fc5fa3">final</span> Map&lt;String, Object&gt; rows = exchange.getIn().getBody(Map.class);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#fc5fa3">final</span> String userName = (String) rows.get(<span style="color:#fc6a5d">&#34;username&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#fc5fa3">final</span> String userNameToUpperCase = userName.toUpperCase();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    log.info(<span style="color:#fc6a5d">&#34;User name: {} converted to upper case: {}&#34;</span>, userName, userNameToUpperCase);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    rows.put(<span style="color:#fc6a5d">&#34;username&#34;</span>, userNameToUpperCase);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>})
+</span></span></code></pre></div><p>The <code>Processor</code> interface is used to implement consumers of message exchanges or to implement a Message Translator and other use-cases.</p>
+<p>And voila, we have a simple ETL application between two databases using Apache Camel.</p>
+<p>When you run the application, you should see the following output in the logs:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>2024-06-09 13:15:49,257 INFO  [route1] (Camel (camel-1) thread #1 - timer://userSync) Extracting Max last_modified value from source database
+</span></span><span style="display:flex;"><span>2024-06-09 13:15:49,258 INFO  [route1] (Camel (camel-1) thread #1 - timer://userSync) No record found in target database
+</span></span><span style="display:flex;"><span>2024-06-09 13:15:49,258 INFO  [route2] (Camel (camel-1) thread #1 - timer://userSync) The last_modified from source DB: 
+</span></span><span style="display:flex;"><span>2024-06-09 13:15:49,274 INFO  [route2] (Camel (camel-1) thread #1 - timer://userSync) Extracting records from source database
+</span></span><span style="display:flex;"><span>2024-06-09 13:15:49,277 INFO  [org.iqn.cam.rou.UserRoute] (Camel (camel-1) thread #1 - timer://userSync) User name: john_doe converted to upper case: JOHN_DOE
+</span></span><span style="display:flex;"><span>2024-06-09 13:15:49,282 INFO  [org.iqn.cam.rou.UserRoute] (Camel (camel-1) thread #1 - timer://userSync) User name: jane_smith converted to upper case: JANE_SMITH
+</span></span><span style="display:flex;"><span>2024-06-09 13:15:49,283 INFO  [org.iqn.cam.rou.UserRoute] (Camel (camel-1) thread #1 - timer://userSync) User name: alice_miller converted to upper case: ALICE_MILLER
+</span></span></code></pre></div><p>You can find the full source code of the application in the <a href="https://github.com/iqnev/quarkus-camel-sync-db">GitHub repository</a>.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>With this setup, we&rsquo;ve created a simple ETL application using Apache Camel that extracts data from a source database, transforms it, and loads it into a target database.
+This approach helps reduce the load on the operational database and allows us to perform data extraction during off-peak times.</p>
+
+      
+      <div class="post-date">
+        <span class="g time">June 9, 2024 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/quarkus/">quarkus</a> <a href="https://iqnev.github.io/tags/etl/">etl</a> <a href="https://iqnev.github.io/tags/camel/">camel</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>
