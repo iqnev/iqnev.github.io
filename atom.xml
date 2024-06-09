@@ -61,7 +61,7 @@ these communications (&lt;strong&gt;Figure 1&lt;/strong&gt;).&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Translator:&lt;/strong&gt; A translator converts messages from one format to another.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;I consider to stop here for now. In the next article, I now let&amp;rsquo;s show you how to create a simple ETL application between two databases using Apache Camel.&lt;/p&gt;
+&lt;p&gt;I consider to stop here for now about the introduction to Apache Camel. Now let&amp;rsquo;s show you how to create a simple ETL application between two databases using Apache Camel.&lt;/p&gt;
 &lt;h2 id=&#34;the-use-case-creating-a-simple-etl-application&#34;&gt;The Use Case: Creating a Simple ETL Application&lt;/h2&gt;
 &lt;p&gt;Let&amp;rsquo;s assume we have a highly loaded system where one critical component is the database. We may need to extract, transform, and load (ETL) data for various purposes such as training machine
 learning models, generating reports, or simply accessing parts of the data. Performing these operations on the operational database can cause significant load. To avoid this, we can use Apache Camel
