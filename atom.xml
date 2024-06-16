@@ -7,11 +7,303 @@
     
     <language>en</language>
     <copyright>Copyright 2024, Calvin Tran</copyright>
-    <lastBuildDate>Sun, 09 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 16 Jun 2024 00:00:00 +0000</lastBuildDate>
     <generator>Hugo - gohugo.io</generator>
     <docs>http://cyber.harvard.edu/rss/rss.html</docs>
     <atom:link href="https://iqnev.github.io//atom.xml" rel="self" type="application/atom+xml"/>
     
+    
+    <item>
+      <title>Exploring Core Features and Components of Apache Camel</title>
+      <link>https://iqnev.github.io/posts/exploring_core_features_and_components_of_apache_camel/</link>
+      <description>&lt;style&gt;
+.zoom {
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(2.0); /* Zoom when hovered */
+}
+&lt;/style&gt;
+&lt;p&gt;Hello friends! In our previous discussion, we delved into the integration of Apache Camel with Quarkus, demonstrating how to craft real-world applications
+using Apache Camel. As we continue our series, we aim to take a deep dive into the crucial components and the intrinsic details of Apache Camel.&lt;/p&gt;
+&lt;h2 id=&#34;enterprise-integration-patterns&#34;&gt;Enterprise Integration Patterns&lt;/h2&gt;
+&lt;p&gt;At its core, Apache Camel is structured around the concepts introduced in the &lt;em&gt;Enterprise Integration Patterns&lt;/em&gt; (EIP) book by Gregor Hohpe and Bobby Woolf.
+This book outlines numerous patterns that have become standardizations for designing and documenting robust integration solutions across enterprise applications
+or systems.
+Here&amp;rsquo;s an overview of some pivotal patterns utilised within Apache Camel:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Aggregator&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Aggregator pattern(&lt;strong&gt;Figure 1&lt;/strong&gt;) is essential for collecting and consolidating related messages into a cohesive single message, facilitating comprehensive processing.
+It acts as a specialized filter, accumulating correlated messages until a complete set of data is received, at which point it publishes an aggregated output
+for further processing.&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/aggregator-pattern.png&#34; alt=&#34;Aggregator pattern&#34; title=&#34;Aggregator pattern&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 1 – Aggregator Pattern (enterpriseintegrationpatterns.com)&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Content-Based Router&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This pattern(&lt;strong&gt;Figure 2&lt;/strong&gt;) dynamically routes messages based on their content to appropriate receivers. Routing decisions can depend on various message attributes
+such as field presence or specific field values.&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/content-based-router-pattern.png&#34; alt=&#34;Content-Based Router pattern&#34; title=&#34;Content-Based Router pattern&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 2 – Content-Based Router pattern (enterpriseintegrationpatterns.com)&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Dynamic Router&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Dynamic Router(&lt;strong&gt;Figure 3&lt;/strong&gt;) facilitates routing decisions made at runtime, adapting dynamically based on rules defined externally or through user input,
+supporting modern service-oriented architectures.&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/dynamic-router.png&#34; alt=&#34;Dynamic Router pattern&#34; title=&#34;Dynamic Router pattern&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 3 – Dynamic Router pattern (enterpriseintegrationpatterns.com)&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Message Filter&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A Message Filter(&lt;strong&gt;Figure 4&lt;/strong&gt;) directs messages to an output channel or discards them based on specified criteria, ensuring that only
+messages meeting certain conditions are processed further.&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/message-filter-pattern.png&#34; alt=&#34;Message Filter pattern&#34; title=&#34;Message Filter pattern&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 4 – Message Filter pattern (enterpriseintegrationpatterns.com)&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Process Manager&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This pattern(&lt;strong&gt;Figure 5&lt;/strong&gt;) orchestrates the sequence of steps in a business process, handling both the execution order and any occurring exceptions.
+It underpins complex workflows where sequential processing and error management are critical.&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/process-manager-pattern.png&#34; alt=&#34;Process Manager pattern&#34; title=&#34;Process Manager pattern&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 5 – Process Manager pattern (enterpriseintegrationpatterns.com)&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Normalizer&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Normalizer pattern(&lt;strong&gt;Figure 6&lt;/strong&gt;) is a critical tool in Apache Camel that addresses the challenges of message format discrepancies among different systems.
+It takes incoming messages in various formats and converts them into a standardized format before further processing, ensuring consistency
+across the data handling pipeline. This pattern is particularly beneficial in environments where messages originate from diverse sources with varying formats.&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/normalizer-pattern.png&#34; alt=&#34;Normalizer pattern&#34; title=&#34;Normalizer pattern&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 6 – Normalizer pattern (enterpriseintegrationpatterns.com)&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Splitter&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Handling complex messages composed of multiple data items is streamlined by the Splitter pattern(&lt;strong&gt;Figure 7&lt;/strong&gt;). This pattern efficiently divides a compound message into
+its constituent elements, allowing each element to be processed independently. This is immensely useful in scenarios where different parts of a message
+need to be routed or processed differently based on their individual characteristics.&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/splitter-pattern.png&#34; alt=&#34;Splitter pattern&#34; title=&#34;Splitter pattern&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 7 – Splitter pattern (enterpriseintegrationpatterns.com)&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;I have to mention that these are just a few of the patterns that are used in Apache Camel. There are many more patterns that are used in Apache Camel.
+But I consider these patterns to be the most important ones.&lt;/p&gt;
+&lt;h2 id=&#34;camel-fundamentals&#34;&gt;Camel Fundamentals&lt;/h2&gt;
+&lt;p&gt;At its essence, the Apache Camel framework is centered around a powerful routing engine, or more accurately, a routing-engine builder.
+This engine empowers developers to devise bespoke routing rules, determine which sources to accept messages from, and define how those messages
+should be processed and dispatched to various destinations. Apache Camel supports the definition of complex routing rules through an integration
+language similar to those found in intricate business processes.&lt;/p&gt;
+&lt;p&gt;One of the cardinal principles of Camel is its data-agnostic nature. This flexibility is crucial as it allows developers to interact with any type of
+system without the strict requirement of transforming data into a predefined canonical format. The ability to handle diverse data forms seamlessly is
+what makes Camel a versatile tool in the toolkit of any system integrator.&lt;/p&gt;
+&lt;h3 id=&#34;message&#34;&gt;Message&lt;/h3&gt;
+&lt;p&gt;In the realm of Apache Camel, messages are the fundamental entities that facilitate communication between systems via messaging channels.
+These components are illustrated in (&lt;strong&gt;Figure 8&lt;/strong&gt;). During the course of a route&amp;rsquo;s execution, messages can undergo various transformations—they can be altered, duplicated,
+or entirely replaced depending on the specific needs of the process.
+Messages inherently flow uni-directionally from a sender to a receiver and comprise several components:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Body (Payload):&lt;/strong&gt; The main content of the message.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Headers:&lt;/strong&gt; Metadata associated with the message which can include keys and their respective values.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Attachments:&lt;/strong&gt; Optional files that can be sent along with the message.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/camel-message-model.jpg&#34; alt=&#34;Message structure&#34; title=&#34;Message structure&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 8 – Apache Camel Message structure&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Messages in Apache Camel are uniquely identified by an identifier of type &lt;code&gt;java.lang.String&lt;/code&gt;. The uniqueness of this identifier is enforced by the message
+creator and is dependent on the protocol used, though the format itself is not standardized. For protocols lacking a unique message identification scheme,
+Camel employs its own ID generator.&lt;/p&gt;
+&lt;p&gt;Headers in a Camel message serve as key-value pairs containing metadata such as sender identifiers, hints about content encoding, authentication data, and more.
+Each header name is a unique, case-insensitive string, while the value can be any object (&lt;code&gt;java.lang.Object&lt;/code&gt;), reflecting Camel&amp;rsquo;s flexible handling of header types. All headers are stored within the message as a map.&lt;/p&gt;
+&lt;p&gt;Additionally, messages may include optional attachments, commonly utilized in contexts involving web services and email transactions. The body of the message,
+also of type &lt;code&gt;java.lang.Object&lt;/code&gt;, is versatile, accommodating any form of content. This flexibility mandates that the application designer ensures content
+comprehensibility across different systems. To aid in this, Camel provides various mechanisms, including automatic type conversion when necessary,
+to transform data into a compatible format for both sender and receiver, facilitating seamless data integration across diverse environments.&lt;/p&gt;
+&lt;h3 id=&#34;exchange&#34;&gt;Exchange&lt;/h3&gt;
+&lt;p&gt;In Apache Camel, an Exchange is a pivotal message container that navigates data through a Camel route. As illustrated in (&lt;strong&gt;Figure 9&lt;/strong&gt;), it encapsulates a
+message, supporting its transformation and processing through a series of predefined steps within a Camel route. The Exchange implements the following
+&lt;code&gt;org.apache.camel.Exchange&lt;/code&gt; interface.&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/camel-exchange.jpg&#34; alt=&#34;An Apache Camel exchange&#34; title=&#34;An Apache Camel exchange&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 9 – An Apache Camel exchange&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The Exchange is designed to accommodate different styles of messaging, particularly emphasizing the request-reply pattern. It is robust enough to carry
+information about faults or errors, should exceptions arise during the processing of a message.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Exchange ID:&lt;/strong&gt;  This is a unique identifier for the exchange, automatically generated by Camel to ensure traceability..&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Message Exchange Pattern MEP:&lt;/strong&gt; Pecifies the messaging style, either &lt;code&gt;InOnly&lt;/code&gt; or &lt;code&gt;InOut&lt;/code&gt;. For &lt;code&gt;InOnly&lt;/code&gt;, the transaction involves only the incoming message.
+For &lt;code&gt;InOut&lt;/code&gt;, an additional outgoing message (Out Message) exists to relay responses back to the initiator.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Exception&lt;/strong&gt; - The Exchange captures exceptions occurring during routing, centralizing error management for easy handling and mitigation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Body:&lt;/strong&gt; Each message (In and Out) contains a payload of type &lt;code&gt;java.lang.Object&lt;/code&gt;, allowing for diverse content types.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Headers:&lt;/strong&gt; Stored as a map, headers include key-value pairs associated with the message, carrying metadata such as routing cues, authentication keys,
+and other contextual information.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Properties:&lt;/strong&gt; Similar to headers but enduring for the entirety of the exchange, properties hold global-level data pertinent throughout the message processing lifecycle.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;In message:&lt;/strong&gt; The foundational component, this mandatory element encapsulates incoming request data from inbound channels.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Out message:&lt;/strong&gt; An optional component that exists in &lt;code&gt;InOut&lt;/code&gt; exchanges, carrying the response data to an outbound channel.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In Apache Camel, an &lt;code&gt;Exchange&lt;/code&gt; is a message container which carries the data through a Camel route. It encapsulates a message and allows it to be
+transformed and processed across a series of processing steps defined in a Camel route. An &lt;code&gt;Exchange&lt;/code&gt; also facilitates the pattern of request-reply messaging
+and might carry fault or error information if exceptions occur during message processing.&lt;/p&gt;
+&lt;h3 id=&#34;camel-context&#34;&gt;Camel Context&lt;/h3&gt;
+&lt;p&gt;The Apache Camel Context is an essential element within Apache Camel, serving as the core framework that orchestrates the integration framework&amp;rsquo;s functionality.
+It is where the routing rules, configurations, components, and additional integration elements converge. The Camel Context(&lt;strong&gt;Figure 10&lt;/strong&gt;) initializes, configures, and
+oversees the lifecycle of all components and routes it contains.&lt;/p&gt;
+&lt;br&gt;
+&lt;img class=&#34;zoom&#34; src=&#34;https://iqnev.github.io/images/camel-context.jpg&#34; alt=&#34;Apache Camel context&#34; title=&#34;Apache Camel context&#34;&gt;
+&lt;p&gt;&lt;em&gt;Figure 10 – Apache Camel context&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Within the Camel Context, the following critical operations are facilitated:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Loading Components and Data Formats&lt;/strong&gt;: This involves the initialization and availability management of components and data formats used across various routes.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Configuring Routes&lt;/strong&gt;:  It provides a mechanism to define the paths that messages follow, including the rules for how messages are processed and mediated across different endpoints.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Starting and Stopping Routes&lt;/strong&gt;: The Camel Context manages the activation and deactivation of routes, ensuring these operations are performed in a thread-safe manner.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Error Handling&lt;/strong&gt;: Implements centralized error-handling mechanisms that can be utilised across all routes within the context.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Managing Resources&lt;/strong&gt;: It ensures efficient management of resources like thread pools or connections, releasing them appropriately when not required anymore.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The Camel Context can be configured either programmatically or declaratively. For instance, in a Java-based setup:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;import&lt;/span&gt; org.apache.camel.CamelContext;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;import&lt;/span&gt; org.apache.camel.impl.DefaultCamelContext;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;MainApp&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5&lt;/span&gt;&lt;span&gt;    &lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#41a1c0&#34;&gt;main&lt;/span&gt;(String[] args) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6&lt;/span&gt;&lt;span&gt;        CamelContext camelContext = &lt;span style=&#34;color:#fc5fa3&#34;&gt;new&lt;/span&gt; DefaultCamelContext();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7&lt;/span&gt;&lt;span&gt;        &lt;span style=&#34;color:#fc5fa3&#34;&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8&lt;/span&gt;&lt;span&gt;            &lt;span style=&#34;color:#6c7986&#34;&gt;// Add routes, components, etc.&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9&lt;/span&gt;&lt;span&gt;            camelContext.start();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;            Thread.sleep(10000);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;        } &lt;span style=&#34;color:#fc5fa3&#34;&gt;catch&lt;/span&gt; (Exception e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12&lt;/span&gt;&lt;span&gt;            e.printStackTrace();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;        } &lt;span style=&#34;color:#fc5fa3&#34;&gt;finally&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14&lt;/span&gt;&lt;span&gt;            &lt;span style=&#34;color:#fc5fa3&#34;&gt;try&lt;/span&gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15&lt;/span&gt;&lt;span&gt;                camelContext.stop();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16&lt;/span&gt;&lt;span&gt;            } &lt;span style=&#34;color:#fc5fa3&#34;&gt;catch&lt;/span&gt; (Exception e) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17&lt;/span&gt;&lt;span&gt;               &lt;span style=&#34;color:#6c7986&#34;&gt;// Handle exception&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18&lt;/span&gt;&lt;span&gt;            }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19&lt;/span&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20&lt;/span&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For environments like Quarkus, the Camel Context is typically retrieved and managed as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;@Inject CamelContext context;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;if&lt;/span&gt; (context.isStarted()) {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4&lt;/span&gt;&lt;span&gt;  context.getRouteController().startRoute(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;start_route&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;5&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When leveraging Quarkus, the Camel Context is automagically provisioned and managed:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;@ApplicationScoped
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;DemoRoute&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;extends&lt;/span&gt; RouteBuilder {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4&lt;/span&gt;&lt;span&gt;  @Override
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#41a1c0&#34;&gt;configure&lt;/span&gt;() &lt;span style=&#34;color:#fc5fa3&#34;&gt;throws&lt;/span&gt; Exception {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7&lt;/span&gt;&lt;span&gt;    from(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;direct:start_route&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8&lt;/span&gt;&lt;span&gt;        .log(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Starting route: ${routeId}, headers: ${headers}&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9&lt;/span&gt;&lt;span&gt;        .setHeader(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;header_abc&amp;#34;&lt;/span&gt;, constant(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;header_value&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;        .to(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;direct:route_1&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;        .to(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;direct:route_3&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12&lt;/span&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;endpoints&#34;&gt;Endpoints&lt;/h3&gt;
+&lt;p&gt;In Apache Camel, endpoints represent the interfaces for connecting the Camel application with external systems or services. They are the points at which
+routes either begin (consume) or end (produce).&lt;/p&gt;
+&lt;p&gt;Some common types of endpoints include:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;A Camel file endpoint can be used to read from and write to files in a directory.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#6c7986&#34;&gt;// Route to read files from the directory &amp;#34;input&amp;#34; and move processed files to &amp;#34;output&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;from(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;file:input?move=processed&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;   .to(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;file:output&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;HTTP endpoints are used for integrating with HTTP services.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#6c7986&#34;&gt;// Route to consume data from an HTTP service&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;from(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;timer:foo?period=60000&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;   .to(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;http://example.com/api/data&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;4&lt;/span&gt;&lt;span&gt;   .to(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;log:result&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;Direct and SEDA
+Both &lt;code&gt;direct&lt;/code&gt; and &lt;code&gt;seda&lt;/code&gt; are used for in-memory synchronous and asynchronous message queuing respectively within Camel.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;1&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#6c7986&#34;&gt;// Using direct for synchronous call&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;2&lt;/span&gt;&lt;span&gt;from(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;direct:start&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;3&lt;/span&gt;&lt;span&gt;    .to(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;log:info&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;routes&#34;&gt;Routes&lt;/h3&gt;
+&lt;p&gt;Routes in Camel define the message flow between endpoints, incorporating a series of processors or transformations. They are crucial for constructing
+the processing logic within a Camel application.&lt;/p&gt;
+&lt;p&gt;Here’s an example demonstrating a series of interconnected routes:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;@ApplicationScoped
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;DemoRoute&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;extends&lt;/span&gt; RouteBuilder {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 4&lt;/span&gt;&lt;span&gt;  @Override
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 5&lt;/span&gt;&lt;span&gt;  &lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#41a1c0&#34;&gt;configure&lt;/span&gt;() &lt;span style=&#34;color:#fc5fa3&#34;&gt;throws&lt;/span&gt; Exception {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 6&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 7&lt;/span&gt;&lt;span&gt;    from(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;direct:start_route&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 8&lt;/span&gt;&lt;span&gt;        .log(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Starting route: ${routeId}, headers: ${headers}&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 9&lt;/span&gt;&lt;span&gt;        .setHeader(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;header_abc&amp;#34;&lt;/span&gt;, constant(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;header_value&amp;#34;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;10&lt;/span&gt;&lt;span&gt;        .to(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;direct:route_1&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;11&lt;/span&gt;&lt;span&gt;        .to(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;direct:route_3&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;12&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;    from(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;direct:route_1&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14&lt;/span&gt;&lt;span&gt;        .log(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Starting route_1: ${routeId}, headers: ${headers}, thread: ${threadName}&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15&lt;/span&gt;&lt;span&gt;        .process(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;16&lt;/span&gt;&lt;span&gt;            exchange -&amp;gt; {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;17&lt;/span&gt;&lt;span&gt;              exchange.getIn().setHeader(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;header_abc&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;UPDATED_HEADER_VALUE&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;18&lt;/span&gt;&lt;span&gt;            })
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;19&lt;/span&gt;&lt;span&gt;        .to(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;direct:route_2&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;20&lt;/span&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;21&lt;/span&gt;&lt;span&gt;    from(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;direct:route_2&amp;#34;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;22&lt;/span&gt;&lt;span&gt;        .log(&lt;span style=&#34;color:#fc6a5d&#34;&gt;&amp;#34;Starting route_2: ${routeId}, headers: ${headers}, thread: ${threadName}&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;23&lt;/span&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;24&lt;/span&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Here the first route starts from the &lt;code&gt;direct:start_route&lt;/code&gt; endpoint, logs the &lt;code&gt;routeId&lt;/code&gt; and &lt;code&gt;headers&lt;/code&gt;, set the new header with key: &lt;code&gt;header_abc&lt;/code&gt;, and then
+forwards the message to the next route &lt;code&gt;direct:route_1&lt;/code&gt;. The second route logs the &lt;code&gt;routeId&lt;/code&gt;, &lt;code&gt;headers&lt;/code&gt;, and the thread name, and then forwards the message to
+the next route &lt;code&gt;direct:route_2&lt;/code&gt;. The third route logs the &lt;code&gt;routeId&lt;/code&gt;, &lt;code&gt;headers&lt;/code&gt;, and the thread name.&lt;/p&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;n this detailed exploration of Apache Camel, we have traversed the core concepts and essential components that make it an indispensable tool in the realm of
+enterprise integration. Beginning with a thorough examination of Enterprise Integration Patterns (EIPs), we understood how Camel utilizes patterns like
+Aggregators, Splitters, and Normalizers to address common integration challenges effectively.&lt;/p&gt;
+&lt;p&gt;Further, we delved into the architectural fundamentals of Camel, highlighting its versatile routing capabilities, flexible message model, and the pivotal
+role of the Camel Context in managing and orchestrating these elements. We also covered practical aspects, demonstrating how routes are defined and managed,
+along with a look at various endpoint types that facilitate communication with external systems.&lt;/p&gt;
+</description>
+      <author>Calvin Tran</author>
+      <guid>https://iqnev.github.io/posts/exploring_core_features_and_components_of_apache_camel/</guid>
+      <pubDate>Sun, 16 Jun 2024 00:00:00 +0000</pubDate>
+    </item>
     
     <item>
       <title>Practical Guide to Apache Camel with Quarkus: Building an ETL Application</title>

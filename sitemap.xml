@@ -3,22 +3,28 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://iqnev.github.io/</loc>
-    <lastmod>2024-06-09T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/apache-camel/</loc>
-    <lastmod>2024-06-09T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/camel/</loc>
-    <lastmod>2024-06-09T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/</loc>
-    <lastmod>2024-06-09T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/etl/</loc>
-    <lastmod>2024-06-09T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/posts/exploring_core_features_and_components_of_apache_camel/</loc>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/posts/</loc>
-    <lastmod>2024-06-09T00:00:00+00:00</lastmod>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://iqnev.github.io/tags/</loc>
+    <lastmod>2024-06-16T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/posts/practical_guide_to_apache_camel_with_quarkus/</loc>
     <lastmod>2024-06-09T00:00:00+00:00</lastmod>
@@ -27,9 +33,6 @@
     <lastmod>2024-06-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/categories/quarkus/</loc>
-    <lastmod>2024-06-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://iqnev.github.io/tags/</loc>
     <lastmod>2024-06-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iqnev.github.io/tags/development/</loc>

@@ -6,8 +6,15 @@
     <description>Recent content in Apache Camel on Codes are a puzzle</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 09 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 16 Jun 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://iqnev.github.io/categories/apache-camel/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Exploring Core Features and Components of Apache Camel</title>
+      <link>https://iqnev.github.io/posts/exploring_core_features_and_components_of_apache_camel/</link>
+      <pubDate>Sun, 16 Jun 2024 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/posts/exploring_core_features_and_components_of_apache_camel/</guid>
+      <description>Hello friends! In our previous discussion, we delved into the integration of Apache Camel with Quarkus, demonstrating how to craft real-world applications using Apache Camel. As we continue our series, we aim to take a deep dive into the crucial components and the intrinsic details of Apache Camel.&#xA;Enterprise Integration Patterns At its core, Apache Camel is structured around the concepts introduced in the Enterprise Integration Patterns (EIP) book by Gregor Hohpe and Bobby Woolf.</description>
+    </item>
     <item>
       <title>Practical Guide to Apache Camel with Quarkus: Building an ETL Application</title>
       <link>https://iqnev.github.io/posts/practical_guide_to_apache_camel_with_quarkus/</link>
