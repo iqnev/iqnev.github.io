@@ -27,7 +27,7 @@ Overview Messages passed to integration applications often arrive in a format th
 Overview Messages passed to integration applications often arrive in a format that is less than ideal for immediate processing. Frequently, these are composite messages containing multiple elements, each requiring individual processing. This is where the Splitter pattern proves beneficial by dividing incoming messages into a sequence of more manageable messages.">
   <meta itemprop="datePublished" content="2024-07-15T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-07-15T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1612">
+  <meta itemprop="wordCount" content="1628">
   <meta itemprop="image" content="https://iqnev.github.io/images/apache_camel_12.png">
   <meta itemprop="keywords" content="Etl,Camel">
     
@@ -93,7 +93,7 @@ Overview Messages passed to integration applications often arrive in a format th
       },
       "image": ["https://iqnev.github.io/images/apache_camel_12.png"],
       "url" : "https:\/\/iqnev.github.io\/posts\/mastering_data_routing_in_apache_camel_leveraging_the_splitter_pattern\/",
-      "wordCount" : "1612",
+      "wordCount" : "1628",
       "genre" : [ "etl" , "camel" ],
       "keywords" : [ "etl" , "camel" ]
   }
@@ -276,7 +276,6 @@ message should be split. The method should be designed to accept the incoming me
 which Camel then iterates over. Each element of the array or list becomes a new exchange in Camel, which is processed independently for
 the remainder of the route.</p>
 <br>
-<h3 id="small-benefits-of-current-article">Small benefits of current article</h3>
 <p>By integrating dynamic splitting with conditional routing using <code>choice()</code> and <code>when()</code> constructs, Apache Camel provides a robust framework for
 bespoke data processing workflows.</p>
 <h2 id="understanding-choice-and-when-in-apache-camel">Understanding <code>choice()</code> and <code>when()</code> in Apache Camel</h2>
@@ -356,6 +355,7 @@ match, an optional <code>otherwise()</code> clause can be executed, akin to an e
 <p>In this article, we&rsquo;ve explored the practical implementation of the Splitter pattern in a range of contexts - from handling lists and custom delimited strings to operating on more complex structures like Java objects. Each example showcased how Apache Camel facilitates straightforward data manipulations, making seemingly complex integration tasks much simpler.</p>
 <p>Additionally, the integration of <code>choice()</code> and <code>when()</code> constructs further refines the data routing capabilities in Apache Camel, offering precise control over message flow based on specific content criteria. This ability to route data conditionally mimics conventional programming logic, bringing a familiar and intuitive approach to route definitions.</p>
 <p>As businesses continue to deal with increasingly diverse and voluminous data, understanding and implementing these patterns will become crucial. The flexibility and power of Apache Camel in managing data flows allow developers to build robust, efficient data ingestion and processing pipelines that are crucial for today&rsquo;s data-driven applications.</p>
+<p>And last but not least, the all above examples are implemented in the Quarkus framework as using the Camel Quarkus extension.</p>
 
       
       <div class="post-date">

@@ -161,7 +161,6 @@ message should be split. The method should be designed to accept the incoming me
 which Camel then iterates over. Each element of the array or list becomes a new exchange in Camel, which is processed independently for
 the remainder of the route.&lt;/p&gt;
 &lt;br&gt;
-&lt;h3 id=&#34;small-benefits-of-current-article&#34;&gt;Small benefits of current article&lt;/h3&gt;
 &lt;p&gt;By integrating dynamic splitting with conditional routing using &lt;code&gt;choice()&lt;/code&gt; and &lt;code&gt;when()&lt;/code&gt; constructs, Apache Camel provides a robust framework for
 bespoke data processing workflows.&lt;/p&gt;
 &lt;h2 id=&#34;understanding-choice-and-when-in-apache-camel&#34;&gt;Understanding &lt;code&gt;choice()&lt;/code&gt; and &lt;code&gt;when()&lt;/code&gt; in Apache Camel&lt;/h2&gt;
@@ -241,6 +240,7 @@ match, an optional &lt;code&gt;otherwise()&lt;/code&gt; clause can be executed, 
 &lt;p&gt;In this article, we&amp;rsquo;ve explored the practical implementation of the Splitter pattern in a range of contexts - from handling lists and custom delimited strings to operating on more complex structures like Java objects. Each example showcased how Apache Camel facilitates straightforward data manipulations, making seemingly complex integration tasks much simpler.&lt;/p&gt;
 &lt;p&gt;Additionally, the integration of &lt;code&gt;choice()&lt;/code&gt; and &lt;code&gt;when()&lt;/code&gt; constructs further refines the data routing capabilities in Apache Camel, offering precise control over message flow based on specific content criteria. This ability to route data conditionally mimics conventional programming logic, bringing a familiar and intuitive approach to route definitions.&lt;/p&gt;
 &lt;p&gt;As businesses continue to deal with increasingly diverse and voluminous data, understanding and implementing these patterns will become crucial. The flexibility and power of Apache Camel in managing data flows allow developers to build robust, efficient data ingestion and processing pipelines that are crucial for today&amp;rsquo;s data-driven applications.&lt;/p&gt;
+&lt;p&gt;And last but not least, the all above examples are implemented in the Quarkus framework as using the Camel Quarkus extension.&lt;/p&gt;
 </description>
       <author>Calvin Tran</author>
       <guid>https://iqnev.github.io/posts/mastering_data_routing_in_apache_camel_leveraging_the_splitter_pattern/</guid>
