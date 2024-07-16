@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Mastering Data Routing in Apache Camel: Leveraging the Splitter Pattern | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:url" content="https://iqnev.github.io/posts/mastering_data_routing_in_apache_camel_leveraging_the_splitter_pattern/">
+  <meta property="og:site_name" content="Codes are a puzzle">
+  <meta property="og:title" content="Mastering Data Routing in Apache Camel: Leveraging the Splitter Pattern">
+  <meta property="og:description" content="Hello again! In my upcoming articles, I plan to explore several key patterns provided by Apache Camel that are invaluable for your ETL processes. This current article focuses on the Splitter Enterprise Integration Pattern (EIP).
+Overview Messages passed to integration applications often arrive in a format that is less than ideal for immediate processing. Frequently, these are composite messages containing multiple elements, each requiring individual processing. This is where the Splitter pattern proves beneficial by dividing incoming messages into a sequence of more manageable messages.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-07-15T00:00:00+00:00">
+    <meta property="article:tag" content="Etl">
+    <meta property="article:tag" content="Camel">
+    <meta property="og:image" content="https://iqnev.github.io/images/apache_camel_12.png">
+
+    
+  <meta itemprop="name" content="Mastering Data Routing in Apache Camel: Leveraging the Splitter Pattern">
+  <meta itemprop="description" content="Hello again! In my upcoming articles, I plan to explore several key patterns provided by Apache Camel that are invaluable for your ETL processes. This current article focuses on the Splitter Enterprise Integration Pattern (EIP).
+Overview Messages passed to integration applications often arrive in a format that is less than ideal for immediate processing. Frequently, these are composite messages containing multiple elements, each requiring individual processing. This is where the Splitter pattern proves beneficial by dividing incoming messages into a sequence of more manageable messages.">
+  <meta itemprop="datePublished" content="2024-07-15T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-07-15T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1612">
+  <meta itemprop="image" content="https://iqnev.github.io/images/apache_camel_12.png">
+  <meta itemprop="keywords" content="Etl,Camel">
+    
+  
+
+
+    <link rel="canonical" href="https://iqnev.github.io/posts/mastering_data_routing_in_apache_camel_leveraging_the_splitter_pattern/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Mastering Data Routing in Apache Camel: Leveraging the Splitter Pattern",
+      "headline": "Mastering Data Routing in Apache Camel: Leveraging the Splitter Pattern",
+      "alternativeHeadline": "",
+      "description": "Hello again! In my upcoming articles, I plan to explore several key patterns provided by Apache Camel that are invaluable for your ETL processes. This current article focuses on the Splitter Enterprise Integration Pattern (EIP).\nOverview Messages passed to integration applications often arrive in a format that is less than ideal for immediate processing. Frequently, these are composite messages containing multiple elements, each requiring individual processing. This is where the Splitter pattern proves beneficial by dividing incoming messages into a sequence of more manageable messages.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/mastering_data_routing_in_apache_camel_leveraging_the_splitter_pattern\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2024",
+      "dateCreated": "2024-07-15T00:00:00.00Z",
+      "datePublished": "2024-07-15T00:00:00.00Z",
+      "dateModified": "2024-07-15T00:00:00.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": ["https://iqnev.github.io/images/apache_camel_12.png"],
+      "url" : "https:\/\/iqnev.github.io\/posts\/mastering_data_routing_in_apache_camel_leveraging_the_splitter_pattern\/",
+      "wordCount" : "1612",
+      "genre" : [ "etl" , "camel" ],
+      "keywords" : [ "etl" , "camel" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Mastering Data Routing in Apache Camel: Leveraging the Splitter Pattern</h2>
+      <style>
+.zoom {
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(2.0); /* Zoom when hovered */
+}
+</style>
+<p>Hello again! In my upcoming articles, I plan to explore several key patterns provided by Apache Camel that are invaluable for your ETL processes.
+This current article focuses on the Splitter Enterprise Integration Pattern (EIP).</p>
+<h1 id="overview">Overview</h1>
+<p>Messages passed to integration applications often arrive in a format that is less than ideal for immediate processing. Frequently, these are
+composite messages containing multiple elements, each requiring individual processing. This is where the Splitter pattern proves beneficial by
+dividing incoming messages into a sequence of more manageable messages.</p>
+<p>The diagram below (<strong>Figure 1</strong>) illustrates the simplicity of the Splitter pattern- it takes a single message and splits it into multiple distinct messages.</p>
+<br>
+<img class="zoom" src="/images/spliter-pattern-ac.png" alt="Splitter pattern" title="Splitter pattern">
+<p><em>Figure 1 – Splitter Pattern (enterpriseintegrationpatterns.com)</em></p>
+<br>
+<h1 id="using-splitter-in-apache-camel">Using Splitter in Apache Camel</h1>
+<p>Implementing the Splitter pattern in Apache Camel is straightforward. Incorporate the split method in the route definition. This method requires an
+Expression to dictate how the message should be split.</p>
+<p>Commonly, you might need to split a <strong>list</strong>, <strong>set</strong>, <strong>map</strong>, <strong>array</strong>, or any other <strong>collection</strong>. For such cases, use the body method to
+retrieve the message body before splitting.</p>
+<p>The Splitter behaves akin to a comprehensive iterator that processes each entry consecutively. The sequence diagram in (<strong>Figure 2</strong>) offers detailed
+insights into this iterator&rsquo;s operation.</p>
+<br>
+<img class="zoom" src="/images/split-diagrama.jpg" alt="A sequence diagram" title="A sequence diagram">
+<p><em>Figure 2 – A sequence diagram</em></p>
+<p>Upon receiving a message, the Splitter evaluates an Expression which returns the message body. This result is then utilized to create a <code>java.util.Iterator</code>.</p>
+<p>By default, the split method divides the message body based on its value type, as illustrated below:</p>
+<ul>
+<li>
+<p><code>java.util.Collection</code>: Splits each element from the collection.</p>
+</li>
+<li>
+<p><code>java.util.Map</code>: Splits each map entry.</p>
+</li>
+<li>
+<p><code>Object[]</code>: Splits each array element.</p>
+</li>
+<li>
+<p><code>Iterator</code>: Splits each iteration.</p>
+</li>
+<li>
+<p><code>Iterable</code>: Splits each iterable component.</p>
+</li>
+<li>
+<p><code>String</code>: Splits each string character.</p>
+</li>
+</ul>
+<p>The Splitter then utilizes the iterator till all data is processed. Each resultant message is a copy of the original with its body replaced by
+the portion from the iterator.</p>
+<p>Let&rsquo;s explore how to employ the Splitter pattern in Apache Camel with practical examples.</p>
+<p><strong>Example 1:</strong> Splitting an <code>ArrayList</code> of <code>Strings</code></p>
+<p>Consider a route that splits an <code>ArrayList</code> of <code>String</code> and logs each element. Here&rsquo;s how you define this route:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>@ApplicationScoped
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">SplitterRoute</span> <span style="color:#fc5fa3">extends</span> RouteBuilder {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    @Override
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">configure</span>() <span style="color:#fc5fa3">throws</span> Exception {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>        from(<span style="color:#fc6a5d">&#34;direct:split_start_1&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        .log(<span style="color:#fc6a5d">&#34;Before Split line ${body}&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        .split(body())
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>        .log(<span style="color:#fc6a5d">&#34;Split line ${body}&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>}
+</span></span></code></pre></div><p>Call the above route by passing an <code>ArrayList</code> of <code>Strings</code> as the message body:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>List&lt;String&gt; body = List.of(<span style="color:#fc6a5d">&#34;A&#34;</span>, <span style="color:#fc6a5d">&#34;B&#34;</span>, <span style="color:#fc6a5d">&#34;C&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>producerTemplate.sendBody(<span style="color:#fc6a5d">&#34;direct:split_start_1&#34;</span>, body);
+</span></span></code></pre></div><p>Running the above code yields the following output:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>2023-07-14 20:10:03,389 INFO  Before Split line [A, B, C]
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>2023-07-14 20:10:03,391 INFO  Split line A
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>2023-07-14 20:10:03,392 INFO  Split line B
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>2023-07-14 20:10:03,392 INFO  Split line C
+</span></span></code></pre></div><br>
+<p><strong>Example 2:</strong> Splitting a <code>String</code> by Custom Delimiter</p>
+<p>In this example, we split a String using a custom delimiter <code>#</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>@ApplicationScoped
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">SplitterRoute</span> <span style="color:#fc5fa3">extends</span> RouteBuilder {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    @Override
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">configure</span>() <span style="color:#fc5fa3">throws</span> Exception {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>        from(<span style="color:#fc6a5d">&#34;direct:split_start_2&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        .log(<span style="color:#fc6a5d">&#34;Before Split line ${body}&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        .split(body(), <span style="color:#fc6a5d">&#34;#&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>        .log(<span style="color:#fc6a5d">&#34;Split line ${body}&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>}
+</span></span></code></pre></div><p>To call the route and pass the <code>String</code> as a message body:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>producerTemplate.sendBody(<span style="color:#fc6a5d">&#34;direct:split_start_2&#34;</span>, <span style="color:#fc6a5d">&#34;A#B#C&#34;</span>);
+</span></span></code></pre></div><p>Running this code, you see the following in the log:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>2024-07-14 20:19:19,229 INFO  Before Split line A#B#C
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>2024-07-14 20:19:19,229 INFO  Split line A
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>2024-07-14 20:19:19,229 INFO  Split line B
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>2024-07-14 20:19:19,230 INFO  Split line C
+</span></span></code></pre></div><p>These examples demonstrate the versatility of the Splitter pattern in handling various types of message formats.</p>
+<p>As you can see, the Splitter pattern is very useful when you need to split a message into multiple messages. But let&rsquo;s see another example
+where we are going to split an <code>Object</code> by its fields. For the demo purpose, we are going to  provide the <code>User</code> object with the <code>List</code> of <code>Address</code> objects.</p>
+<p>The <code>User</code> class is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">record</span> <span style="color:#5dd8ff">UserDetails</span>(String userId, List&lt;Address&gt; addresses) {}
+</span></span></code></pre></div><p>and the <code>Address</code> class is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">record</span> <span style="color:#5dd8ff">Address</span>(String addressId, String address) {}
+</span></span></code></pre></div><p>The route definition is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>@ApplicationScoped
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">SplitterRoute</span> <span style="color:#fc5fa3">extends</span> RouteBuilder {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>  @Override
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>  <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">configure</span>() <span style="color:#fc5fa3">throws</span> Exception {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    from(<span style="color:#fc6a5d">&#34;direct:userDetails&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        .log(<span style="color:#fc6a5d">&#34;User Id: ${body.userId}&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        .split(method(UserService.class))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>        .log(<span style="color:#fc6a5d">&#34;Split line ${body}&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>  <span style="color:#fc5fa3">static</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">UserService</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> List&lt;Address&gt; <span style="color:#41a1c0">getDetails</span>(UserDetails userDetails) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>      <span style="color:#fc5fa3">return</span> userDetails.addresses();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>}
+</span></span></code></pre></div><p>and to call the above route as pass the <code>User</code> object as a message body:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">final</span> UserDetails userDetails = <span style="color:#fc5fa3">new</span> UserDetails(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#fc6a5d">&#34;user-1&#34;</span>,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    List.of(
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>        <span style="color:#fc5fa3">new</span> Address(<span style="color:#fc6a5d">&#34;1&#34;</span>, <span style="color:#fc6a5d">&#34;Address 1&#34;</span>),
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>        <span style="color:#fc5fa3">new</span> Address(<span style="color:#fc6a5d">&#34;2&#34;</span>, <span style="color:#fc6a5d">&#34;Address 2&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    )
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9</span><span>producerTemplate.sendBody(<span style="color:#fc6a5d">&#34;direct:userDetails&#34;</span>, userDetails);
+</span></span></code></pre></div><p>When you run the above code, you will see the following output in the log:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>2024-07-14 21:09:02,225 INFO  [route36] (Quarkus Main Thread) User Id: user-1
+</span></span><span style="display:flex;"><span>2024-07-14 21:09:02,226 INFO  [route36] (Quarkus Main Thread) Split line Address[<span style="color:#41a1c0">addressId</span>=1, <span style="color:#41a1c0">address</span>=Address 1]
+</span></span><span style="display:flex;"><span>2024-07-14 21:09:02,226 INFO  [route36] (Quarkus Main Thread) Split line Address[<span style="color:#41a1c0">addressId</span>=2, <span style="color:#41a1c0">address</span>=Address 2]
+</span></span></code></pre></div><p>The method component in Apache Camel is a versatile and powerful tool that allows routes to directly invoke methods on beans.
+This capability is particularly useful in enterprise applications where business logic needs to be cleanly encapsulated within service
+classes, yet seamlessly integrated within Camel routes for orchestration of data flows.</p>
+<p>The route invokes a method from the <code>UserService</code> class. Apache Camel looks for this method in the <code>UserService</code> class to handle how the
+message should be split. The method should be designed to accept the incoming message body and return a collection, such as a <code>List</code> or <code>Array</code>,
+which Camel then iterates over. Each element of the array or list becomes a new exchange in Camel, which is processed independently for
+the remainder of the route.</p>
+<br>
+<h3 id="small-benefits-of-current-article">Small benefits of current article</h3>
+<p>By integrating dynamic splitting with conditional routing using <code>choice()</code> and <code>when()</code> constructs, Apache Camel provides a robust framework for
+bespoke data processing workflows.</p>
+<h2 id="understanding-choice-and-when-in-apache-camel">Understanding <code>choice()</code> and <code>when()</code> in Apache Camel</h2>
+<p>In Apache Camel, <code>choice()</code> and when are powerful constructs that enable content-based routing. This paradigm mimics the <code>if-else</code> or <code>switch-case</code>
+constructs familiar in many programming languages, allowing routes to make decisions based on the content of messages.</p>
+<p>The <code>choice()</code> construct serves as a container for one or more <code>when()</code> clauses. Each <code>when()</code> clause specifies a condition. When a condition evaluates to
+true, Apache Camel routes the message to the processing logic defined within that <code>when()</code> block. If none of the conditions in any of the <code>when()</code> clauses
+match, an optional <code>otherwise()</code> clause can be executed, akin to an else statement in traditional programming.</p>
+<p>Detailed Example with <code>choice()</code> and <code>when()</code>.</p>
+<p>Imagine a scenario where an application processes orders and sends them to different processing streams based on their category, such as &ldquo;books&rdquo;,
+&ldquo;electronics&rdquo;, or &ldquo;clothing&rdquo;. This setup allows for highly specialized processing for different categories of items.</p>
+<p>Here&rsquo;s how you might set up such a route in Apache Camel:</p>
+<ul>
+<li>
+<p><strong>Route Configuration:</strong> Define a route that starts from an endpoint (for example, <code>direct:startOrderRoute</code>). This route will examine the type of order and route the message accordingly.</p>
+</li>
+<li>
+<p><strong>Using <code>choice()</code> <code>and when()</code>:</strong> Inside the route, a <code>choice()</code> component examines the message. Based on the content, it routes the message to different endpoints using <code>when()</code>.</p>
+</li>
+<li>
+<p><strong>Logging and Processing:</strong> Each category has a dedicated log that records the action taken, ensuring traceability.</p>
+</li>
+</ul>
+<br>
+<p>Here&rsquo;s a sample implementation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">OrderRouteBuilder</span> <span style="color:#fc5fa3">extends</span> RouteBuilder {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    @Override
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">configure</span>() <span style="color:#fc5fa3">throws</span> Exception {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>        from(<span style="color:#fc6a5d">&#34;direct:start&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>            .choice()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>                .when(body().contains(<span style="color:#fc6a5d">&#34;books&#34;</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>                    .log(<span style="color:#fc6a5d">&#34;Routing to Books processing: ${body}&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>                    .to(<span style="color:#fc6a5d">&#34;direct:books&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>                .when(body().contains(<span style="color:#fc6a5d">&#34;electronics&#34;</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>                    .log(<span style="color:#fc6a5d">&#34;Routing to Electronics processing: ${body}&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>                    .to(<span style="color:#fc6a5d">&#34;direct:electronics&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>                .when(body().contains(<span style="color:#fc6a5d">&#34;clothing&#34;</span>))
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>                    .log(<span style="color:#fc6a5d">&#34;Routing to Clothing processing: ${body}&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>                    .to(<span style="color:#fc6a5d">&#34;direct:clothing&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>                .otherwise()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>                    .log(<span style="color:#fc6a5d">&#34;Unknown order type: ${body}&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>            .end();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>        from(<span style="color:#fc6a5d">&#34;direct:books&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>            .log(<span style="color:#fc6a5d">&#34;Processing Books Order: ${body}&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>        from(<span style="color:#fc6a5d">&#34;direct:electronics&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>            .log(<span style="color:#fc6a5d">&#34;Processing Electronics Order: ${body}&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>        from(<span style="color:#fc6a5d">&#34;direct:clothing&#34;</span>)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>            .log(<span style="color:#fc6a5d">&#34;Processing Clothing Order: ${body}&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>}
+</span></span></code></pre></div><p>Now you can run the route by sending different order types to the <code>direct:start</code> endpoint:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>producerTemplate.sendBody(<span style="color:#fc6a5d">&#34;direct:startOrderRoute&#34;</span>, <span style="color:#fc6a5d">&#34;An order for books&#34;</span>);
+</span></span></code></pre></div><p>and you will see the following output in the log:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>2024-07-16 19:16:12,357 INFO  [route5] (Quarkus Main Thread) Received Order: An order <span style="color:#fc5fa3">for</span> books
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>2024-07-16 19:16:12,357 INFO  [route5] (Quarkus Main Thread) Routing to Books processing: An order <span style="color:#fc5fa3">for</span> books
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>2024-07-16 19:16:12,358 INFO  [route6] (Quarkus Main Thread) Processing Books Order: An order <span style="color:#fc5fa3">for</span> books
+</span></span></code></pre></div><p>As you can see, the message is routed to the <code>books</code> endpoint and processed accordingly. You can test the other categories in a similar manner.</p>
+<br>
+<h3 id="practical-usage-and-tips">Practical Usage and Tips</h3>
+<ul>
+<li>
+<p><strong>Complex Conditions:</strong> <code>when()</code> can handle complex expressions combining multiple conditions.</p>
+</li>
+<li>
+<p><strong>Using <code>.endChoice()</code>:</strong> For readability and to prevent misrouting, especially in a route with nested <code>.choice()</code> constructs, use <code>.endChoice()</code> to clearly indicate the end of a choice block.</p>
+</li>
+<li>
+<p><strong>Flexibility:</strong> This approach is highly flexible, allowing the addition of new conditions and endpoints as business requirements evolve.</p>
+</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>The Splitter pattern stands out as a powerful tool in Apache Camel&rsquo;s arsenal, enabling developers to effectively handle complex, bulky data structures by breaking them down into more manageable pieces. This pattern not only simplifies data processing workflows but also enhances maintainability and scalability within integration solutions.</p>
+<p>In this article, we&rsquo;ve explored the practical implementation of the Splitter pattern in a range of contexts - from handling lists and custom delimited strings to operating on more complex structures like Java objects. Each example showcased how Apache Camel facilitates straightforward data manipulations, making seemingly complex integration tasks much simpler.</p>
+<p>Additionally, the integration of <code>choice()</code> and <code>when()</code> constructs further refines the data routing capabilities in Apache Camel, offering precise control over message flow based on specific content criteria. This ability to route data conditionally mimics conventional programming logic, bringing a familiar and intuitive approach to route definitions.</p>
+<p>As businesses continue to deal with increasingly diverse and voluminous data, understanding and implementing these patterns will become crucial. The flexibility and power of Apache Camel in managing data flows allow developers to build robust, efficient data ingestion and processing pipelines that are crucial for today&rsquo;s data-driven applications.</p>
+
+      
+      <div class="post-date">
+        <span class="g time">July 15, 2024 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/etl/">etl</a> <a href="https://iqnev.github.io/tags/camel/">camel</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>

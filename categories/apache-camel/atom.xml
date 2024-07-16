@@ -6,8 +6,15 @@
     <description>Recent content in Apache Camel on Codes are a puzzle</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 16 Jun 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jul 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://iqnev.github.io/categories/apache-camel/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mastering Data Routing in Apache Camel: Leveraging the Splitter Pattern</title>
+      <link>https://iqnev.github.io/posts/mastering_data_routing_in_apache_camel_leveraging_the_splitter_pattern/</link>
+      <pubDate>Mon, 15 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/posts/mastering_data_routing_in_apache_camel_leveraging_the_splitter_pattern/</guid>
+      <description>Hello again! In my upcoming articles, I plan to explore several key patterns provided by Apache Camel that are invaluable for your ETL processes. This current article focuses on the Splitter Enterprise Integration Pattern (EIP).&#xA;Overview Messages passed to integration applications often arrive in a format that is less than ideal for immediate processing. Frequently, these are composite messages containing multiple elements, each requiring individual processing. This is where the Splitter pattern proves beneficial by dividing incoming messages into a sequence of more manageable messages.</description>
+    </item>
     <item>
       <title>Exploring Core Features and Components of Apache Camel</title>
       <link>https://iqnev.github.io/posts/exploring_core_features_and_components_of_apache_camel/</link>
