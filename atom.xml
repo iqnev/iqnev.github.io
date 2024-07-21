@@ -67,7 +67,7 @@ meet frequently in the codebase.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;code&gt;@Builder&lt;/code&gt; annotation&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;The &lt;code&gt;@Builder&lt;/code&gt; annotation in Lombok simplifies object creation through the builder pattern, adding a layer of convenience that is initially appealing. Consider this example&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;@Builder&lt;/code&gt; annotation in Lombok simplifies object creation through the builder pattern, adding a layer of convenience that is initially appealing. Consider this example:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 1&lt;/span&gt;&lt;span&gt;@Data
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 2&lt;/span&gt;&lt;span&gt;@Builder
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt; 3&lt;/span&gt;&lt;span&gt;&lt;span style=&#34;color:#fc5fa3&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#fc5fa3&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#5dd8ff&#34;&gt;Course&lt;/span&gt; {
@@ -161,9 +161,9 @@ ensuring alignment with business requirements is crucial.&lt;/p&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;13&lt;/span&gt;&lt;span&gt;        System.out.println(createdCourse);
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;14&lt;/span&gt;&lt;span&gt;    }
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span style=&#34;white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f&#34;&gt;15&lt;/span&gt;&lt;span&gt;}
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The revised design ensures that the creation of Course objects is explicit and foolproof, reflecting the constrained choices
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The revised design ensures that the creation of &lt;code&gt;Course&lt;/code&gt; objects is explicit and foolproof, reflecting the constrained choices
 inherent in the domain and eliminating ambiguity.&lt;/p&gt;
-&lt;p&gt;Moreover, by making the Type enum private and providing clear, explicit methods like &lt;code&gt;isOnline()&lt;/code&gt; and &lt;code&gt;isOnsite()&lt;/code&gt;, we ensure that only valid states
+&lt;p&gt;Moreover, by making the &lt;code&gt;Type&lt;/code&gt; enum private and providing clear, explicit methods like &lt;code&gt;isOnline()&lt;/code&gt; and &lt;code&gt;isOnsite()&lt;/code&gt;, we ensure that only valid states
 are exposed and manipulated, safeguarding the domain integrity.&lt;/p&gt;
 &lt;p&gt;Through this thoughtful restructuring, we demonstrate that while tools like Lombok can significantly reduce
 boilerplate, they are not substitutes for careful design and a deep understanding of the domain. It underscores that Lombok should be
@@ -247,7 +247,7 @@ It&amp;rsquo;s essential to realize that relying excessively on Lombok can obscu
 and harder to manage without Lombok&amp;rsquo;s crutches.&lt;/p&gt;
 &lt;p&gt;If over reliance on Lombok is the solution to managing your codebase, it might be time to reevaluate the underlying architecture and practices.
 The true strength of Java lies in its clarity and structure, not in the shortcuts provided by external libraries.&lt;/p&gt;
-&lt;p&gt;** Given the chance, I would choose to discard Lombok from my projects. **&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Given the chance, I would choose to discard Lombok from my projects.&lt;/strong&gt;&lt;/p&gt;
 </description>
       <author>Calvin Tran</author>
       <guid>https://iqnev.github.io/posts/the_hidden_costs_of_using_lombok-/</guid>
