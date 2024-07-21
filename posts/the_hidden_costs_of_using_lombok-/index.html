@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Liste - https://iqnev.github.io/">
+    <title>Why I Believe Lombok Should Be Discarded from Java Projects | Codes are a puzzle</title>
+    <meta name="description" content="A minimal hugo theme focus on content">
+    <meta property="og:url" content="https://iqnev.github.io/posts/the_hidden_costs_of_using_lombok-/">
+  <meta property="og:site_name" content="Codes are a puzzle">
+  <meta property="og:title" content="Why I Believe Lombok Should Be Discarded from Java Projects">
+  <meta property="og:description" content="Hello, today’s article tackles a seemingly unpopular view, and I am sure it will meet some resistance. Just because something is technically feasible doesn’t automatically endorse its utility or suitability. Hence, I will attempt to substantiate why I believe using Lombok could detrimentally affect your code.
+Unveiling the Magic: Understanding Project Lombok Before delving into the less popular details, let me offer a concise explanation of how the Lombok library functions.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-07-21T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-07-21T00:00:00+00:00">
+    <meta property="article:tag" content="Java">
+    <meta property="article:tag" content="Lombok">
+    <meta property="og:image" content="https://iqnev.github.io/images/lombok_icon.png">
+
+    
+  <meta itemprop="name" content="Why I Believe Lombok Should Be Discarded from Java Projects">
+  <meta itemprop="description" content="Hello, today’s article tackles a seemingly unpopular view, and I am sure it will meet some resistance. Just because something is technically feasible doesn’t automatically endorse its utility or suitability. Hence, I will attempt to substantiate why I believe using Lombok could detrimentally affect your code.
+Unveiling the Magic: Understanding Project Lombok Before delving into the less popular details, let me offer a concise explanation of how the Lombok library functions.">
+  <meta itemprop="datePublished" content="2024-07-21T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-07-21T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1782">
+  <meta itemprop="image" content="https://iqnev.github.io/images/lombok_icon.png">
+  <meta itemprop="keywords" content="Java,Lombok">
+    
+  
+
+
+    <link rel="canonical" href="https://iqnev.github.io/posts/the_hidden_costs_of_using_lombok-/">
+    <link rel="icon" href="https://iqnev.github.io//assets/favicon.ico">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link href="https://www.google-analytics.com" rel="preconnect" crossorigin>
+    <link rel="alternate" type="application/atom+xml" title="Codes are a puzzle" href="https://iqnev.github.io//atom.xml" />
+    <link rel="alternate" type="application/json" title="Codes are a puzzle" href="https://iqnev.github.io//feed.json" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=">
+    
+    
+    <style>*,:after,:before{box-sizing:border-box;padding:0}body{font:1rem/1.5 '-apple-system',BlinkMacSystemFont,avenir next,avenir,helvetica,helvetica neue,ubuntu,roboto,noto,segoe ui,arial,sans-serif;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;padding:2rem;background:#f5f5f5;color:#000}.skip-link{position:absolute;top:-40px;left:0;background:#eee;z-index:100}.skip-link:focus{top:0}h1,h2,h3,h4,h5,strong,b{font-size:inherit;font-weight:600}header{line-height:2;padding-bottom:1.5rem}.link{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}.time{font-variant-numeric:tabular-nums;white-space:nowrap}blockquote{border-left:5px solid #eee;padding-left:1rem;margin:0}a,a:visited{color:inherit}a:hover,a.heading-link{text-decoration:none}pre{padding:.5rem;overflow:auto;overflow-x:scroll;overflow-wrap:normal}code,pre{font-family:San Francisco Mono,Monaco,consolas,lucida console,dejavu sans mono,bitstream vera sans mono,monospace;font-size:normal;font-size:small;background:#eee}code{margin:.1rem;border:none}ul{list-style-type:square}ul,ol{padding-left:1.2rem}.list{line-height:2;list-style-type:none;padding-left:0}.list li{padding-bottom:.1rem}.meta{color:#777}.content{max-width:70ch;margin:0 auto}header{line-height:2;display:flex;justify-content:space-between;padding-bottom:1rem}header a{text-decoration:none}header ul{list-style-type:none;padding:0}header li,header a{display:inline}h2.post{padding-top:.5rem}header ul a:first-child{padding-left:1rem}.nav{height:1px;background:#000;content:'';max-width:10%}.list li{display:flex;align-items:baseline}.list li time{flex:initial}.hr-list{margin-top:0;margin-bottom:0;margin-right:.5rem;margin-left:.5rem;height:1px;border:0;border-bottom:1px dotted #ccc;flex:1 0 1rem}.m,hr{border:0;margin:3rem 0}img{max-width:100%;height:auto}.post-date{margin:5% 0}.index-date{color:#9a9a9a}.animate-blink{animation:opacity 1s infinite;opacity:1}@keyframes opacity{0%{opacity:1}50%{opacity:.5}100%{opacity:0}}.tags{display:flex;justify-content:space-between}.tags ul{padding:0;margin:0}.tags li{display:inline}.avatar{height:120px;width:120px;position:relative;margin:-10px 0 0 15px;float:right;border-radius:50%} </style>
+  
+    
+  
+  
+  <script type="application/ld+json">
+  {
+      "@context": "http://schema.org",
+      "@type": "BlogPosting",
+      "articleSection": "posts",
+      "name": "Why I Believe Lombok Should Be Discarded from Java Projects",
+      "headline": "Why I Believe Lombok Should Be Discarded from Java Projects",
+      "alternativeHeadline": "",
+      "description": "Hello, today\u0026rsquo;s article tackles a seemingly unpopular view, and I am sure it will meet some resistance. Just because something is technically feasible doesn’t automatically endorse its utility or suitability. Hence, I will attempt to substantiate why I believe using Lombok could detrimentally affect your code.\nUnveiling the Magic: Understanding Project Lombok Before delving into the less popular details, let me offer a concise explanation of how the Lombok library functions.",
+      "inLanguage": "en-us",
+      "isFamilyFriendly": "true",
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https:\/\/iqnev.github.io\/posts\/the_hidden_costs_of_using_lombok-\/"
+      },
+      "author" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "creator" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "accountablePerson" : {
+          "@type": "Person",
+          "name": ""
+      },
+      "copyrightHolder" : "Codes are a puzzle",
+      "copyrightYear" : "2024",
+      "dateCreated": "2024-07-21T00:00:00.00Z",
+      "datePublished": "2024-07-21T00:00:00.00Z",
+      "dateModified": "2024-07-21T00:00:00.00Z",
+      "publisher":{
+          "@type":"Organization",
+          "name": "Codes are a puzzle",
+          "url": "https://iqnev.github.io/",
+          "logo": {
+              "@type": "ImageObject",
+              "url": "https:\/\/iqnev.github.io\/images\/favicon.ico",
+              "width":"32",
+              "height":"32"
+          }
+      },
+      "image": ["https://iqnev.github.io/images/lombok_icon.png"],
+      "url" : "https:\/\/iqnev.github.io\/posts\/the_hidden_costs_of_using_lombok-\/",
+      "wordCount" : "1782",
+      "genre" : [ "java" , "lombok" ],
+      "keywords" : [ "java" , "lombok" ]
+  }
+  </script>
+  
+  
+  </head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main</a>
+  <main id="main">
+  <div class="content">
+    <header>
+<p style="padding: 0;margin: 0;">
+  <a href="/">
+    <b>Codes are a puzzle</b>
+    <span class="text-stone-500 animate-blink">▮</span>
+  </a>
+</p>
+<ul style="padding: 0;margin: 0;">
+  
+  
+  <li class="">
+    <a href="/about/"><span>About</span></a>
+    
+  <li class="">
+    <a href="/posts/"><span>Posts</span></a>
+    
+  <li class="">
+    <a href="/categories/"><span>Categories</span></a>
+    
+  </li>
+</ul>
+</header>
+<hr class="hr-list" style="padding: 0;margin: 0;">
+    <section>
+      <h2 class="post">Why I Believe Lombok Should Be Discarded from Java Projects</h2>
+      <style>
+.zoom {
+  transition: transform .2s; /* Animation */
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(2.0); /* Zoom when hovered */
+}
+</style>
+<p>Hello, today&rsquo;s article tackles a seemingly unpopular view, and I am sure it will meet some resistance. Just because something is technically feasible
+doesn’t automatically endorse its utility or suitability. Hence, I will attempt to substantiate why I believe using Lombok could detrimentally
+affect your code.</p>
+<h1 id="unveiling-the-magic-understanding-project-lombok">Unveiling the Magic: Understanding Project Lombok</h1>
+<p>Before delving into the less popular details, let me offer a concise explanation of how the Lombok library functions.</p>
+<p>Project Lombok acts as a library that injects code into a class at compile time, which might appear almost magical. To comprehend its operations,
+understanding the Java compilation process is essential. Java compilation involves three main stages (<strong>Figure 1</strong>) : Parse and Enter, Annotation Processing,
+and Analyze and Generate, as depicted in the following diagram:</p>
+<br>
+<img class="zoom" src="/images/ast.jpg" alt="Abstract Syntax Tree (AST)" title="Abstract Syntax Tree (AST)">
+<p><em>Figure 1 – Abstract Syntax Tree (AST)</em></p>
+<ol>
+<li>
+<p><strong>Parse and Enter:</strong> Here, the compiler converts source files into an Abstract Syntax Tree (AST). Errors are only thrown for invalid syntax, not for incorrect class or method use.</p>
+</li>
+<li>
+<p><strong>Annotation Processing:</strong> During this phase, custom annotation processors validate classes or generate new resources like source files. This may trigger a new compilation cycle if new sources are generated.</p>
+</li>
+<li>
+<p><strong>Analyze and Generate:</strong> In this final stage, the compiler produces bytecode from the AST, checking for broken references, verifying logical flows, performing type erasure, and desugaring syntactic sugar.</p>
+</li>
+</ol>
+<p>Project Lombok operates as an annotation processor, modifying the AST by injecting new methods, fields, or expressions. Unlike typical processors that generate new sources,
+Lombok alters existing classes, a distinction that enables it to impact the generated bytecode directly.</p>
+<p><code>AnnotationProcessor</code> introduced in <strong>J2SE 1.5</strong> cannot make changes to existing files. It could only create new files or bytecode. This makes lombok’s
+implementation intriguing, since they use <code>AnnotationProcessor</code> to modify the existing java class files, during the compilation phase. Here is an overview of the
+compilation process with Lombok (<strong>Figure 2</strong>).</p>
+<br>
+<img class="zoom" src="/images/lambok_proccessor.jpg" alt="Compilation process and Lombok" title="Compilation process and Lombok">
+<p><em>Figure 2 – Compilation process and Lombok</em></p>
+<h1 id="the-case-against-lombok">The Case Against Lombok</h1>
+<p>After understanding the magic behind Lombok, let’s delve into the reasons why I believe it could be detrimental to your codebase.</p>
+<h2 id="increased-compilation-time">Increased Compilation Time</h2>
+<p>Lombok&rsquo;s operations at compile time inevitably lengthen the compilation process, particularly pronounced in larger codebases due to
+the increased AST management required.</p>
+<h2 id="misplaced-sense-of-benefit">Misplaced Sense of Benefit</h2>
+<p>Lombok offers various annotations which may give an illusion of solving fundamental programming challenges. I will discuss some of these annotations which I
+meet frequently in the codebase.</p>
+<ol>
+<li><code>@Builder</code> annotation</li>
+</ol>
+<p>The <code>@Builder</code> annotation in Lombok simplifies object creation through the builder pattern, adding a layer of convenience that is initially appealing. Consider this example</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>@Data
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>@Builder
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">Course</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">enum</span> Type {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>        ONLINE,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>        ONSITE;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        @JsonValue
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>        @Override
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>        <span style="color:#fc5fa3">public</span> String <span style="color:#41a1c0">toString</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>            <span style="color:#fc5fa3">return</span> <span style="color:#fc5fa3">super</span>.toString().toLowerCase();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    <span style="color:#fc5fa3">private</span> <span style="color:#fc5fa3">long</span> id;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    <span style="color:#fc5fa3">private</span> Type type;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>}
+</span></span></code></pre></div><p>And its usage:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">CourseCreator</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> Course <span style="color:#41a1c0">createCourse</span>(Enrollment enrollment, Registration registration) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>        Course.Type courseType = enrollment.getVenue().equals(registration.getVenue()) ? Course.Type.ONSITE : Course.Type.ONLINE;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>        <span style="color:#fc5fa3">return</span> Course.builder()
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>            .id(enrollment.getId())
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>            .type(courseType)
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>            .build();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>     <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">main</span>(String[] args) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>  
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>        Registration registration = <span style="color:#fc5fa3">new</span> Registration(); 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>        Enrollment enrollment = <span style="color:#fc5fa3">new</span> Enrollment();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>        Course course = createCourse(enrollment, registration);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>        System.out.println(course);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>}
+</span></span></code></pre></div><p>While the builder pattern is efficiently implemented, crucial questions about the integrity and validity of the objects being created are raised.</p>
+<p>What type of course are we instantiating if we omit the <code>.type()</code> in the builder?</p>
+<p>This line of code would compile, but it leaves us questioning: What type of course have we actually created? Is this a valid course instance?</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Course.builder().id(1L).build();
+</span></span></code></pre></div><p>These concerns suggest that developers, perhaps swayed by the convenience of annotations, might overlook thorough domain
+modeling necessary for maintaining business logic integrity. Instead of letting Lombok dictate our design, a more considered approach
+ensuring alignment with business requirements is crucial.</p>
+<p>Consider adjusting the implementation to ensure that any course creation is clear and constrained within the business context:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span>@Data
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">Course</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#fc5fa3">private</span> <span style="color:#fc5fa3">enum</span> Type {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>        ONLINE,
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>        ONSITE;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        @JsonValue
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        @Override
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>        <span style="color:#fc5fa3">public</span> String <span style="color:#41a1c0">toString</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>            <span style="color:#fc5fa3">return</span> <span style="color:#fc5fa3">super</span>.toString().toLowerCase();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>        }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> Course <span style="color:#41a1c0">online</span>(<span style="color:#fc5fa3">long</span> id) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>        <span style="color:#fc5fa3">return</span> <span style="color:#fc5fa3">new</span> Course(id, Type.ONLINE);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> Course <span style="color:#41a1c0">onsite</span>(<span style="color:#fc5fa3">long</span> id) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>        <span style="color:#fc5fa3">return</span> <span style="color:#fc5fa3">new</span> Course(id, Type.ONSITE);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>    <span style="color:#fc5fa3">private</span> <span style="color:#fc5fa3">long</span> id;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span>    <span style="color:#fc5fa3">private</span> Type type;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">boolean</span> <span style="color:#41a1c0">isOnline</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span>        <span style="color:#fc5fa3">return</span> Type.ONLINE.equals(<span style="color:#fc5fa3">this</span>.type);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">boolean</span> <span style="color:#41a1c0">isOnsite</span>() {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30</span><span>        <span style="color:#fc5fa3">return</span> Type.ONSITE.equals(<span style="color:#fc5fa3">this</span>.type);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32</span><span>}
+</span></span></code></pre></div><p>By redesigning the class:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">CourseManagement</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> Course <span style="color:#41a1c0">createAppropriateCourse</span>(Enrollment enrollment, Registration registration) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>        <span style="color:#fc5fa3">return</span> enrollment.getVenue().equals(registration.getVenue()) ? 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>            Course.onsite(enrollment.getId()) : 
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>            Course.online(enrollment.getId());
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">static</span> <span style="color:#fc5fa3">void</span> <span style="color:#41a1c0">main</span>(String[] args) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>        Registration registration = <span style="color:#fc5fa3">new</span> Registration();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>        Enrollment enrollment = <span style="color:#fc5fa3">new</span> Enrollment();
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>        Course createdCourse = createAppropriateCourse(enrollment, registration);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>        System.out.println(createdCourse);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>}
+</span></span></code></pre></div><p>The revised design ensures that the creation of Course objects is explicit and foolproof, reflecting the constrained choices
+inherent in the domain and eliminating ambiguity.</p>
+<p>Moreover, by making the Type enum private and providing clear, explicit methods like <code>isOnline()</code> and <code>isOnsite()</code>, we ensure that only valid states
+are exposed and manipulated, safeguarding the domain integrity.</p>
+<p>Through this thoughtful restructuring, we demonstrate that while tools like Lombok can significantly reduce
+boilerplate, they are not substitutes for careful design and a deep understanding of the domain. It underscores that Lombok should be
+employed judiciously, complementing rather than overshadowing robust architectural practices. This ensures that the elegance of our
+code does not come at the expense of its correctness and clarity.</p>
+<ol start="2">
+<li>Overreliance on <code>@Setter</code> and <code>@Getter</code></li>
+</ol>
+<p>The argument that getters and setters reduce boilerplate falls short when Java offers alternatives like the Record classes from Java 14.</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span>@Data
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">Movie</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    <span style="color:#fc5fa3">private</span> String title;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    <span style="color:#fc5fa3">private</span> <span style="color:#fc5fa3">int</span> releaseYear;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span><span style="color:#6c7986">// Can be replaced with:</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">record</span> <span style="color:#5dd8ff">Movie</span>(String title, <span style="color:#fc5fa3">int</span> releaseYear) {}
+</span></span></code></pre></div><ol start="3">
+<li>Superintendent <code>@NonNull</code></li>
+</ol>
+<p>Having <code>null</code> in your code - aside from inputs is generally considered problematic and is often indicative of deeper design issues.
+The prevalent advice is to avoid returning <code>null</code> whenever possible. Instead, opt for alternatives such as returning non-null collections,
+utilizing null objects, or throwing exceptions to signify unusual or exceptional conditions. This strategic avoidance means null checks become
+redundant in most parts of your code.</p>
+<p>To distance from Lombok&rsquo;s <code>@NonNull</code> annotation and ensure robustness in Java natively, the <code>Objects.requireNonNull()</code> method from the <code>java.util.Objects</code> class is incredibly useful.
+This method streamlines <code>null</code> checking by ensuring that an object is not null, and it throws a <code>NullPointerException</code> with a clear message if it is.
+This explicit exception-throwing mechanism prevents latent null-related bugs from surfacing in runtime, promoting earlier detection during
+the development cycle. Here’s an example showing how this method can replace Lombok&rsquo;s functionality</p>
+<p>Using Lombok&rsquo;s<code> @NonNull</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">NonNullExample</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#fc5fa3">private</span> Student student;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#41a1c0">NonNullExample</span>(@NonNull Student student) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>        <span style="color:#fc5fa3">this</span>.student = student;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>}
+</span></span></code></pre></div><p>Equivalent pure Java approach:</p>
+<div class="highlight"><pre tabindex="0" style="color:#fff;background-color:#1f1f24;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#fc5fa3">import</span> java.util.Objects;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#fc5fa3">public</span> <span style="color:#fc5fa3">class</span> <span style="color:#5dd8ff">NonNullExample</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    <span style="color:#fc5fa3">private</span> Student student;
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    <span style="color:#fc5fa3">public</span> <span style="color:#41a1c0">NonNullExample</span>(Student student) {
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>        <span style="color:#fc5fa3">this</span>.student = Objects.requireNonNull(student, <span style="color:#fc6a5d">&#34;Student cannot be null&#34;</span>);
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span>    }
+</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9</span><span>}
+</span></span></code></pre></div><p>This transition to native Java handling enhances code transparency by making the null-check explicit, which is advantageous
+for code maintenance and understanding.</p>
+<h2 id="constructor-flexibility-and-reusability">Constructor Flexibility and Reusability</h2>
+<p>Constructors play a critical role in how classes interact within your software architecture. A well-designed class should have a variety of constructors
+that accommodate different use cases, promoting reusability and flexibility. If your constructors merely replicate field assignments,
+the underlying issue isn&rsquo;t the need to write boilerplate code; rather, it&rsquo;s the risk of fostering a non-reusable and inflexible design that
+Lombok cannot rectify. Proper constructor design allows a class to be integrated and utilized in
+a multitude of scenarios, enhancing the overall robustness and adaptability of your codebase.</p>
+<h2 id="evaluating-boilerplate-code-the-lure-of-lombok-versus-modern-java-features">Evaluating Boilerplate Code: The Lure of Lombok versus Modern Java Features</h2>
+<p>Lombok&rsquo;s popularity predominantly stems from its ability to reduce boilerplate code, particularly in domain-specific classes like transfer and data
+objects. While Lombok effectively diminishes the visible clutter by auto-generating necessary code like getters, setters, equals,
+hashCode, and toString methods, this convenience might obscure potential pitfalls. However, with the advent of Java Records introduced in
+Java 14, there is a preferable alternative that natively supports the concise declaration of immutable data carriers. Most integrated
+development environments (IDEs) are also equipped to automatically generate these boilerplate codes with minimal user input, offering a balance
+between Lombok’s automation and the control of traditional Java coding.</p>
+<h2 id="compatibility-concerns">Compatibility Concerns</h2>
+<p>Project Lombok&rsquo;s dependency on the underlying Java version poses a significant compatibility risk. As Java evolves, the <code>Abstract Syntax Tree (AST)</code>
+structure and its interpretation could change, necessitating continuous updates to Lombok to ensure compatibility. This creates a
+fragile dependency where upgrading to a newer Java version could potentially break your build if Lombok is not simultaneously
+updated to support these changes. The reliance on unofficial or private APIs to modify class definitions further exacerbates this
+issue because these APIs could be restricted or altered in future Java releases, threatening Lombok’s long-term viability.</p>
+<h2 id="java-standards">Java Standards</h2>
+<p>Using Lombok can lead to complications when building projects with tools that only use standard Java compiler options.
+For instance, if your code utilizes getters and setters generated by Lombok, compiling directly with javac without Lombok pre-processing
+could result in errors indicating missing methods. While some may regard Lombok’s capability to inject code as a clever &ldquo;trick,&rdquo; it&rsquo;s essential to
+critically assess the associated risks and alternatives. The core of the issue lies in the fact that Java’s annotation processing specification
+does not officially support modifying existing classes during compilation. Relying on these unofficial techniques makes Lombok vulnerable to
+future Java updates that could potentially disrupt or disable its functionalities.</p>
+<p>Ultimately, these considerations underscore the importance of evaluating not just the immediate benefits of tools like Lombok but also their
+long-term implications on maintainability, compatibility, and alignment with Java standards. As Java continues to evolve, the reliance on
+stable, standardized features becomes increasingly critical for ensuring the sustainability and reliability of your software projects.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Lombok might seem like a handy shortcut for Java development, but it shifts Java code into a domain-specific version I like to call <strong>&ldquo;Lombok Java&rdquo;</strong>.
+It&rsquo;s essential to realize that relying excessively on Lombok can obscure the Java essence, potentially leading to code that is less robust
+and harder to manage without Lombok&rsquo;s crutches.</p>
+<p>If over reliance on Lombok is the solution to managing your codebase, it might be time to reevaluate the underlying architecture and practices.
+The true strength of Java lies in its clarity and structure, not in the shortcuts provided by external libraries.</p>
+<p>** Given the chance, I would choose to discard Lombok from my projects. **</p>
+
+      
+      <div class="post-date">
+        <span class="g time">July 21, 2024 </span> &#8729;
+         
+         <a href="https://iqnev.github.io/tags/java/">java</a> <a href="https://iqnev.github.io/tags/lombok/">lombok</a>
+      </div>
+      
+    </section>
+    
+    <div id="comments">
+      <script src="https://utteranc.es/client.js"
+    repo=ZgotmplZ
+    issue-term="pathname"
+    theme=github-light
+    crossorigin="anonymous"
+    async>
+</script>
+
+    </div>
+    
+  </div>
+</main>
+</body>
+</html>

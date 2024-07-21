@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lombok on Codes are a puzzle</title>
+    <link>https://iqnev.github.io/tags/lombok/</link>
+    <description>Recent content in Lombok on Codes are a puzzle</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 21 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://iqnev.github.io/tags/lombok/atom.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Why I Believe Lombok Should Be Discarded from Java Projects</title>
+      <link>https://iqnev.github.io/posts/the_hidden_costs_of_using_lombok-/</link>
+      <pubDate>Sun, 21 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>https://iqnev.github.io/posts/the_hidden_costs_of_using_lombok-/</guid>
+      <description>Hello, today&amp;rsquo;s article tackles a seemingly unpopular view, and I am sure it will meet some resistance. Just because something is technically feasible doesn’t automatically endorse its utility or suitability. Hence, I will attempt to substantiate why I believe using Lombok could detrimentally affect your code.&#xA;Unveiling the Magic: Understanding Project Lombok Before delving into the less popular details, let me offer a concise explanation of how the Lombok library functions.</description>
+    </item>
+  </channel>
+</rss>
